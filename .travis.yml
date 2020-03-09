@@ -6,8 +6,9 @@ install:
   - pip install codecov
 
 script:
-  - coverage run tests.py
-  - codecov
+  - coverage run tests.py && coverage xml coverage_A.xml && coverage -f coverage_A.xml -F projectA
+  - coverage run tests.py && coverage xml coverage_B.xml && coverage -f coverage_B.xml -F projectB
+
 
 deploy:
   provider: pages
