@@ -1,14 +1,16 @@
 coverage:
   status:
-    projectA:
-      flags:
-        - projectA
-    projectB:
-      flags:
-        - projectB
+    project:
+      default: off
+      projectA:
+        flags:
+          - projectA
+      projectB:
+        flags:
+          - projectB
+
 flags:
   projectA:
     paths: true
-
   projectB:
     paths: true
