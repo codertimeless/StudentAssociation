@@ -11,6 +11,8 @@ coverage:
 
 flags:
   projectA:
-    paths: true
+    paths:
+      - tests.py
   projectB:
-    paths: true
+    paths:
+      - test2.py
