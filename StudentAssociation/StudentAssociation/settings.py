@@ -73,6 +73,8 @@ WSGI_APPLICATION = 'StudentAssociation.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
+MYSQL_USER = os.getenv("MYSQL_USER", "root")
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
