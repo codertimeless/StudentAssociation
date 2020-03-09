@@ -1,5 +1,12 @@
 language: python
-script: true
+
+sudo: false
+
+install:
+  - pip install codecov
+
+script:
+  - coverage run tests.py
 
 deploy:
   provider: pages
@@ -7,3 +14,6 @@ deploy:
   github_token: '2b95a48e6caa41c176340164af93eee8e6f7fa9e' # Set in travis-ci.org dashboard
   on:
     branch: master
+
+after_script:
+  - codecov
