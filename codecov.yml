@@ -6,3 +6,9 @@ coverage:
     projectB:
       flags:
         - projectB
+flags:
+  projectA:
+    paths: true
+
+  projectB:
+    paths: true
