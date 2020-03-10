@@ -6,7 +6,7 @@ install:
   - pip install codecov
 
 script:
-  - coverage run tests.py && coverage xml -o coverage_A.xml && codecov -t "ed348d85-af02-4eaf-8877-accab857ecd0" -f coverage_A.xml -F projectA
+  - coverage run tests.py && coverage xml -o coverage_A.xml && codecov -t "ed348d85-af02-4eaf-8877-accab857ecd0" -f coverage_A.xml
   - coverage run test2.py && coverage xml -o coverage_B.xml && codecov -t "ed348d85-af02-4eaf-8877-accab857ecd0" -f coverage_B.xml -F projectB
 
 

@@ -1,9 +1,6 @@
 coverage:
   status:
     project: off
-    projectA:
-      flags:
-        - projectA
     projectB:
       flags:
         - projectB
