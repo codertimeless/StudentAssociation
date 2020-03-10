@@ -1,6 +1,7 @@
 coverage:
   status:
-    project: true
+    project:
+      target: 60%
 
     projectB:
       flags:
