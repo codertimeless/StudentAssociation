@@ -8,8 +8,6 @@ coverage:
       flags:
         - projectB
 flags:
-  projectA:
-    paths: StudentAssociation
   projectB:
     paths:
       - test2.py
