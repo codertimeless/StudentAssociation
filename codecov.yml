@@ -1,15 +1,10 @@
 coverage:
   status:
-    project:
-      target: 60%
-
+    project: true
     projectB:
       flags:
         - projectB
-
-
 flags:
   projectB:
     paths:
       - test2.py
-
