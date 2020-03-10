@@ -1,18 +1,13 @@
 coverage:
   status:
     project:
-      default: off
-      projectA:
-        flags:
-          - projectA
       projectB:
         flags:
           - projectB
 
+
 flags:
-  projectA:
-    paths:
-      - tests.py
   projectB:
     paths:
       - test2.py
+
