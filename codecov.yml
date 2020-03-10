@@ -1,10 +1,15 @@
 coverage:
   status:
-    project: true
+    project: off
+    projectA:
+      flags:
+        - projectA
     projectB:
       flags:
         - projectB
 flags:
+  projectA:
+    paths: StudentAssociation
   projectB:
     paths:
       - test2.py
