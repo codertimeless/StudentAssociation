@@ -1,9 +1,8 @@
 from ..models.student import Student
-from ..management.models.unit import Unit
+from ..models.unit import Unit
 from ..models.teacher import Teacher
 
 from django.db import models
-
 
 # TODO Examination part of club
 # TODO Communicate part (include display some news)
@@ -36,7 +35,8 @@ class Club(models.Model):
 
     # People in club
     president = models.ForeignKey(Student, on_delete=models.DO_NOTHING, verbose_name="会长", related_name="president")
-    vice_president1 = models.ForeignKey(Student, on_delete=models.DO_NOTHING, verbose_name="副会长", related_name="vicePresident")
+    vice_president1 = models.ForeignKey(Student, on_delete=models.DO_NOTHING, verbose_name="副会长",
+                                        related_name="vicePresident")
     vice_president2 = models.ForeignKey(Student, on_delete=models.DO_NOTHING, verbose_name="副会长2",
                                         related_name="vicePresident2", blank=True, null=True)
     vice_president3 = models.ForeignKey(Student, on_delete=models.DO_NOTHING, verbose_name="副会长3",
@@ -44,12 +44,12 @@ class Club(models.Model):
 
     affiliated_units = models.ForeignKey(Unit, on_delete=models.DO_NOTHING, verbose_name="挂靠单位")
     affiliated_units2 = models.ForeignKey(Unit, on_delete=models.DO_NOTHING, verbose_name="挂靠单位2",
-                                          blank=True, null=True)
+                                          related_name="affiliated_unit2", blank=True, null=True)
 
     guidance_teacher = models.ForeignKey(Teacher, on_delete=models.DO_NOTHING, verbose_name="指导老师",
                                          blank=True, null=True)
     guidance_teacher2 = models.ForeignKey(Teacher, on_delete=models.DO_NOTHING, verbose_name="指导老师2",
-                                          blank=True, null=True)
+                                          related_name="guidance_teacher2", blank=True, null=True)
 
     def get_particular_year_count(self, particular_year, club):
         return Student.object.filter(particular_year=particular_year, club=club).count()

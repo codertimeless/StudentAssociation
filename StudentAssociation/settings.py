@@ -27,7 +27,8 @@ SECRET_KEY = 'n5c-l&y_08ohn4+sxjf$-8!uhh8oz7v$-207excu8tt2blaz50'
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    "localhost",
+    "127.0.0.1",
+
 ]
 
 
@@ -41,9 +42,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'management',
-    'xadmin',
-    'crispy_forms',
-    'reversion',
+    # 'xadmin',
+    # 'crispy_forms',
+    # 'reversion',
 ]
 
 MIDDLEWARE = [
@@ -87,8 +88,8 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'USER': "root",
         "PORT": "3306",
-        "PASSWORD": "",
-        'NAME': "association",
+        "PASSWORD": "nihaoma1111",
+        'NAME': "club",
     }
 }
 
