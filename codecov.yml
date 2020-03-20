@@ -1,9 +1,3 @@
 coverage:
   status:
-    projectB:
-      flags:
-        - projectB
-flags:
-  projectB:
-    paths:
-      - test2.py
+    project: True
