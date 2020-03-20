@@ -1,10 +1,10 @@
 import unittest
-from StudentAssociation.StudentAssociation.views import my_view
+from StudentAssociation.views import main_view
 
 
 class TestMethods(unittest.TestCase):
     def test_add(self):
-        results = my_view(1, 2)
+        results = main_view(1, 2)
         self.assertEqual(results, 3)
 
 

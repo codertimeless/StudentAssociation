@@ -1,5 +1,3 @@
-from django.http import request
 
-
-def main_view(request):
-    pass
+def main_view(x, y):
+    return x + y
