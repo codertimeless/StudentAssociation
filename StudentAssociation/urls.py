@@ -16,17 +16,15 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.urls.conf import include
-from . import views
-# from ..xadmin.plugins import xversion
-# from ..import xadmin
 
-# xversion.register_models()
-#
-# xadmin.autodiscover()
+from . import views
+
+import xadmin
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # path('xadmin/', include(xadmin.site.urls)),
+    path('xadmin/', xadmin.site.urls),
     # path('/', views.main_view),
 
 ]
