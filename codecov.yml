@@ -1,5 +1,8 @@
 coverage:
   status:
-    project: false
-    projectB: True
+    project:
+      default:
+        flags:
+          - projectB
+
 
