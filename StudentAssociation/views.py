@@ -1,3 +1,5 @@
+from django.shortcuts import render
 
-def main_view(x, y):
-    return x + y
+
+def main_view(request):
+    return render(request, "base_v1.html")

@@ -142,10 +142,16 @@ label {
     padding: 10px 0;
 }
 
+.nav {
+  padding-left: 20px;
+  margin-bottom: 0;
+  list-style: none;
+}
+
 .navbar-nav {
     float: right;
     margin: 0;
-    width: 60%;
+    width: 50%;
 }
 
 .navbar {
@@ -337,7 +343,7 @@ label {
 /*-- banner --*/
 
 .carousel .item {
-    background: url(../images/1.jpg) no-repeat center;
+    background: url(../images/photo1.jpg) no-repeat center;
     background-size: cover;
     -webkit-background-size: cover;
     -moz-background-size: cover;
@@ -346,7 +352,7 @@ label {
 }
 
 .carousel .item.item2 {
-    background: url(../images/2.jpg) no-repeat center;
+    background: url(../images/IMG_0093.jpg) no-repeat center;
     background-size: cover;
     -webkit-background-size: cover;
     -moz-background-size: cover;
@@ -355,7 +361,7 @@ label {
 }
 
 .carousel .item.item3 {
-    background: url(../images/3.jpg) no-repeat center;
+    background: url(../images/IMG_0096.jpg) no-repeat center;
     background-size: cover;
     -webkit-background-size: cover;
     -moz-background-size: cover;
@@ -1001,9 +1007,9 @@ a.button-style:hover {
 
 
 /*-- footer --*/
-
+/*url(../images/bg.jpg)*/
 .mkl_footer {
-    background: url(../images/bg.jpg) no-repeat center;
+    background: #37BF91;
     background-size: cover;
     -webkit-background-size: cover;
     -moz-background-size: cover;

@@ -1,6 +1,12 @@
 coverage:
   status:
     project:
-      default:
+      default: off
+      projectb:
         flags:
           - projectb
+
+flags:
+  projectb:
+    paths:
+      - *

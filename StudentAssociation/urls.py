@@ -25,6 +25,5 @@ import xadmin
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('xadmin/', xadmin.site.urls),
-    # path('/', views.main_view),
-
+    path('', views.main_view),
 ]

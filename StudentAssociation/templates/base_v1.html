@@ -1,16 +1,26 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     {% block title %}
         <title>Title</title>
     {% endblock %}
-
     {% block metas %}
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <meta name="keywords" content="" />
     {% endblock %}
-
+    {% block links %}
+        <!-- //meta-tags -->
+        <link href={% static "css/bootstrap.css" %} rel="stylesheet" type="text/css" media="all" />
+        <link href={% static "css/style.css" %} rel="stylesheet" type="text/css" media="all" />
+        <!-- font-awesome -->
+        <link href={% static "css/font-awesome.css" %} rel="stylesheet">
+        <!-- fonts -->
+        <link href="http://fonts.googleapis.com/css?family=Raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i"
+            rel="stylesheet">
+        <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i" rel="stylesheet">
+    {% endblock %}
     <script>
         addEventListener("load", function () {
             setTimeout(hideURLbar, 0);
@@ -20,30 +30,313 @@
             window.scrollTo(0, 1);
         }
     </script>
-
-    {% block links %}
-        <!-- //meta-tags -->
-        <link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
-        <link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
-        <!-- font-awesome -->
-        <link href="css/font-awesome.css" rel="stylesheet">
-        <!-- fonts -->
-        <link href="http://fonts.googleapis.com/css?family=Raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i"
-            rel="stylesheet">
-        <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i" rel="stylesheet">
-    {% endblock %}
-
 </head>
-
-
 <body>
+{% block header %}
+    <div class="header-top">
+		<div class="container">
+			<div class="bottom_header_left">
+				<p>
+					<span class="fa fa-map-marker" aria-hidden="true"></span>湖 南 工 商 大 学
+				</p>
+			</div>
+			<div class="bottom_header_right">
+				<div class="bottom-social-icons">
+					<a class="facebook" href="#">
+						<span class="fa fa-facebook"></span>
+					</a>
+					<a class="twitter" href="#">
+						<span class="fa fa-twitter"></span>
+					</a>
+					<a class="pinterest" href="#">
+						<span class="fa fa-pinterest-p"></span>
+					</a>
+					<a class="linkedin" href="#">
+						<span class="fa fa-linkedin"></span>
+					</a>
+				</div>
+				<div class="header-top-righ">
+					<a href="login.html">
+						<span class="fa fa-sign-out" aria-hidden="true"></span>登陆</a>
+				</div>
+				<div class="clearfix"> </div>
+			</div>
+			<div class="clearfix"> </div>
+		</div>
+	</div>
+	<div class="header">
+		<div class="content white">
+			<nav class="navbar navbar-default">
+				<div class="container">
+					<div class="navbar-header">
+						<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+							<span class="sr-only">Toggle navigation</span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+						</button>
+						<a class="navbar-brand" href="index.html">
+							<h1>
+								<span class="fa fa-leanpub" aria-hidden="true"></span>Student Club
+								<label>Youth & Learn</label>
+							</h1>
+						</a>
+					</div>
+					<!--/.navbar-header-->
+					<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+						<nav class="link-effect-2" id="link-effect-2">
+							<ul class="nav navbar-nav">
+								<li class="active">
+									<a href="index.html" class="effect-3">主页</a>
+								</li>
+								<li>
+									<a href="about.html" class="effect-3">论坛</a>
+								</li>
+								<li>
+									<a href="courses.html" class="effect-3">活动</a>
+								</li>
+								<li>
+									<a href="join.html" class="effect-3">加入社团</a>
+								</li>
+								<li class="dropdown">
+									<a href="#" class="dropdown-toggle" data-toggle="dropdown">规章制度
+										<span class="caret"></span>
+									</a>
+									<ul class="dropdown-menu" role="menu">
+										<li>
+											<a href="icons.html">Web Icons</a>
+										</li>
+										<li>
+											<a href="codes.html">Short Codes</a>
+										</li>
+									</ul>
+								</li>
+								<li>
+									<a href="Gallery.html" class="effect-3">关于我们</a>
+								</li>
+								<li>
+									<a href="contact.html" class="effect-3">联系我们</a>
+								</li>
+							</ul>
+						</nav>
+					</div>
+					<!--/.navbar-collapse-->
+					<!--/.navbar-->
+				</div>
+			</nav>
+		</div>
+	</div>
+{% endblock %}
 
+{% block content %}
+    <div id="myCarousel" class="carousel slide" data-ride="carousel">
+		<!-- Indicators -->
+		<ol class="carousel-indicators">
+			<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+			<li data-target="#myCarousel" data-slide-to="1" class=""></li>
+			<li data-target="#myCarousel" data-slide-to="2" class=""></li>
+			<li data-target="#myCarousel" data-slide-to="3" class=""></li>
+		</ol>
+		<div class="carousel-inner" role="listbox">
+			<div class="item active">
+				<div class="container">
+					<div class="carousel-caption">
+						<h6>Welcome To Student Club</h6>
+						<h3>Leading
+							<span>University</span>
+						</h3>
+						<p>Create an all-encompassing website for your school with ease.</p>
+					</div>
+				</div>
+			</div>
+			<div class="item item2">
+				<div class="container">
+					<div class="carousel-caption">
+						<h6>Welcome To Best Study</h6>
+						<h3>Most Popular
+							<span>Education</span>
+						</h3>
+						<p>Create an all-encompassing website for your school with ease.</p>
+					</div>
+				</div>
+			</div>
+			<div class="item item3">
+				<div class="container">
+					<div class="carousel-caption">
+						<h6>Welcome To Best Study</h6>
+						<h3>We Can
+							<span>Teach</span> You</h3>
+						<p>Create an all-encompassing website for your school with ease.</p>
+					</div>
+				</div>
+			</div>
+			<div class="item item4">
+				<div class="container">
+					<div class="carousel-caption">
+						<h6>Welcome To Best Study</h6>
+						<h3>Most Popular
+							<span>Education</span>
+						</h3>
+						<p>Create an all-encompassing website for your school with ease.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+			<span class="fa fa-chevron-left" aria-hidden="true"></span>
+			<span class="sr-only">Previous</span>
+		</a>
+		<a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+			<span class="fa fa-chevron-right" aria-hidden="true"></span>
+			<span class="sr-only">Next</span>
+		</a>
+		<!-- The Modal -->
+	</div>
+    <div class="banner-bottom-w3l" id="about">
+		<div class="container">
+			<div class="title-div">
+				<h3 class="tittle">
+					<span>W</span>elcome
+				</h3>
+				<div class="tittle-style">
+
+				</div>
+			</div>
+			<div class="welcome-sub-wthree">
+				<div class="col-md-6 banner_bottom_left">
+					<h4>About
+						<span>Study Club</span>
+					</h4>
+					<p>Lorem Ipsum convallis diam consequat magna vulputate malesuada. Cras a ornare elit, Nulla viverra pharetra sem eget.</p>
+					<p>Pellentesque convallis diam consequat magna vulputate malesuada. Cras a ornare elit. Nulla viverra pharetra sem, eget
+						pulvinar neque pharetra ac.Lorem Ipsum convallis diam consequat magna vulputate malesuada. Cras a ornare elit. Nulla
+						viverra pharetra sem.</p>
+				</div>
+				<!-- Stats-->
+				<div class="col-md-6 stats-info-agile">
+					<div class="col-xs-6 stats-grid stat-border">
+						<div class='numscroller numscroller-big-bottom' data-slno='1' data-min='0' data-max='62' data-delay='2.0' data-increment="1">62</div>
+						<p>社团</p>
+					</div>
+					<div class="col-xs-6 stats-grid">
+						<div class='numscroller numscroller-big-bottom' data-slno='1' data-min='0' data-max='4' data-delay='3.0' data-increment="1">4</div>
+						<p>社团类别</p>
+					</div>
+					<div class="clearfix"></div>
+					<div class="child-stat">
+						<div class="col-xs-6 stats-grid stat-border border-st2">
+							<div class='numscroller numscroller-big-bottom' data-slno='1' data-min='0' data-max='2000' data-delay='.05' data-increment="1">2000</div>
+							<p>社团人数</p>
+						</div>
+						<div class="col-xs-6 stats-grid">
+							<div class='numscroller numscroller-big-bottom' data-slno='1' data-min='0' data-max='200' data-delay='1.5' data-increment="1">200</div>
+							<p>活动</p>
+						</div>
+						<div class="clearfix"></div>
+					</div>
+				</div>
+				<!-- //Stats -->
+				<div class="clearfix"> </div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+
+{% block footer %}
+    <div class="mkl_footer">
+		<div class="sub-footer">
+			<div class="container">
+				<div class="mkls_footer_grid">
+					<div class="col-xs-4 mkls_footer_grid_left">
+						<h4>Location:</h4>
+						<p>educa mfdflimbg 1235, Ipswich,
+							<br> Foxhall Road, USA</p>
+					</div>
+					<div class="col-xs-4 mkls_footer_grid_left">
+						<h4>Mail Us:</h4>
+						<p>
+							<span>Phone : </span>001 234 5678</p>
+						<p>
+							<span>Email : </span>
+							<a href="mailto:hutb.club@stu.hutb.com">hutb.club@stu.hutb.com</a>
+						</p>
+					</div>
+					<div class="col-xs-4 mkls_footer_grid_left">
+						<h4>Opening Hours:</h4>
+						<p>Working days : 8am-10pm</p>
+						<p>Sunday
+							<span>(closed)</span>
+						</p>
+					</div>
+					<div class="clearfix"> </div>
+				</div>
+				<div class="botttom-nav-allah">
+					<ul>
+						<li>
+							<a href="index.html">Home</a>
+						</li>
+						<li>
+							<a href="about.html">About Us</a>
+						</li>
+						<li>
+							<a href="courses.html">Courses</a>
+						</li>
+						<li>
+							<a href="join.html">Join Us</a>
+						</li>
+						<li>
+							<a href="contact.html">Contact Us</a>
+						</li>
+					</ul>
+				</div>
+				<!-- footer-button-info -->
+				<div class="footer-middle-thanks">
+					<h2>Thanks For watching</h2>
+				</div>
+				<!-- footer-button-info -->
+			</div>
+		</div>
+		<div class="footer-copy-right">
+			<div class="container">
+				<div class="allah-copy">
+					<p>Copyright &copy; 2018.Company name All rights reserved.More Templates <a href="http://www.cssmoban.com/" target="_blank" title="模板之家">模板之家</a> - Collect from <a href="http://www.cssmoban.com/" title="网页模板" target="_blank">网页模板</a></p>
+				</div>
+				<div class="footercopy-social">
+					<ul>
+						<li>
+							<a href="#">
+								<span class="fa fa-facebook"></span>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<span class="fa fa-twitter"></span>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<span class="fa fa-rss"></span>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<span class="fa fa-vk"></span>
+							</a>
+						</li>
+					</ul>
+				</div>
+				<div class="clearfix"></div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+</body>
 {% block scripts %}
-    <script src={% static "templates" %}></script>
+    <script src={% static "js/jquery-2.1.4.min.js" %}></script>
 	<!-- bootstrap -->
-	<script src="js/bootstrap.js"></script>
+	<script src={% static "js/bootstrap.js" %}></script>
 	<!-- stats numscroller-js-file -->
-	<script src="js/numscroller-1.0.js"></script>
+	<script src={% static "js/numscroller-1.0.js" %}></script>
 	<!-- //stats numscroller-js-file -->
 
 	<!-- Flexslider-js for-testimonials -->
@@ -74,11 +367,11 @@
 
 		});
 	</script>
-	<script src="js/jquery.flexisel.js"></script>
+	<script src={% static "js/jquery.flexisel.js" %}></script>
 	<!-- //Flexslider-js for-testimonials -->
 	<!-- smooth scrolling -->
-	<script src="js/move-top.js"></script>
-	<script src="js/easing.js"></script>
+	<script src={% static "js/move-top.js" %}></script>
+	<script src={% static "js/easing.js" %}></script>
 	<!-- here stars scrolling icon -->
 	<script>
 		$(document).ready(function () {
@@ -101,8 +394,4 @@
 	<!-- smooth scrolling -->
 	<!-- //js-files -->
 {% endblock %}
-</body>
-
-
-
 </html>
