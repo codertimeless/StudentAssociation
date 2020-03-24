@@ -6,7 +6,6 @@ class TestMethods(unittest.TestCase):
     def test_add(self):
         results = main_view(1, 2)
         self.assertEqual(results, 3)
-        print()
 
 
 if __name__ == '__main__':
