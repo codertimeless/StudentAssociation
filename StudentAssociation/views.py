@@ -1,3 +1,3 @@
 
-def main_view(request):
-    return render(request, "base_v1.html")
+def main_view(x, y):
+    return x + y
