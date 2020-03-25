@@ -2,9 +2,9 @@ coverage:
   status:
     project:
       default: off
-    projectb:
-      flags:
-        - projectb
+      projectb:
+        flags:
+          - projectb
 
 flags:
   projectb:
