@@ -13,6 +13,6 @@ script:
 deploy:
   provider: pages
   skip_cleanup: true
-  github_token: '2b95a48e6caa41c176340164af93eee8e6f7fa9e' # Set in travis-ci.org dashboard
+  github_token: '99021fae7d9a191daca0560b1062bcc91b11a684' # Set in travis-ci.org dashboard
   on:
     branch: master
