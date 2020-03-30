@@ -2,9 +2,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    {% block title %}
-        <title>Title</title>
-    {% endblock %}
+    <title>
+        {% block title %}
+            社团官网
+        {% endblock %}
+    </title>
     {% block metas %}
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -51,14 +53,15 @@
 					<a class="pinterest" href="#">
 						<span class="fa fa-pinterest-p"></span>
 					</a>
-					<a class="linkedin" href="#">
+					<a class="linkedin" href="logout/">
 						<span class="fa fa-linkedin"></span>
 					</a>
 				</div>
 				<div class="header-top-righ">
-					<a href="login.html">
-						<span class="fa fa-sign-out" aria-hidden="true"></span>登陆</a>
-				</div>
+					<a href={% if request.user.is_authenticated %}"profile/"{% else %}"login/"{% endif %}>
+						<span class="fa fa-sign-out" aria-hidden="true"></span>{% if request.user.is_authenticated %}{{ request.user.username }}{% else %}登陆{% endif %}
+                    </a>
+                </div>
 				<div class="clearfix"> </div>
 			</div>
 			<div class="clearfix"> </div>
@@ -127,121 +130,8 @@
 		</div>
 	</div>
 {% endblock %}
-
 {% block content %}
-    <div id="myCarousel" class="carousel slide" data-ride="carousel">
-		<!-- Indicators -->
-		<ol class="carousel-indicators">
-			<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-			<li data-target="#myCarousel" data-slide-to="1" class=""></li>
-			<li data-target="#myCarousel" data-slide-to="2" class=""></li>
-			<li data-target="#myCarousel" data-slide-to="3" class=""></li>
-		</ol>
-		<div class="carousel-inner" role="listbox">
-			<div class="item active">
-				<div class="container">
-					<div class="carousel-caption">
-						<h6>Welcome To Student Club</h6>
-						<h3>Leading
-							<span>University</span>
-						</h3>
-						<p>Create an all-encompassing website for your school with ease.</p>
-					</div>
-				</div>
-			</div>
-			<div class="item item2">
-				<div class="container">
-					<div class="carousel-caption">
-						<h6>Welcome To Best Study</h6>
-						<h3>Most Popular
-							<span>Education</span>
-						</h3>
-						<p>Create an all-encompassing website for your school with ease.</p>
-					</div>
-				</div>
-			</div>
-			<div class="item item3">
-				<div class="container">
-					<div class="carousel-caption">
-						<h6>Welcome To Best Study</h6>
-						<h3>We Can
-							<span>Teach</span> You</h3>
-						<p>Create an all-encompassing website for your school with ease.</p>
-					</div>
-				</div>
-			</div>
-			<div class="item item4">
-				<div class="container">
-					<div class="carousel-caption">
-						<h6>Welcome To Best Study</h6>
-						<h3>Most Popular
-							<span>Education</span>
-						</h3>
-						<p>Create an all-encompassing website for your school with ease.</p>
-					</div>
-				</div>
-			</div>
-		</div>
-		<a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
-			<span class="fa fa-chevron-left" aria-hidden="true"></span>
-			<span class="sr-only">Previous</span>
-		</a>
-		<a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
-			<span class="fa fa-chevron-right" aria-hidden="true"></span>
-			<span class="sr-only">Next</span>
-		</a>
-		<!-- The Modal -->
-	</div>
-    <div class="banner-bottom-w3l" id="about">
-		<div class="container">
-			<div class="title-div">
-				<h3 class="tittle">
-					<span>W</span>elcome
-				</h3>
-				<div class="tittle-style">
-
-				</div>
-			</div>
-			<div class="welcome-sub-wthree">
-				<div class="col-md-6 banner_bottom_left">
-					<h4>About
-						<span>Study Club</span>
-					</h4>
-					<p>Lorem Ipsum convallis diam consequat magna vulputate malesuada. Cras a ornare elit, Nulla viverra pharetra sem eget.</p>
-					<p>Pellentesque convallis diam consequat magna vulputate malesuada. Cras a ornare elit. Nulla viverra pharetra sem, eget
-						pulvinar neque pharetra ac.Lorem Ipsum convallis diam consequat magna vulputate malesuada. Cras a ornare elit. Nulla
-						viverra pharetra sem.</p>
-				</div>
-				<!-- Stats-->
-				<div class="col-md-6 stats-info-agile">
-					<div class="col-xs-6 stats-grid stat-border">
-						<div class='numscroller numscroller-big-bottom' data-slno='1' data-min='0' data-max='62' data-delay='2.0' data-increment="1">62</div>
-						<p>社团</p>
-					</div>
-					<div class="col-xs-6 stats-grid">
-						<div class='numscroller numscroller-big-bottom' data-slno='1' data-min='0' data-max='4' data-delay='3.0' data-increment="1">4</div>
-						<p>社团类别</p>
-					</div>
-					<div class="clearfix"></div>
-					<div class="child-stat">
-						<div class="col-xs-6 stats-grid stat-border border-st2">
-							<div class='numscroller numscroller-big-bottom' data-slno='1' data-min='0' data-max='2000' data-delay='.05' data-increment="1">2000</div>
-							<p>社团人数</p>
-						</div>
-						<div class="col-xs-6 stats-grid">
-							<div class='numscroller numscroller-big-bottom' data-slno='1' data-min='0' data-max='200' data-delay='1.5' data-increment="1">200</div>
-							<p>活动</p>
-						</div>
-						<div class="clearfix"></div>
-					</div>
-				</div>
-				<!-- //Stats -->
-				<div class="clearfix"> </div>
-			</div>
-		</div>
-	</div>
 {% endblock %}
-
 {% block footer %}
     <div class="mkl_footer">
 		<div class="sub-footer">
