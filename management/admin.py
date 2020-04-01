@@ -22,6 +22,16 @@ class ActivityAdmin(object):
     search_fields = ['name', 'activity_type', 'main_club']
 
 
+class ClubAdmin(object):
+    list_display = ['name']
+
+
+class UnitAdmin(object):
+    list_display = ['name']
+
+
+xadmin.site.register(Club, ClubAdmin)
+xadmin.site.register(Unit, UnitAdmin)
 xadmin.site.register(Teacher, TeacherAdmin)
 xadmin.site.register(Student, StudentAdmin)
 xadmin.site.register(Activity, ActivityAdmin)

@@ -1024,24 +1024,24 @@ a.button-style:hover {
 
 .mkls_footer_grid_left h4 {
     font-size: 24px;
-    color: #fff;
+    color: #ffff;
     letter-spacing: 1px;
     font-weight: 600;
     margin-bottom: 20px;
 }
 
 .mkls_footer_grid_left p {
-    color: #e0e0e0;
+    color: #ffffff;
 }
 
 .mkls_footer_grid_left p a {
     text-decoration: none;
-    color: #ef5861;
+    color: #ffffff;
 }
 
 .mkls_footer_grid_left p a:hover {
     text-decoration: none;
-    color: #fff;
+    color: #FFFFFF;
 }
 
 .botttom-nav-allah {
