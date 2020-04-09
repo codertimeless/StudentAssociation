@@ -3,4 +3,7 @@
 
 
 def my_view(x, y):
-    return x-y
+    if x > y:
+        return x-y
+    else:
+        return y-x
