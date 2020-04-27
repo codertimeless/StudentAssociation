@@ -36,3 +36,11 @@ class LogAdmin(object):
 
 
 xadmin.site.register(Log, LogAdmin)
+
+
+class GlobalSetting(object):
+    site_title = "社团管理系统"
+    site_footer = "湖南工商大学学生社团联合会"
+
+
+# xadmin.site.register(views.CommAdminView, GlobalSetting)

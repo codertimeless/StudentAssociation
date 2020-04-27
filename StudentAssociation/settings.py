@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'management',
     'xadmin',
     'crispy_forms',
+    'accounts',
 ]
 
 MIDDLEWARE = [
@@ -94,6 +95,7 @@ DATABASES = {
     }
 }
 
+AUTH_USER_MODEL = "accounts.StudentClubUser"
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators

@@ -1,6 +1,7 @@
 from django.shortcuts import render, reverse
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect
+from django.contrib.auth.decorators import login_required
 
 
 def main_view(request):
@@ -31,13 +32,10 @@ def login_view(request):
             return render(request, "login_v1.html", context=context)
 
 
+@login_required
 def logout_view(request):
-    if request.user.is_authenticated:
-        logout(request)
-    else:
-        # TODO user is not login
-        return HttpResponseRedirect(reverse("login"))
-
+    logout(request)
+    # TODO user is not login
     return HttpResponseRedirect(reverse("index"))
 
 
