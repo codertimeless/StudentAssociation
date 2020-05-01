@@ -15,6 +15,7 @@ class StudentClubUserManager(BaseUserManager):
         )
 
         user.set_password(password)
+        user.is_active = True
         user.save(using=self._db)
         return user
 
@@ -26,7 +27,7 @@ class StudentClubUserManager(BaseUserManager):
             phone_number,
             password=password,
         )
-        user.staff = True
+        user.is_staff = True
         user.save(using=self._db)
         return user
 
@@ -37,10 +38,9 @@ class StudentClubUserManager(BaseUserManager):
         user = self.create_user(
             phone_number,
             password=password,
-
         )
-        user.staff = True
-        user.admin = True
+        user.is_staff = True
+        user.is_superuser = True
         user.save(using=self._db)
         return user
     
@@ -50,27 +50,23 @@ class StudentClubUserManager(BaseUserManager):
         
 
 class StudentClubUser(AbstractUser):
-    phone_number = models.CharField(max_length=150, unique=True)
-
+    phone_number = models.CharField(verbose_name="手机号码", max_length=15, unique=True)
+    username = models.CharField(
+        null=True, blank=True, max_length=6
+    )
     default_nickname = "用户"
     nickname = models.CharField(max_length=10, default=default_nickname, null=True, blank=True)
-    email = models.CharField(null=True, blank=True, max_length=30)
-
-    active = models.BooleanField(default=True)
 
     # admin permissions
-    teacher_manager = models.BooleanField(default=False)
-    teacher_club = models.BooleanField(default=False)
-    student_manager = models.BooleanField(default=False)
-    club_manager = models.BooleanField(default=False)
+    is_teacher_manager = models.BooleanField(default=False)
+    is_teacher_club = models.BooleanField(default=False)
+    is_student_manager = models.BooleanField(default=False)
+    is_club_manager = models.BooleanField(default=False)
 
     USERNAME_FIELD = "phone_number"
     REQUIRED_FIELDS = []
 
     objects = StudentClubUserManager()
-
-    def get_is_active(self):
-        return self.active
 
     def __str__(self):
         return "用户" + self.phone_number

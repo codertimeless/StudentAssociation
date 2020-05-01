@@ -1,6 +1,6 @@
 from django.db import models
 
-from ..models.unit import Unit
+from .club import Club
 
 GENDER = [
     ("female", "女"),
@@ -9,13 +9,17 @@ GENDER = [
 
 
 class People(models.Model):
-    name = models.CharField(max_length=20, verbose_name="姓名")
-    phone = models.CharField(max_length=11, verbose_name="联系电话")
+    real_name = models.CharField(max_length=10, verbose_name="真实姓名")
+    phone_number = models.CharField(max_length=11, verbose_name="手机", unique=True)
+    club = models.ForeignKey(Club, on_delete=models.DO_NOTHING, verbose_name="社团")
     gender = models.CharField(max_length=6, choices=GENDER)
-    affiliated_unit = models.ForeignKey(Unit, on_delete=models.DO_NOTHING)
+
+    is_active = models.BooleanField(default=True)
+    joined_date = models.DateTimeField(auto_created=True)
+    modify_date = models.DateTimeField(auto_now=True)
 
     class Meta:
         abstract = True
 
     def __str__(self):
-        return self.name
+        return self.real_name

@@ -34,6 +34,7 @@ class Club(models.Model):
     icon = models.ImageField(verbose_name="社团图标")
 
     # People in club
+    # TODO all of user profile should take off from there
     president = models.ForeignKey(Student, on_delete=models.DO_NOTHING, verbose_name="会长", related_name="president")
     vice_president1 = models.ForeignKey(Student, on_delete=models.DO_NOTHING, verbose_name="副会长",
                                         related_name="vicePresident")
