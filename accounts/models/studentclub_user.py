@@ -1,6 +1,8 @@
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.db import models
 
+from management.models.user_profile import ClubUserProfile
+
 
 class StudentClubUserManager(BaseUserManager):
     def create_user(self, phone_number, password=None, **extra_fields):
@@ -16,6 +18,12 @@ class StudentClubUserManager(BaseUserManager):
 
         user.set_password(password)
         user.is_active = True
+        try:
+            user_profile = ClubUserProfile.objects.get(phone_number=phone_number, is_active=True)
+            user.user_profile = user_profile
+        except :
+            user.is_anonymous = True
+
         user.save(using=self._db)
         return user
 
@@ -52,16 +60,17 @@ class StudentClubUserManager(BaseUserManager):
 class StudentClubUser(AbstractUser):
     phone_number = models.CharField(verbose_name="手机号码", max_length=15, unique=True)
     username = models.CharField(
-        null=True, blank=True, max_length=6
+        null=True, blank=True, max_length=15, default_nickname="用户"
     )
-    default_nickname = "用户"
-    nickname = models.CharField(max_length=10, default=default_nickname, null=True, blank=True)
 
     # admin permissions
     is_teacher_manager = models.BooleanField(default=False)
     is_teacher_club = models.BooleanField(default=False)
     is_student_manager = models.BooleanField(default=False)
     is_club_manager = models.BooleanField(default=False)
+    is_anonymous = models.BooleanField(default=False)
+
+    user_profile = models.ForeignKey(ClubUserProfile, null=True, blank=True, on_delete=models.DO_NOTHING)
 
     USERNAME_FIELD = "phone_number"
     REQUIRED_FIELDS = []
