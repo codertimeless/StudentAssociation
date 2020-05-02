@@ -2,21 +2,20 @@ from django.contrib import admin
 
 import xadmin
 
-from .models.teacher import Teacher
 from .models.club import Club
 from .models.unit import Unit
-from .models.student import Student
+# from .models.student import Student
 from .models.activity import Activity
 
 
-class TeacherAdmin(object):
-    list_display = ['name', 'phone', 'affiliated_unit', 'gender']
-    search_fields = ['name', 'affiliated_unit']
+# class TeacherAdmin(object):
+#     list_display = ['name', 'phone', 'affiliated_unit', 'gender']
+#     search_fields = ['name', 'affiliated_unit']
 
 
-class StudentAdmin(object):
-    list_display = ['name', 'phone', 'affiliated_unit', 'gender']
-    search_fields = ['name', 'affiliated_unit']
+# class StudentAdmin(object):
+#     list_display = ['name', 'phone', 'affiliated_unit', 'gender']
+#     search_fields = ['name', 'affiliated_unit']
 
 
 class ActivityAdmin(object):
@@ -42,6 +41,6 @@ class UnitAdmin(object):
 # for admin
 admin.site.register(Club)
 admin.site.register(Unit)
-admin.site.register(Teacher)
-admin.site.register(Student)
+# admin.site.register(Teacher)
+# admin.site.register(Student)
 admin.site.register(Activity)

@@ -1,7 +1,6 @@
 from django.db import models
 from django.utils import timezone
 
-from .student import Student
 # TODO Examination part of club
 # TODO Communicate part (include display some news)
 # TODO activities of club

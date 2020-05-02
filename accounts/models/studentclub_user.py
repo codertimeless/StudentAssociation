@@ -1,7 +1,11 @@
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.db import models
 
-from management.models.user_profile import ClubUserProfile
+
+GENDER = [
+    ("female", "女"),
+    ("male", "男"),
+]
 
 
 class StudentClubUserManager(BaseUserManager):
@@ -18,12 +22,6 @@ class StudentClubUserManager(BaseUserManager):
 
         user.set_password(password)
         user.is_active = True
-        try:
-            user_profile = ClubUserProfile.objects.get(phone_number=phone_number, is_active=True)
-            user.user_profile = user_profile
-        except :
-            user.is_anonymous = True
-
         user.save(using=self._db)
         return user
 
@@ -60,17 +58,13 @@ class StudentClubUserManager(BaseUserManager):
 class StudentClubUser(AbstractUser):
     phone_number = models.CharField(verbose_name="手机号码", max_length=15, unique=True)
     username = models.CharField(
-        null=True, blank=True, max_length=15, default_nickname="用户"
+        null=True, blank=True, max_length=15
     )
+    gender = models.CharField(verbose_name="性别", max_length=6, choices=GENDER)
 
     # admin permissions
-    is_teacher_manager = models.BooleanField(default=False)
-    is_teacher_club = models.BooleanField(default=False)
-    is_student_manager = models.BooleanField(default=False)
-    is_club_manager = models.BooleanField(default=False)
-    is_anonymous = models.BooleanField(default=False)
 
-    user_profile = models.ForeignKey(ClubUserProfile, null=True, blank=True, on_delete=models.DO_NOTHING)
+    is_youke = models.BooleanField(default=False)
 
     USERNAME_FIELD = "phone_number"
     REQUIRED_FIELDS = []

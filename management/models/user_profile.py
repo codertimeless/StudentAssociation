@@ -1,11 +1,10 @@
 from django.db import models
 
 
-from .people import People
 from .student_class import StudentClass
 from .unit import Unit
 from .club import Club
-
+from accounts.models.studentclub_user import StudentClubUser
 
 GENDER = [
     ("female", "女"),
@@ -17,14 +16,18 @@ JOBS = [
     ("manager", "会长"),
     ("vicemanager", "副会长"),
     ("member", "成员"),
+    ("anonymous", "匿名")
 ]
 
 
 class ClubUserProfile(models.Model):
     real_name = models.CharField(max_length=10, verbose_name="真实姓名")
     phone_number = models.CharField(max_length=11, verbose_name="手机")
-    club = models.ForeignKey(Club, on_delete=models.DO_NOTHING, verbose_name="社团")
+    club = models.ForeignKey(Club, on_delete=models.DO_NOTHING, verbose_name="社团", null=True)
     gender = models.CharField(max_length=6, choices=GENDER)
+
+    # by phone_number
+    # user = models.ForeignKey(StudentClubUser, null=True, blank=True, on_delete=models.DO_NOTHING)
 
     joined_date = models.DateTimeField(auto_created=True)
     modify_date = models.DateTimeField(auto_now=True)
