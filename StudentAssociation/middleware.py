@@ -1,8 +1,7 @@
-from django.http import request
 from django.utils.deprecation import MiddlewareMixin
 from django.utils import timezone
 
-from management.models.user_profile import ClubUserProfile
+from accounts.models.user_profile import ClubUserProfile
 
 
 class ManageMiddleware(MiddlewareMixin):

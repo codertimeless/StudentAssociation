@@ -3,6 +3,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 
+from .utils import send_message
+
 
 def main_view(request):
     context = {}
@@ -52,3 +54,8 @@ def forget_view(request):
 def join_club_view(request):
 
     return render(request, "join_club_v1.html")
+
+
+def send_msg(request):
+    send_message("18570748208", "123969")
+    return HttpResponseRedirect(reverse("index"))

@@ -64,6 +64,7 @@ label {
     padding: 8px 0;
 }
 
+
 .bottom_header_left {
     float: left;
     margin: .3em 0 0;
@@ -2472,6 +2473,7 @@ h2.typoh2 {
     }
     .list-group {
         margin-bottom: 10px;
+        width: 280px;
     }
     .well {
         padding: 10px;

@@ -130,7 +130,8 @@ USE_L10N = True
 
 USE_TZ = False
 
-
+TWILIO_ACCOUNT_SID = "ACc79a4e5f62031921837ac70477b6e94d"
+TWILIO_AUTH_TOKEN = "bbaafb67b7d40a0eb8a368361bc0b147"
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 

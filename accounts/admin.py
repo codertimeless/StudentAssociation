@@ -3,6 +3,7 @@ from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 
 from .forms import UserAdminCreationForm, UserAdminChangeForm
 from .models.studentclub_user import StudentClubUser
+from .models.user_profile import ClubUserProfile
 
 
 class UserAdmin(BaseUserAdmin):
@@ -33,4 +34,9 @@ class UserAdmin(BaseUserAdmin):
     filter_horizontal = ()
 
 
+class ProfileAdmin(admin.ModelAdmin):
+    list_display = ('pk', 'real_name', 'phone_number', 'club', 'student_class', 'job')
+
+
 admin.site.register(StudentClubUser, UserAdmin)
+admin.site.register(ClubUserProfile, ProfileAdmin)

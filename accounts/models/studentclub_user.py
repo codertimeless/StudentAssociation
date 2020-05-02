@@ -1,6 +1,6 @@
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.db import models
-
+from .user_profile import ClubUserProfile
 
 GENDER = [
     ("female", "女"),
@@ -19,6 +19,13 @@ class StudentClubUserManager(BaseUserManager):
         user = self.model(
             phone_number=self.normalize_number(phone_number),
         )
+        # todo: when create a user, should check if there is a UserProfile existing already.
+        try:
+            user_profile = ClubUserProfile.objects.get(phone_number=phone_number, is_active=True)
+        except ClubUserProfile.DoesNotExist:
+            user_profile = ClubUserProfile.objects.create(phone_number=user_profile, is_active=True, **extra_fields,
+                                                          job="anonymous")
+            user_profile.save(using=self._db)
 
         user.set_password(password)
         user.is_active = True

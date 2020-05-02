@@ -1,10 +1,9 @@
 from django.db import models
 
 
-from .student_class import StudentClass
-from .unit import Unit
-from .club import Club
-from accounts.models.studentclub_user import StudentClubUser
+from management.models.student_class import StudentClass
+from management.models.unit import Unit
+from management.models.club import Club
 
 GENDER = [
     ("female", "女"),
@@ -35,9 +34,10 @@ class ClubUserProfile(models.Model):
     # permissions
     is_active = models.BooleanField(default=True)
     job = models.CharField(choices=JOBS, max_length=12)
+    is_manager = models.BooleanField(default=False)
 
     # for student
-    student_class = models.ForeignKey(StudentClass, on_delete=models.DO_NOTHING, verbose_name="职务", null=True, blank=True)
+    student_class = models.ForeignKey(StudentClass, on_delete=models.DO_NOTHING, verbose_name="职务")
     student_number = models.CharField(max_length=10, verbose_name="学号", null=True, blank=True)
 
     # for teacher
