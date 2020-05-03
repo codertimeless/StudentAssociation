@@ -10,6 +10,7 @@
 	</div>
 	<!--//banner -->
 	<!-- short-->
+
 	<div class="services-breadcrumb">
 		<div class="inner_breadcrumb">
 			<ul class="short_ls">
@@ -23,22 +24,28 @@
 	</div>
     <div class="register-form-main">
         <div class="container">
+
             <div class="title-div">
                 <h3 class="tittle">
                     <span></span>登陆
                     <span></span>
                 </h3>
                 <div class="tittle-style">
-
                 </div>
             </div>
+            {% if error %}
+            <div class="alert alert-warning alert-dismissible" role="alert">
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <strong>错误!</strong>{{ error_message }}
+            </div>
+            {% endif %}
             <div class="login-form">
                 <form action="/login/" method="POST">
                     {% csrf_token %}
                     <div class="">
-                        <p>账号 </p>
-                        <input type="text" class="name" name="username" required="" />
-                    </div>
+                        <p>手机 </p>
+                        <input type="text" class="name" name="phone" required="" value="{{ phone_number }}" />
+                        </div>
                     <div class="">
                         <p>密码</p>
                         <input type="password" class="password" name="Password" required="" />
@@ -49,7 +56,7 @@
                     </label>
                     <div class="login-agileits-bottom wthree">
                         <h6>
-                            <a href="/forget/">忘记密码?</a>
+                            <a href="/forget_password/">忘记密码?</a>
                         </h6>
                     </div>
                     <input type="submit" value="登陆">

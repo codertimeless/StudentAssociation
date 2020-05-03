@@ -8,6 +8,7 @@ from management.models.club import Club
 GENDER = [
     ("female", "女"),
     ("male", "男"),
+    ("unknown", "未知")
 ]
 
 JOBS = [
@@ -23,7 +24,7 @@ class ClubUserProfile(models.Model):
     real_name = models.CharField(max_length=10, verbose_name="真实姓名")
     phone_number = models.CharField(max_length=11, verbose_name="手机")
     club = models.ForeignKey(Club, on_delete=models.DO_NOTHING, verbose_name="社团", null=True)
-    gender = models.CharField(max_length=6, choices=GENDER)
+    gender = models.CharField(max_length=7, choices=GENDER)
 
     # by phone_number
     # user = models.ForeignKey(StudentClubUser, null=True, blank=True, on_delete=models.DO_NOTHING)
@@ -37,7 +38,7 @@ class ClubUserProfile(models.Model):
     is_manager = models.BooleanField(default=False)
 
     # for student
-    student_class = models.ForeignKey(StudentClass, on_delete=models.DO_NOTHING, verbose_name="职务")
+    student_class = models.ForeignKey(StudentClass, on_delete=models.DO_NOTHING, verbose_name="职务", null=True)
     student_number = models.CharField(max_length=10, verbose_name="学号", null=True, blank=True)
 
     # for teacher

@@ -13,7 +13,6 @@ def club_user(request):
     if request.profile.is_manager:
         club_name = request.profile.club.name
         club_users = ClubUserProfile.objects.filter(club__name=club_name, is_active=True)
-
         context['club_name'] = club_name
         context['club_users'] = club_users
     else:

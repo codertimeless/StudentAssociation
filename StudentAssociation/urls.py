@@ -17,7 +17,7 @@ urlpatterns = [
     path('join_club/', views.join_club_view, name="join_club"),
     path('logout/', views.logout_view, name="logout"),
     path('register/', views.register_view, name="register"),
-    path('forget/', views.forget_view, name="forget"),
+    path('forget_password/', views.forget_view, name="forget"),
     path('send_msg/', views.send_msg, name="sms"),
     # manage club
     path('manage/', include('management.urls'))

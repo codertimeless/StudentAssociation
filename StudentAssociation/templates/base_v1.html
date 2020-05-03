@@ -295,5 +295,43 @@
 	<!-- //here ends scrolling icon -->
 	<!-- smooth scrolling -->
 	<!-- //js-files -->
+
+    <script>
+        var wait = 60;
+        document.getElementById("send_msg").onclick = function() {
+            var input = send_msg(this);
+            if (input) {
+                time(this);
+            }
+        }
+        function send_msg() {
+            var phone_number = document.getElementById("phone_number").value
+            var error = document.getElementById("error_block")
+            if (phone_number) {
+                $.post('/send_msg/', {"phone_number": phone_number})
+                return 1;
+            } else {
+                error.removeAttribute("hidden")
+                error.innerHTML = "请先输入手机号码"
+            }
+        }
+
+        function time(o) {
+            if (wait == 0) {
+                o.removeAttribute("disabled");
+                o.innerHTML("重新获取验证码");
+                wait = 60;
+            } else {
+                o.setAttribute("disabled", true);
+                o.innerHTML = wait + "秒后重新发送";
+                wait--;
+                setTimeout(function() {
+                    time(o)
+                }, 1000)
+            }
+        }
+
+    </script>
 {% endblock %}
+
 </html>
