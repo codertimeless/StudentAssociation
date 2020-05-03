@@ -1,11 +1,15 @@
+import random
+
 from django.shortcuts import render, reverse
 from django.contrib.auth import authenticate, login, logout
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
 
-from .utils import send_message
+from django.core.cache import cache
+
+from .utils import message_service
 from accounts.models.studentclub_user import StudentClubUser
 from accounts.models.user_profile import ClubUserProfile
 
@@ -63,8 +67,10 @@ def register_view(request):
     elif request.method == "POST":
         context = {"error": False, "error_message": "", "phone": ""}
         phone_number = request.POST['phone_number']
+        username = request.POST['username']
         password1 = request.POST['password1']
         password2 = request.POST['password2']
+        validate_code = request.POST["validate_code"]
 
         try:
             StudentClubUser.objects.get(phone_number=phone_number)
@@ -74,6 +80,10 @@ def register_view(request):
             return render(request, "login_v1.html", context=context)
 
         except StudentClubUser.DoesNotExist:
+            cache_code = cache.get("phone_number")
+            if cache_code != validate_code:
+                context["error"] = True
+                context["error_message"] = "验证码错误，请重新尝试"
 
             if password1 and password2 and password1 != password2:
                 context["error"] = True
@@ -83,6 +93,7 @@ def register_view(request):
             else:
                 user = StudentClubUser.objects.create(phone_number=phone_number)
                 user.set_password(password1)
+                user.username = username
                 user.save()
                 try:
                     ClubUserProfile.objects.get(phone_number=phone_number)
@@ -101,8 +112,40 @@ def register_view(request):
 
 
 def forget_view(request):
+    if request.method == "POST":
+        phone_number = request.POST['phone_number']
+        validate_code = request.POST['validate_code']
+        password1 = request.POST["password1"]
+        password2 = request.POST['password2']
+        context = {"error": False, "error_message": "", "phone_number": phone_number}
 
-    return render(request, "forget_password.html")
+        try:
+            user = StudentClubUser.objects.get(phone_number=phone_number, is_active=True)
+            cache_code = cache.get(phone_number)
+
+            if validate_code != cache_code:
+                context['error'] = True
+                context['error_message'] = "验证码错误"
+
+            context["validate_code"] = validate_code
+
+            if password1 and password2 and password1 != password2:
+                context["error"] = True
+                context["error_message"] = "两次密码不相等，请重新输入"
+                context["phone_number"] = phone_number
+                return render(request, "register_v1.html", context=context)
+
+            user.set_password(password1)
+            user.save()
+            context['error_message'] = "请重新登陆"
+            return HttpResponseRedirect(reverse("login"))
+
+        except StudentClubUser.DoesNotExist:
+            context["error"] = True
+            context['error_message'] = "该手机号尚未注册，请先注册"
+            return render(request, "forget_password.html", context=context)
+    else:
+        return render(request, "forget_password.html")
 
 
 def join_club_view(request):
@@ -111,6 +154,17 @@ def join_club_view(request):
 
 @csrf_exempt
 def send_msg(request):
+    if request.user.is_authenticated:
+        return HttpResponseRedirect(reverse("index"))
 
-    send_message("18570748208", "123969")
-    return HttpResponseRedirect(reverse("index"))
+    random_code = random.randint(100000, 999999)
+    phone_number = request.POST['phone_number']
+    print("The random_code is: " + str(random_code))
+
+    msg_status = message_service(phone_number, random_code)
+    if not msg_status:
+        message_service(phone_number, random_code)
+    else:
+        cache.set(phone_number, random_code, 300)
+
+    return HttpResponse("message success")

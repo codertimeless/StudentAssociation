@@ -18,7 +18,8 @@ urlpatterns = [
     path('logout/', views.logout_view, name="logout"),
     path('register/', views.register_view, name="register"),
     path('forget_password/', views.forget_view, name="forget"),
-    path('send_msg/', views.send_msg, name="sms"),
+    path('send_msg/', views.send_msg, name="send_msg"),
     # manage club
-    path('manage/', include('management.urls'))
+    path('manage/', include('management.urls')),
+
 ]
