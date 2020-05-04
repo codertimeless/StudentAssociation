@@ -11,7 +11,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('xadmin/', xadmin.site.urls, name="xadmin-login"),
     path('', views.main_view, name="index"),
-
+    path('blog/', include('blog.urls')),  # blog
     # account
     path('login/', views.login_view, name="login"),
     path('join_club/', views.join_club_view, name="join_club"),
@@ -21,5 +21,4 @@ urlpatterns = [
     path('send_msg/', views.send_msg, name="send_msg"),
     # manage club
     path('manage/', include('management.urls')),
-
 ]

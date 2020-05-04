@@ -41,10 +41,17 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.humanize',  # 添加人性化过滤器
+
+    'haystack',
     'management',
     'xadmin',
     'crispy_forms',
     'accounts',
+    'blog',
+    'oauth',
+    'comment',
+    'tool',
 ]
 
 MIDDLEWARE = [
@@ -150,6 +157,22 @@ TWILIO_AUTH_TOKEN = "da68017ce4230c40b589771bd9d81149"
 
 STATIC_URL = '/static/'
 
+TOOL_FLAG = True
+# 是否开启[API]应用
+API_FLAG = False
+
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'blog.whoosh_cn_backend.WhooshEngine',  # 选择语言解析器为自己更换的结巴分词
+        'PATH': os.path.join(BASE_DIR, 'whoosh_index'),  # 保存索引文件的地址，选择主目录下，这个会自动生成
+    }
+}
+HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
+
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "StudentAssociation//static")
+    os.path.join(BASE_DIR, "StudentAssociation/static")
 ]
+
+SITE_END_TITLE = '网站的名称，如TendCode'
+SITE_DESCRIPTION = '网站描述'
+SITE_KEYWORDS = '网站关键词，多个词用英文逗号隔开'
