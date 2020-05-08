@@ -79,10 +79,10 @@ class Article(models.Model):
     views = models.IntegerField('阅览量', default=0)
     slug = models.SlugField(unique=True)
 
-    category = models.ForeignKey(Category, verbose_name='文章分类', on_delete=models.DO_NOTHING)
-    tags = models.ManyToManyField(Tag, verbose_name='标签')
+    category = models.ForeignKey(Category, verbose_name='文章分类', on_delete=models.DO_NOTHING, null=True, blank=True)
+    tags = models.ManyToManyField(Tag, verbose_name='标签', null=True, blank=True)
     keywords = models.ManyToManyField(Keyword, verbose_name='文章关键词',
-                                      help_text='文章关键词，用来作为SEO中keywords，最好使用长尾词，3-4个足够')
+                                      help_text='文章关键词，用来作为SEO中keywords，最好使用长尾词，3-4个足够', null=True, blank=True)
 
     class Meta:
         verbose_name = '文章'
@@ -93,7 +93,7 @@ class Article(models.Model):
         return self.title[:20]
 
     def get_absolute_url(self):
-        return reverse('blog:detail', kwargs={'slug': self.slug})
+        return 'title'
 
     def body_to_markdown(self):
         return markdown.markdown(self.body, extensions=[

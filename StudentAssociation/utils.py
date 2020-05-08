@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.core.cache import cache
 
 
 from twilio.rest import Client
@@ -10,13 +11,22 @@ def message_service(phone_number, random_code):
 
     client = Client(account_sid, auth_token)
     phone_number = "+86" + phone_number
+    body = "Your validation code is: " + str(random_code)
     message = client.messages.create(
         from_='+12057404952',
-        body=random_code,
+        body=body,
         messaging_service_sid='MGb3ff337a5662ada54414016d113f14d7',
         to=phone_number,
     )
     return message.status
+
+
+def get_info_from_cache(phone_number, usage):
+    try:
+        info = cache.get(phone_number + usage)
+        return info
+    except:
+        return False
 
 
 def manager_required():

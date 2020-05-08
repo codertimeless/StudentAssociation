@@ -8,6 +8,14 @@ from management.models.activity import Activity
 
 
 @login_required(login_url='/login/')
+def club_manager(request):
+    context = {}
+    if request.profile.is_manager:
+        club_name = request.profile.club.name
+        club_users = ClubUserProfile.objects.filter(club__name=club_name, is_active=True, job="manager")
+
+
+@login_required(login_url='/login/')
 def club_user(request):
     context = {}
     if request.profile.is_manager:
@@ -18,12 +26,13 @@ def club_user(request):
     else:
         error_message = "抱歉，您不能访问这个网站"
 
-    return render(request, "manage_v1.html", context=context)
+    return render(request, "manage_user_v1.html", context=context)
 
 
 @login_required(login_url='/login/')
 # @require_manager
 def manage_club(request):
+    error_message = ""
     context = {}
     if request.profile.is_manager:
         club_name = request.profile.club.name

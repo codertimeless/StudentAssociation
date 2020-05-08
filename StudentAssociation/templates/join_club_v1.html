@@ -3,17 +3,6 @@
 {% block content %}
     <div class="inner_page_agile">
 	</div>
-	<div class="services-breadcrumb">
-		<div class="inner_breadcrumb">
-			<ul class="short_ls">
-				<li>
-					<a href="/">主页</a>
-					<span>| |</span>
-				</li>
-				<li>加入社团</li>
-			</ul>
-		</div>
-	</div>
 	<div class="register-form-main">
 		<div class="container">
 			<div class="title-div">
@@ -25,70 +14,89 @@
 
 				</div>
 			</div>
+
+            <div class="">
+                <div id="error_block" class="alert alert-warning alert-dismissible" role="alert" {% if not error %}hidden{% endif %}>
+                      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                      <strong>错误!</strong>{{ error_message }}
+                </div>
+            </div>
+
 			<div class="register-form">
-				<form action="#" method="post">
+				<form action="/join_club/" method="post">
+                    {% csrf_token %}
 					<div class="fields-grid">
 						<div class="styled-input">
-							<input type="text" placeholder="你的名字" name="Your name" required="">
+							<input type="text" placeholder="名字" name="username" required="">
 						</div>
-						<div class="styled-input">
-							<input id="datepicker" placeholder="Birth Date" name="Text" type="text" value="" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'mm/dd/yyyy';}"
-							    required="">
+                        <div class="">
+                            <input type="text" name="student_number" placeholder="学号" title="Please enter your Address" required="">
+                        </div>
+                        <div class="styled-input">
+							<input type="text" placeholder="手机" name="phone_number" required="">
+						</div>
+
+                        <div class="">
+                            <input type="text" name="class_name" placeholder="班级" title="Please enter your City" required="">
+                        </div>
+                        <div class="styled-input agile-styled-input-top">
+							<select class="category2" name="unit" required="">
+								<option value="">学院</option>
+								<option value="kj">会计学院 </option>
+								<option value="cj">财政与金融学院 </option>
+								<option value="gs">工商管理学院 </option>
+								<option value="jx">计算机与信息工程学院 </option>
+                                <option value="lg">旅管学院 </option>
+                                <option value="fg">法学与公共管理学院 </option>
+                                <option value="sy">设计与艺术学院 </option>
+							</select>
+							<span></span>
 						</div>
 						<div class="styled-input agile-styled-input-top">
-							<select class="category2" required="">
-								<option value="">Gender</option>
-								<option value="">Female</option>
-								<option value="">Male</option>
-								<option value="">Other</option>
+							<select class="category2" name="gender" required="">
+								<option value="">性别</option>
+								<option value="male">男</option>
+								<option value="female">女</option>
 							</select>
 						</div>
-						<div class="styled-input">
-							<input type="email" placeholder="Your E-mail" name="Email" required="">
-						</div>
-						<div class="styled-input">
-							<input type="text" placeholder="电话号码" name="Phone" required="">
-						</div>
+
+{#						<div class="styled-input">#}
+{#							<input type="email" placeholder="Your E-mail" name="Email" required="">#}
+{#						</div>#}
+                        {% if not club_name %}
 						<div class="styled-input agile-styled-input-top">
-							<select class="category2" required="">
-								<option value="">Select Course</option>
-								<option value="">Web Designing</option>
-								<option value="">Web Technology </option>
-								<option value="">PC Systems </option>
-								<option value="">IT Foundations </option>
-								<option value="">HR Management </option>
-								<option value="">Modeling </option>
-								<option value="">Basic Marketing</option>
+							<select class="category2" name="type_of_club" id="type_of_club" onchange="change_club_list();"required="">
+								<option value="null">选择社团类别</option>
+								<option value="gysj">公益实践</option>
+								<option value="xsll">学术理论</option>
+								<option value="whzh">文化综合</option>
+								<option value="wyty">文娱体育</option>
 							</select>
 							<span></span>
 						</div>
 						<div class="styled-input">
 							<div class="agileits_w3layouts_grid">
-								<select class="category2" name="category1" required="">
-									<option value="">Select Course Time</option>
-									<option value="">Hours: 8am - 10am</option>
-									<option value="">Hours: 10am - 12pm</option>
-									<option value="">Hours: 12pm - 4pm</option>
-									<option value="">Hours: 4pm - 7pm</option>
-									<option value="">Hours: 7pm - 9pm</option>
+								<select class="category2" name="club_name" id="club_name">
+									<option value="">请先选择社团类别</option>
 								</select>
 							</div>
 						</div>
-						<div class="styled-input">
-							<label class="header">Your Address</label>
-							<div class="">
-								<input type="text" name="name" placeholder="Address" title="Please enter your Address" required="">
-							</div>
-							<div class="">
-								<input type="text" name="name" placeholder="Line" title="Please enter your Line" required="">
-							</div>
-							<div class="">
-								<input type="text" name="name" placeholder="City" title="Please enter your City" required="">
-							</div>
-							<div class="">
-								<input type="text" name="name" placeholder="Zip Code" title="Please enter your Zip code" required="">
-							</div>
-						</div>
+                        {% else %}
+                            <div class="styled-input agile-styled-input-top">
+                                <select class="category2" name="type_of_club" id="type_of_club" onchange="change_club_list();"required="">
+                                    <option value="gysj">{{ club_type }}</option>
+                                </select>
+                                <span></span>
+                            </div>
+
+                            <div class="styled-input">
+                                <div class="agileits_w3layouts_grid">
+                                    <select class="category2" name="club_name" id="club_name">
+                                        <option value="{{ club_name }}">{{ club_name }}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        {% endif %}
 						<div class="clearfix"> </div>
 					</div>
 					<input type="submit" value="提交">
@@ -96,4 +104,89 @@
 			</div>
 		</div>
 	</div>
+
+    <script>
+        function change_club_list() {
+        var gysj = ["大学生摄影协会", "大学生计算机与电子爱好者协会"];
+        var wyty = ["大学生排球协会", "大学生无极街舞社", "大学生北极星音乐社"];
+        var whzh = ["大学生普贤国学文化社", "大学生书法协会"];
+        var xsll = ["大学生财会协会", "大学生物流协会"];
+        var selection_item = document.getElementById("type_of_club");
+        var selected = selection_item.value;
+        var club_selection = document.getElementById("club_name");
+
+        if (selected === "null"){
+            club_selection.options.length = 0;
+            club_selection.options.add(new Option("请先选择社团类别"))
+        }
+
+        if (selected === "gysj") {
+            club_selection.options.length = 0;
+            for (let name in gysj) {
+                club_selection.options.add(new Option(gysj[name], gysj[name]));
+                }
+            }
+
+        if (selected === "wyty") {
+            club_selection.options.length = 0;
+            for (let name in wyty) {
+                club_selection.options.add(new Option(wyty[name]));
+                }
+            }
+
+        if (selected === "whzh") {
+            club_selection.options.length = 0;
+            for (let name in whzh) {
+                club_selection.options.add(new Option(whzh[name]));
+                }
+            }
+
+        if (selected === "xsll") {
+            club_selection.options.length = 0;
+            for (let name in xsll) {
+                club_selection.options.add(new Option(xsll[name]));
+                }
+            }
+
+
+        }
+
+    {#     var selection_item = document.getElementById("type_of_club");#}
+    {#        var seleted = selection_item.value;#}
+    {#        var club_selection = document.getElementById("club_name");#}
+    {##}
+    {#        if (seleted.value == "gysj") {#}
+    {#            club_selection.options.length = 0;#}
+    {#            for (let name in gysj) {#}
+    {#                club_selection.options.add(new Option(gysj[name]));#}
+    {#            }#}
+    {#        }#}
+    {##}
+    {#        if (seleted.value == "wyty") {#}
+    {#            club_selection.options.length = 0;#}
+    {#            for (let name in wyty) {#}
+    {#                club_selection.options.add(new Option(wyty[name]));#}
+    {#            }#}
+    {#        }#}
+    {##}
+    {#        if (seleted.value == "whzh") {#}
+    {#            club_selection.options.length = 0;#}
+    {#            for (let name in whzh) {#}
+    {#                club_selection.options.add(new Option(whzh[name]));#}
+    {#            }#}
+    {#        }#}
+    {##}
+    {#        if (seleted.value == "xsll") {#}
+    {#            club_selection.options.length = 0;#}
+    {#            for (let name in xsll) {#}
+    {#                club_selection.options.add(new Option(xsll[name]));#}
+    {#            }#}
+    {#        }#}
+    {#    };#}
+    {#}#}
+
+    window.onload = function(){
+            window.alert("请按要求填写好相关信息");
+        };
+    </script>
 {% endblock %}

@@ -14,6 +14,7 @@
     {% endblock %}
     {% block links %}
         <!-- //meta-tags -->
+{#        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">#}
         <link href={% static "css/bootstrap.css" %} rel="stylesheet" type="text/css" media="all" />
         <link href={% static "css/style.css" %} rel="stylesheet" type="text/css" media="all" />
         <!-- font-awesome -->
@@ -42,11 +43,11 @@
 					<span class="fa fa-map-marker" aria-hidden="true"></span>湖 南 工 商 大 学
 				</p>
 			</div>
-			<div class="bottom_header_right">
+			<div class="bottom_header_right" style="width: 120px" id="username_bar">
 				<div class="header-top-right">
                 {% if not request.user.is_authenticated %}
-                    <a href={% if request.user.is_authenticated %}"/profile/"{% else %}"/login/"{% endif %}>
-                    <span class="fa fa-sign-out" aria-hidden="true"></span>{% if request.user.is_authenticated %}{{ request.user.phone_number }}{% else %}登陆{% endif %}
+                    <a href="/login/">
+                    <span class="fa fa-sign-out" aria-hidden="true"></span>登陆
                     </a>
                 {% else %}
                     <!-- Split button -->
@@ -54,19 +55,18 @@
                       <button type="button" class="btn btn-danger" style="color: #ffffff;background-color: #36bf90;border-color: #36bf90;">
                           {{ request.user.phone_number }}
                       </button>
-                      <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: #ffffff;background-color: #36bf90;border-color: #FFFFFF;">
+                      <button type="button" class="btn btn-danger dropdown-toggle" id="username" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: #ffffff;background-color: #36bf90;border-color: #FFFFFF;">
                         <span class="caret"></span>
                         <span class="sr-only">Toggle Dropdown</span>
                       </button>
                       <ul class="dropdown-menu">
-                        <li><a href="message">消息</a></li>
+                        <li><a href="{% url "messages" %}">消息</a></li>
                         {% if request.profile.is_manager %}
-                        <li><a href="/manage/">管理社团</a></li>
-                        <li><a href="/apply_form/">申请表</a></li>
+                        <li><a href="/manage/club">管理社团</a></li>
                         {% endif %}
                         <li><a href="#">个人资料</a></li>
                         {% if request.user.is_superuser %}
-                        <li><a href="/admin/">后台管理</a></li>
+                        <li><a href="/admin">后台管理</a></li>
                         {% endif %}
                         <li role="separator" class="divider"></li>
                         <li><a href="/logout/">退出登录</a></li>
@@ -102,32 +102,22 @@
 					<!--/.navbar-header-->
 					<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 						<nav class="link-effect-2" id="link-effect-2">
-							<ul class="nav navbar-nav">
-								<li class="active">
-									<a href="../static/index.html" class="effect-3">主页</a>
+							<ul class="nav navbar-nav" style="width: 500px">
+								<li style="width: 90px">
+									<a href="/" class="effect-3">主页</a>
 								</li>
-								<li>
-									<a href="../static/about.html" class="effect-3">论坛</a>
+								<li style="width: 90px">
+									<a href="/blog" class="effect-3">论坛</a>
 								</li>
-								<li>
-									<a href="../static/courses.html" class="effect-3">活动</a>
+								<li style="width: 90px">
+									<a href="/activity" class="effect-3">活动</a>
 								</li>
-								<li>
-									<a href="../static/join.html" class="effect-3">加入社团</a>
+								<li style="width: 90px">
+									<a href="/join_club" class="effect-3">报名</a>
 								</li>
-								<li class="dropdown">
-									<a href="#" class="dropdown-toggle" data-toggle="dropdown">规章制度
-										<span class="caret"></span>
-									</a>
-									<ul class="dropdown-menu" role="menu">
-										<li>
-											<a href="../static/icons.html">Web Icons</a>
-										</li>
-										<li>
-											<a href="../static/codes.html">Short Codes</a>
-										</li>
-									</ul>
-								</li>
+								<li style="width: 90px">
+									<a href="/files" class="effect-3">文件</a>
+                                </li>
 							</ul>
 						</nav>
 					</div>
@@ -301,9 +291,9 @@
         document.getElementById("send_msg").onclick = function() {
             var input = check_input();
             if (input) {
-                $.post('/send_msg/', {"phone_number": input}, time(this));
+                var base_url = document.location.toString();
+                $.post('/send_msg/', {"phone_number": input, "base_url": base_url}, time(this));
             }
-
         };
         function check_input() {
             var phone_number = document.getElementById("phone_number").value;
@@ -319,7 +309,7 @@
         function time(o) {
             if (wait == 1) {
                 o.removeAttribute("disabled");
-                o.innerHTML("重新获取验证码");
+                o.innerHTML = "重新获取验证码";
                 wait = 60;
             } else {
                 o.setAttribute("disabled", true);
@@ -329,6 +319,13 @@
                     time(o)
                 }, 1000)
                 }
+        }
+    </script>
+    <script>
+        var username = document.getElementById("username");
+        var username_bar = document.getElementById("username_bar");
+        if (username) {
+            username_bar.style.cssText = "width: 220px";
         }
 
     </script>

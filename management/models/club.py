@@ -1,9 +1,11 @@
+import os
+
 from django.db import models
 from django.utils import timezone
+from django.conf import settings
+import qrcode
 
-# TODO Examination part of club
 # TODO Communicate part (include display some news)
-# TODO activities of club
 
 STATUS_OF_CLUB = [
     ("sh", "审核中"),
@@ -13,10 +15,10 @@ STATUS_OF_CLUB = [
 ]
 
 CATEGORY_OF_CLUB = [
-    ("wyty", "文娱体育"),
-    ("whzh", "文化综合"),
-    ("gysj", "公益实践"),
-    ("xsll", "学术理论"),
+    ("文娱体育", "文娱体育"),
+    ("文化综合", "文化综合"),
+    ("公益实践", "公益实践"),
+    ("学术理论", "学术理论"),
 ]
 
 
@@ -30,6 +32,7 @@ class Club(models.Model):
     purpose = models.CharField(verbose_name="社团宗旨", max_length=50)
     icon = models.ImageField(verbose_name="社团图标")
     last_modify = models.DateTimeField(verbose_name="上次修改时间", auto_now=True)
+    club_abbreviation = models.CharField(verbose_name="缩写，用于生成二维码", max_length=10)
 
     is_active = models.BooleanField(default=True)
     club_status = models.CharField(choices=STATUS_OF_CLUB, verbose_name="社团状态", max_length=2)
@@ -42,6 +45,18 @@ class Club(models.Model):
     # def get_student_number_of_club(, club):
     #     # todo error! Student is not wrong, at present I didn't use Student model
     #     return Student.object.filter(particular_year=particular_year, club=club).count()
+
+    @property
+    def qrcode(self):
+        picture_format = ".jpg"
+        path = settings.QRCODE_DIR + self.club_abbreviation + picture_format
+        if os.path.exists(path):
+            pass
+        else:
+            img = qrcode.make(path)
+            img.save(path)
+
+        return "/static/images/qrcode/" + self.club_abbreviation + picture_format
 
     def __str__(self):
         return self.name

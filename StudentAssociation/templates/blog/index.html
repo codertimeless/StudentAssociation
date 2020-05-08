@@ -1,9 +1,9 @@
-{% extends "blog/base.html" %}
+{% extends "base_v1.html" %}
 {% load static %}
 {% load humanize %}
 {% load blog_tags %}
 
-{% block head_title %}Tend to Code_一个使用django和bootstrap搭建的个人博客{% endblock %}
+{% block title %}社团交流论坛{% endblock %}
 {% block metas %}
     <meta name="description" content="{{ site_description }}">
     <meta name="keywords" content="{{ site_keywords }}">
@@ -14,7 +14,7 @@
     <meta name="shenma-site-verification" content="169f4055c7f0323f020d0d238a2bec48_1523704037">
 {% endblock %}
 
-{% block base_content %}
+{% block content %}
 <div class="container">
     <div class="row">
         <div class="col-lg-8">

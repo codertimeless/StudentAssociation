@@ -6,25 +6,9 @@
 
 {% block content %}
     <div class="inner_page_agile">
-
-	</div>
-	<!--//banner -->
-	<!-- short-->
-
-	<div class="services-breadcrumb">
-		<div class="inner_breadcrumb">
-			<ul class="short_ls">
-				<li>
-					<a href="../static/index.html">主页</a>
-					<span>| |</span>
-				</li>
-				<li>登陆</li>
-			</ul>
-		</div>
 	</div>
     <div class="register-form-main">
         <div class="container">
-
             <div class="title-div">
                 <h3 class="tittle">
                     <span></span>登陆
@@ -33,10 +17,11 @@
                 <div class="tittle-style">
                 </div>
             </div>
-
-            <div id="error_block" class="alert alert-warning alert-dismissible" role="alert" {% if not error %}hidden{% endif %}>
-                  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                  <strong>错误!</strong>{{ error_message }}
+            <div class="">
+                <div id="error_block" class="alert alert-warning alert-dismissible" role="alert" {% if not error %}hidden{% endif %}>
+                      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                      <strong>错误!</strong>{{ error_message }}
+                </div>
             </div>
             <div class="login-form">
                 <form action="/login/" method="POST">

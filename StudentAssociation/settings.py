@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
-# todo mysqlclient
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -42,7 +41,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.humanize',  # 添加人性化过滤器
-
     'haystack',
     'management',
     'xadmin',
@@ -172,6 +170,9 @@ HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "StudentAssociation/static")
 ]
+
+QRCODE_DIR = STATICFILES_DIRS[0] + "/images/qrcode/"
+BASE_URL = "127.0.0.1:8000/"
 
 SITE_END_TITLE = '网站的名称，如TendCode'
 SITE_DESCRIPTION = '网站描述'

@@ -579,7 +579,7 @@ h3.tittle span {
 .gallery,
 .w3_wthree_agileits_icons,
 .typo {
-    padding: 5em 0;
+    padding: 4em 0;
 }
 
 .services {
@@ -1206,13 +1206,13 @@ a.button-style:hover {
 
 .inner_page_agile {
     text-align: center;
-    background: url(../images/1.jpg) no-repeat center;
+    background: url(../images/123.jpeg) no-repeat center;
     background-size: cover;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
     -ms-background-size: cover;
-    min-height: 300px;
+    min-height: 260px;
 }
 
 

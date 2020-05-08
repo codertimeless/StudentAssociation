@@ -1,4 +1,4 @@
-{% load static oauth_tags comment_tags %}
+{% load static comment_tags %}
 <nav class="navbar navbar-expand-md bg-white fixed-top blog-navbar py-md-0">
     <a class="navbar-brand d-md-none d-lg-block" href="#">
         <img src="{% static 'blog/img/logo.png' %}" alt="{{ site_end_title }}">
@@ -50,7 +50,7 @@
                     {% if msgnum > 0%}
                     <span class="get-msg text-center">{{ msgnum }}</span>
                     {% endif %}
-                    {% get_user_avatar_tag user %}
+{#                    {% get_user_avatar_tag user %}#}
                 </a>
                 <div class="dropdown-menu dropdown-menu-right mt-0 rounded-0 border-0" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item pl-3" href="#"><i class="fa fa-fw fa-user text-info mr-2"></i>个人资料</a>

@@ -10,15 +10,18 @@ from . import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('xadmin/', xadmin.site.urls, name="xadmin-login"),
-    path('', views.main_view, name="index"),
+    path('', views.main_view, name="main"),
     path('blog/', include('blog.urls')),  # blog
     # account
     path('login/', views.login_view, name="login"),
     path('join_club/', views.join_club_view, name="join_club"),
+    path('join_club/<str:club_abbr>', views.join_club_view, name="join_club"),
     path('logout/', views.logout_view, name="logout"),
     path('register/', views.register_view, name="register"),
     path('forget_password/', views.forget_view, name="forget"),
+    path('messages/', views.message_view, name="messages"),
     path('send_msg/', views.send_msg, name="send_msg"),
     # manage club
     path('manage/', include('management.urls')),
+
 ]
