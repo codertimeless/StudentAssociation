@@ -4,10 +4,10 @@ from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from .forms import UserAdminCreationForm, UserAdminChangeForm
 from .models.studentclub_user import StudentClubUser
 from .models.user_profile import ClubUserProfile
+from .models import Messages
 
 
 class UserAdmin(BaseUserAdmin):
-    # The forms to add and change user instances
     form = UserAdminChangeForm
     add_form = UserAdminCreationForm
 
@@ -38,5 +38,10 @@ class ProfileAdmin(admin.ModelAdmin):
     list_display = ('pk', 'real_name', 'phone_number', 'club', 'student_class', 'job')
 
 
+class MessageAdmin(admin.ModelAdmin):
+    list_display = ('pk', 'from_user', 'to_user')
+
+
 admin.site.register(StudentClubUser, UserAdmin)
 admin.site.register(ClubUserProfile, ProfileAdmin)
+admin.site.register(Messages, MessageAdmin)

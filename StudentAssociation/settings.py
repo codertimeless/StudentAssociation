@@ -40,16 +40,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django.contrib.humanize',  # 添加人性化过滤器
-    'haystack',
+    # 'django.contrib.humanize',  # 添加人性化过滤器
     'management',
+    'forum',
     'xadmin',
     'crispy_forms',
     'accounts',
-    'blog',
-    'oauth',
-    'comment',
-    'tool',
+    "ckeditor",
+    "ckeditor_uploader",
+
 ]
 
 MIDDLEWARE = [
@@ -61,6 +60,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'StudentAssociation.middleware.ManageMiddleware',
+    'StudentAssociation.middleware.MessageMiddleware',
 ]
 
 ROOT_URLCONF = 'StudentAssociation.urls'
@@ -154,18 +154,21 @@ TWILIO_AUTH_TOKEN = "da68017ce4230c40b589771bd9d81149"
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+CKEDITOR_UPLOAD_PATH = 'upload/'
 
-TOOL_FLAG = True
-# 是否开启[API]应用
-API_FLAG = False
-
-HAYSTACK_CONNECTIONS = {
-    'default': {
-        'ENGINE': 'blog.whoosh_cn_backend.WhooshEngine',  # 选择语言解析器为自己更换的结巴分词
-        'PATH': os.path.join(BASE_DIR, 'whoosh_index'),  # 保存索引文件的地址，选择主目录下，这个会自动生成
-    }
-}
-HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
+# TOOL_FLAG = True
+# # 是否开启[API]应用
+# API_FLAG = False
+#
+# HAYSTACK_CONNECTIONS = {
+#     'default': {
+#         'ENGINE': 'blog.whoosh_cn_backend.WhooshEngine',  # 选择语言解析器为自己更换的结巴分词
+#         'PATH': os.path.join(BASE_DIR, 'whoosh_index'),  # 保存索引文件的地址，选择主目录下，这个会自动生成
+#     }
+# }
+# HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "StudentAssociation/static")
@@ -177,3 +180,11 @@ BASE_URL = "127.0.0.1:8000/"
 SITE_END_TITLE = '网站的名称，如TendCode'
 SITE_DESCRIPTION = '网站描述'
 SITE_KEYWORDS = '网站关键词，多个词用英文逗号隔开'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.qq.com'
+EMAIL_PORT = 465
+EMAIL_HOST_USER = '857738388@qq.com'
+EMAIL_HOST_PASSWORD = "wqvglvrzpalfbcbc"
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+EMAIL_USE_SSL = True

@@ -32,3 +32,7 @@ class ActivityApplication(models.Model):
     approved_teacher = models.BooleanField(default=False)
     approved_xuegong = models.BooleanField(default=False)
 
+    def get_act_apply_info(self):
+        context = {'apply': False, 'act_name': self.name, 'act_place': self.venue, 'act_type': self.activity_type,
+                   'date': self.date, "coo_club": self.cooperated_club.name, 'description': self.description}
+        return context

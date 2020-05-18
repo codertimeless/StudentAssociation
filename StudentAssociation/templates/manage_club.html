@@ -4,48 +4,84 @@
     社团信息管理 | {{ club_name }}
 {% endblock %}
 {% block nav %}
-        <div class="header">
-            <div class="content white">
-			<nav class="navbar navbar-default">
-				<div class="container">
-					<div class="navbar-header">
-						<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-							<span class="sr-only">Toggle navigation</span>
-							<span class="icon-bar"></span>
-							<span class="icon-bar"></span>
-							<span class="icon-bar"></span>
-						</button>
-						<a class="navbar-brand" href="/">
-							<h1>
-								<span class="fa fa-leanpub" aria-hidden="true"></span>Student Club
-								<label>Youth & Learn</label>
-							</h1>
-						</a>
-					</div>
-					<!--/.navbar-header-->
-					<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-						<nav class="link-effect-2" id="link-effect-2">
-							<ul class="nav navbar-nav">
-                                <li style="width: 90px">
-									<a href="/manage/club" class="effect-3">社团管理</a>
-								</li>
-								<li style="width: 90px">
-									<a href="/manage/users" class="effect-3">会员管理</a>
-								</li>
-								<li style="width: 90px">
-									<a href="/manage/manage_users/" class="effect-3">理事信息</a>
-								</li>
-								<li style="width: 90px">
-									<a href="/manage/activety_apply" class="effect-3">活动申请</a>
-								</li>
-								<li style="width: 90px">
-									<a href="/manage/place_apply" class="effect-3">场地申请</a>
-								</li>
-							</ul>
-						</nav>
-					</div>
+    <div class="header">
+        <div class="content white">
+            <nav class="navbar navbar-default">
+                <div class="container">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="/">
+                            <h1>
+                                <span class="fa fa-leanpub" aria-hidden="true"></span>Student Club
+                                <label>Youth & Learn</label>
+                            </h1>
+                        </a>
+                    </div>
+                    <!--/.navbar-header-->
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                        <nav class="link-effect-2" id="link-effect-2" >
+                            <ul class="nav navbar-nav" >
+                                <li>
+                                    <a href="/manage/club" class="effect-3">社团管理</a>
+                                </li>
+                                <li>
+                                    <a href="/manage/users" class="effect-3">会员管理</a>
+                                </li>
+                                <li>
+                                    <a href="/manage/manage_users/" class="effect-3">理事信息</a>
+                                </li>
+                                <li>
+                                    <a href="/manage/activity_apply" class="effect-3">活动申请</a>
+                                </li>
+                                <li>
+                                    <a href="/manage/activity" class="effect-3">活动管理</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block content %}
+    <div class="inner_page_agile">
+    </div>
+
+	<div class="register-form-main">
+        <div class="container">
+			<div class="title-div">
+				<h4 class="tittle">
+					<span></span>大学生计算机与电子爱好者协会
+					<span></span>
+				</h4>
+				<div class="tittle-style">
 				</div>
-			</nav>
-		</div>
-	</div>
+			</div>
+            <div class="">
+                <div id="error_block" class="alert alert-warning alert-dismissible" role="alert" {% if not error %}hidden{% endif %}>
+                      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                      <strong>错误!</strong>{{ error_message }}
+                </div>
+            </div>
+            <div class="club-form">
+                <div >
+                    <p>社团二维码</p>
+                <img src="/static/images/qrcode/jsjydzahz.jpg" style="width: 80px; height: 80px"/>
+                </div>
+                <div>
+                    <p>社团名称</p>
+                    <p>大学生体育协会</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
 {% endblock %}

@@ -1,7 +1,7 @@
 {% extends "base_v1.html" %}
 
 {% block title %}
-    login
+    登陆 | 学生社团
 {% endblock %}
 
 {% block content %}
@@ -24,7 +24,7 @@
                 </div>
             </div>
             <div class="login-form">
-                <form action="/login/" method="POST">
+                <form action="{% url "login" %}" method="POST">
                     {% csrf_token %}
                     <div class="">
                         <p>手机 </p>
@@ -34,11 +34,12 @@
                         <p>密码</p>
                         <input type="password" class="password" name="Password" required="" />
                     </div>
-                    <label class="anim">
-                        <input type="checkbox" class="checkbox">
-                        <span>记住我?</span>
+                    <label class="login-agileits-bottom login-left">
+                        <h6>
+                            <a href="{% url "login_code" %}">使用验证码登录</a>
+                        </h6>
                     </label>
-                    <div class="login-agileits-bottom wthree">
+                    <div class="login-agileits-bottom">
                         <h6>
                             <a href="/forget_password/">忘记密码?</a>
                         </h6>

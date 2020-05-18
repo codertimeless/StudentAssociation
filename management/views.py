@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 
 from accounts.models.user_profile import ClubUserProfile
 from management.models.club import Club
-from management.models.activity import Activity
+from management.models.activity_apply import ActivityApplication
 
 
 @login_required(login_url='/login/')
@@ -49,7 +49,41 @@ def manage_club(request):
 
 
 @login_required(login_url='/login/')
-def activity_apply(request):
-    context = {}
+def activity_apply(request, activity_id=None):
+    context = {"apply": True}
+
     if request.profile.is_manager:
         club_name = request.profile.club.name
+
+    if request.method == "GET" and activity_id is None:
+        return render(request, "apply_activity_v1.html", context)
+
+    elif request.method == "GET" and activity_id:
+        try:
+            ap = ActivityApplication.objects.get(activity_id)
+        except ActivityApplication.DoesNotExist:
+            context["error"] = True
+            context["error_message"] = "活动申请不存在，请先创建"
+            return render(request, "apply_activity_v1.html", context)
+        context = ap.get_act_apply_info()
+
+        return render(request, "apply_activity_v1.html", context)
+
+    else:
+        if activity_id is None:
+            print(request.POST)
+
+            return render(request, "apply_activity_v1.html", context)
+
+        else:
+            try:
+                ap = ActivityApplication.objects.get(activity_id)
+            except ActivityApplication.DoesNotExist:
+                context["error"] = True
+                context["error_message"] = "活动申请不存在，请先创建"
+                return render(request, "apply_activity_v1.html", context)
+            context = ap.get_act_apply_info()
+
+
+def manage_activity(request):
+    return render(request, "manage_activity_1.html")

@@ -1,0 +1,146 @@
+{% extends "base_v1.html" %}
+{% block title %}
+    活动管理 | 学生社团
+{% endblock %}
+
+{% block nav %}
+    <div class="header">
+        <div class="content white">
+            <nav class="navbar navbar-default">
+                <div class="container">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="/">
+                            <h1>
+                                <span class="fa fa-leanpub" aria-hidden="true"></span>Student Club
+                                <label>Youth & Learn</label>
+                            </h1>
+                        </a>
+                    </div>
+                    <!--/.navbar-header-->
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                        <nav class="link-effect-2" id="link-effect-2">
+                            <ul class="nav navbar-nav" style="width: 500px">
+                                <li style="width: 90px">
+                                    <a href="/manage/club" class="effect-3">社团管理</a>
+                                </li>
+                                <li style="width: 90px">
+                                    <a href="/manage/users" class="effect-3">会员管理</a>
+                                </li>
+                                <li style="width: 90px">
+                                    <a href="/manage/manage_users/" class="effect-3">理事信息</a>
+                                </li>
+                                <li style="width: 90px">
+                                    <a href="/manage/activity_apply" class="effect-3">活动申请</a>
+                                </li>
+                                <li style="width: 90px">
+                                    <a href="/manage/activity" class="effect-3">活动管理</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+
+    <div class="inner_page_agile">
+
+	</div>
+        <div class="register-form-main">
+    <div class="container">
+        <div class="col-md-2">
+            <ul class="nav nav-pills nav-stacked">
+                <h3 style="padding-left: 5px;">活动</h3>
+                <hr class="hr">
+
+                <div class="notify-type">
+                    <li role="presentation">
+                      <a href="#">所有活动</a>
+                      <span class="glyphicon glyphicon-th-large message-icon" style="color: #36bf9f;"></span>
+                    </li>
+                </div>
+
+                <div class="notify-type">
+                    <li role="presentation">
+                        <a href="#">审核中</a>
+                        <span class="glyphicon glyphicon-hourglass message-icon" style="color: #36bf9f;"></span>
+                    </li>
+                </div>
+
+                <div class="notify-type">
+                    <li role="presentation">
+                        <a href="#">待举办</a>
+                        <span class="glyphicon glyphicon-tasks message-icon" style="color: #36bf9f;"></span>
+                    </li>
+                </div>
+
+                <div class="notify-type">
+                    <li role="presentation">
+                        <a href="#">已完成</a>
+                        <span class="glyphicon glyphicon-check message-icon" style="color: #36bf9f;"></span>
+                    </li>
+                </div>
+            </ul>
+        </div>
+        <div class="col-md-7 col-md-offset-1">
+            <div class="thumbnail message-box">
+                <div class="">
+                  <div class="" style="float: right">
+                      <span class="glyphicon glyphicon-ok" onclick="alert('check');" style="color: #36bf9f; font-size: 20px;"> </span>
+                  </div>
+                  <div class="">
+                    <h3 class="" style="padding-left: 1em; padding-top: 5px">审核暂时未通过</h3>
+                        <hr style="margin: 10px">
+                        <p style="padding-left: 1em;" class="">您正在申请的活动 常规训练 暂未通过指导老师同意，请按照指导老师意见进行修改。更多信息请点击下方查看详情按钮
+                        </p>
+                        <p class="message-time">2020-05-13 21:35</p>
+                      <a href="#" class="btn btn-primary">查看详情</a>
+                  </div>
+                </div>
+            </div>
+
+            <hr>
+
+            <div class="thumbnail message-box">
+              <div class="">
+                  <div class="" style="float: right">
+                      <span class="glyphicon glyphicon-ok" onclick="alert('check');" style="color: #36bf9f; font-size: 20px;"> </span>
+                  </div>
+                <h3 class="" style="padding-left: 1em; padding-top: 5px">待举办</h3>
+                    <hr style="margin: 10px">
+                    <p style="padding-left: 1em;" class="">你正在申请的常规活动 日常办公软件教学 暂未通过指导老师同意，更多信息请点击下方查看详情按钮
+                    </p>
+                    <p class="message-time">2020-05-13 21:32</p>
+                  <a href="#" class="btn btn-primary">查看详情</a>
+              </div>
+            </div>
+
+            <hr>
+
+            <div class="thumbnail message-box">
+              <div class="">
+                  <div class="" style="float: right">
+                      <span class="glyphicon glyphicon-ok" onclick="alert('check');" style="color: #36bf9f; font-size: 20px;"> </span>
+                  </div>
+                <h3 class="" style="padding-left: 1em; padding-top: 5px">已完成</h3>
+                    <hr style="margin: 10px">
+                    <p style="padding-left: 1em;" class="">您申请的社团常规活动 PS教学 已完成了，快点击下方按钮查看活动评分吧。
+                    </p>
+                    <p class="message-time">2020-05-13 21:13</p>
+                  <a href="#" class="btn btn-primary">查看评分</a>
+              </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

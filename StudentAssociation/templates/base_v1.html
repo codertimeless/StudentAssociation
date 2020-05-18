@@ -1,6 +1,7 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+{% block head %}
 <head>
     <title>
         {% block title %}
@@ -20,9 +21,12 @@
         <!-- font-awesome -->
         <link href={% static "css/font-awesome.css" %} rel="stylesheet">
         <!-- fonts -->
+        <link href={% static "css/bootstrap-datepicker3.min.css" %} type="text/css" media="all"/>
         <link href="http://fonts.googleapis.com/css?family=Raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i"
             rel="stylesheet">
         <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i" rel="stylesheet">
+        <script src={% static "js/ckeditor/ckeditor.js" %}></script>
+
     {% endblock %}
     <script>
         addEventListener("load", function () {
@@ -34,6 +38,7 @@
         }
     </script>
 </head>
+{% endblock %}
 <body>
 {% block header %}
     <div class="header-top">
@@ -43,33 +48,38 @@
 					<span class="fa fa-map-marker" aria-hidden="true"></span>湖 南 工 商 大 学
 				</p>
 			</div>
-			<div class="bottom_header_right" style="width: 120px" id="username_bar">
+			<div class="bottom_header_right {% if not request.user.is_authenticated %}login{% endif %}" id="username_bar">
 				<div class="header-top-right">
                 {% if not request.user.is_authenticated %}
-                    <a href="/login/">
+                    <a href="{% url "login" %}">
                     <span class="fa fa-sign-out" aria-hidden="true"></span>登陆
                     </a>
                 {% else %}
                     <!-- Split button -->
                     <div class="btn-group">
-                      <button type="button" class="btn btn-danger" style="color: #ffffff;background-color: #36bf90;border-color: #36bf90;">
+                    {% if request.have_message %}
+                        <span class="glyphicon glyphicon-bell notify-icon" style="top: 8px;color: #ffffff;"></span>
+                    {% endif %}
+
+                      <button type="button" class="btn profile-button">
                           {{ request.user.phone_number }}
                       </button>
-                      <button type="button" class="btn btn-danger dropdown-toggle" id="username" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: #ffffff;background-color: #36bf90;border-color: #FFFFFF;">
+                      <button type="button" class="btn btn-danger dropdown-toggle" id="username" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: #ffffff;background-color: #36bf90;border-color: #36bf90;">
                         <span class="caret"></span>
                         <span class="sr-only">Toggle Dropdown</span>
                       </button>
                       <ul class="dropdown-menu">
                         <li><a href="{% url "messages" %}">消息</a></li>
                         {% if request.profile.is_manager %}
-                        <li><a href="/manage/club">管理社团</a></li>
+                        <li><a href="{% url "manage_club" %}">管理社团</a></li>
                         {% endif %}
-                        <li><a href="#">个人资料</a></li>
+                        <li><a href="{% url "profile" %}">个人资料</a></li>
+                        <li><a href="{% url "write_article" %}">发表文章</a></li>
                         {% if request.user.is_superuser %}
                         <li><a href="/admin">后台管理</a></li>
                         {% endif %}
                         <li role="separator" class="divider"></li>
-                        <li><a href="/logout/">退出登录</a></li>
+                        <li><a href="{% url "logout" %}">退出登录</a></li>
                       </ul>
                     </div>
                 {% endif %}
@@ -102,21 +112,21 @@
 					<!--/.navbar-header-->
 					<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 						<nav class="link-effect-2" id="link-effect-2">
-							<ul class="nav navbar-nav" style="width: 500px">
-								<li style="width: 90px">
-									<a href="/" class="effect-3">主页</a>
+							<ul class="nav navbar-nav">
+								<li >
+									<a href="{% url 'main' %}" class="effect-3">主页</a>
 								</li>
-								<li style="width: 90px">
-									<a href="/blog" class="effect-3">论坛</a>
+								<li>
+									<a href="{% url "forum_index" %}" class="effect-3">论坛</a>
 								</li>
-								<li style="width: 90px">
-									<a href="/activity" class="effect-3">活动</a>
+								<li>
+									<a href="{% url "all_activities" %}" class="effect-3">活动</a>
 								</li>
-								<li style="width: 90px">
-									<a href="/join_club" class="effect-3">报名</a>
+								<li>
+									<a href="{% url 'join_club' %}" class="effect-3">加入社团</a>
 								</li>
-								<li style="width: 90px">
-									<a href="/files" class="effect-3">文件</a>
+								<li>
+									<a href="/files" class="effect-3">社团一览</a>
                                 </li>
 							</ul>
 						</nav>
@@ -231,6 +241,9 @@
 	<script src={% static "js/numscroller-1.0.js" %}></script>
 	<!-- //stats numscroller-js-file -->
 
+    <!-- //send msg service -->
+    <script src={% static "js/send_validation.js" %}></script>
+
 	<!-- Flexslider-js for-testimonials -->
 	<script>
 		$(window).load(function () {
@@ -264,6 +277,9 @@
 	<!-- smooth scrolling -->
 	<script src={% static "js/move-top.js" %}></script>
 	<script src={% static "js/easing.js" %}></script>
+
+    <script src={% static "js/bootstrap-datepicker.js" %}></script>
+    <script src={% static "js/bootstrap-datepicker.zh-CN.min.js" %}></script>
 	<!-- here stars scrolling icon -->
 	<script>
 		$(document).ready(function () {
@@ -286,49 +302,6 @@
 	<!-- smooth scrolling -->
 	<!-- //js-files -->
 
-    <script>
-        var wait = 60;
-        document.getElementById("send_msg").onclick = function() {
-            var input = check_input();
-            if (input) {
-                var base_url = document.location.toString();
-                $.post('/send_msg/', {"phone_number": input, "base_url": base_url}, time(this));
-            }
-        };
-        function check_input() {
-            var phone_number = document.getElementById("phone_number").value;
-            var error = document.getElementById("error_block");
-            if (phone_number) {
-                return phone_number
-            } else {
-                error.removeAttribute("hidden");
-                error.innerHTML = "请先输入手机号码";
-            }
-        }
-
-        function time(o) {
-            if (wait == 1) {
-                o.removeAttribute("disabled");
-                o.innerHTML = "重新获取验证码";
-                wait = 60;
-            } else {
-                o.setAttribute("disabled", true);
-                o.innerHTML = wait + "秒后重新发送";
-                wait--;
-                setTimeout(function () {
-                    time(o)
-                }, 1000)
-                }
-        }
-    </script>
-    <script>
-        var username = document.getElementById("username");
-        var username_bar = document.getElementById("username_bar");
-        if (username) {
-            username_bar.style.cssText = "width: 220px";
-        }
-
-    </script>
 {% endblock %}
 
 </html>

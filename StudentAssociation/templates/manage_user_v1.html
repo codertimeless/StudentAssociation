@@ -25,7 +25,7 @@
 					<!--/.navbar-header-->
 					<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 						<nav class="link-effect-2" id="link-effect-2">
-							<ul class="nav navbar-nav">
+							<ul class="nav navbar-nav" style="width: 500px">
                                 <li style="width: 90px">
 									<a href="/manage/club" class="effect-3">社团管理</a>
 								</li>
@@ -36,10 +36,10 @@
 									<a href="/manage/users/" class="effect-3">理事信息</a>
 								</li>
 								<li style="width: 90px">
-									<a href="/manage/activety" class="effect-3">活动申请</a>
+									<a href="/manage/activity_apply" class="effect-3">活动申请</a>
 								</li>
 								<li style="width: 90px">
-									<a href="/manage/place" class="effect-3">场地申请</a>
+                                    <a href="/manage/activity" class="effect-3">活动管理</a>
 								</li>
 							</ul>
 						</nav>
@@ -56,41 +56,44 @@
     </div>
 
 	<div class="register-form-main">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-7 col-md-offset-3">
-                <h2>{{ club_name }}</h2>
-                <table class="table table-hover">
-                    <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>姓名</th>
-                        <th>学院</th>
-                        <th>班级</th>
-                        <th>职务</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-{#                    {% for profile in profiles %}#}
-{#                    <tr>#}
-{#                      <th scope="row">{{ profile.id }}</th>#}
-{#                      <td>{{ profile.username }}</td>#}
-{#                      <td>{{ profile.unit }}</td>#}
-{#                      <td>{{ profile.studnetclass }}</td>#}
-{#                    </tr>#}
-{#                    {% endfor %}#}
-                     {% for club_user in club_users %}
-                      <tr>
-                          <th scope="row">{{ club_user.pk }}</th>
-                          <td>{{ club_user.real_name }}</td>
-                          <td>{{ club_user.unit }}</td>
-                          <td>{{ club_user.job }}</td>
-                      </tr>
-                    {% endfor %}
-                  </tbody>
-                </table>
-            </div>
+
+        <div class="container">
+            <div class="row">
+{#            <select>#}
+{#                <option><h1>{{ club_name }} 会员名单</h1></option>#}
+{#            </select>#}
+
+                <h1 style="text-align: center; ">{{ club_name }} 会员名单</h1>
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>姓名</th>
+                            <th>学院</th>
+                            <th>班级</th>
+                            <th>职务</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+    {#                    {% for profile in profiles %}#}
+    {#                    <tr>#}
+    {#                      <th scope="row">{{ profile.id }}</th>#}
+    {#                      <td>{{ profile.username }}</td>#}
+    {#                      <td>{{ profile.unit }}</td>#}
+    {#                      <td>{{ profile.studnetclass }}</td>#}
+    {#                    </tr>#}
+    {#                    {% endfor %}#}
+                         {% for club_user in club_users %}
+                          <tr>
+                              <th scope="row">{{ club_user.pk }}</th>
+                              <td>{{ club_user.real_name }}</td>
+                              <td>{{ club_user.unit }}</td>
+                              <td>{{ club_user.job }}</td>
+                          </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                </div>
         </div>
-    </div>
     </div>
 {% endblock %}

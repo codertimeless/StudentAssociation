@@ -6,11 +6,13 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
-
+from django.conf import settings
 from django.core.cache import cache
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger, InvalidPage
 
 from .utils import message_service, get_info_from_cache
 from accounts.models.studentclub_user import StudentClubUser
+from accounts.models.messages import Messages
 from accounts.models.user_profile import ClubUserProfile
 from management.models.club import Club
 from management.models.unit import Unit
@@ -42,6 +44,14 @@ ERROR_MESSAGES = {
 def main_view(request):
 
     return render(request, "index_v1.html")
+
+
+def login_code_view(request):
+    if request.method == "GET":
+        if request.user.is_authenticated:
+            return HttpResponseRedirect(reverse("main"))
+        else:
+            return render(request, "login_code_v1.html")
 
 
 def login_view(request):
@@ -242,33 +252,65 @@ def join_club_view(request, club_abbr="null"):
 
 @csrf_exempt
 def send_msg(request):
-    if request.user.is_authenticated:
-        return HttpResponse("send message error")
-
     random_code = random.randint(100000, 999999)
-    phone_number = request.POST['phone_number']
-    base_url = request.POST['base_url']
+    phone_number = request.POST.get("phone_number", "")
+    base_url = request.POST.get("base_url", "")
     usage = ""
+
     if base_url.endswith("register/"):
         usage = "register"
     elif base_url.endswith("forget_password/"):
-        usage = "forget"
+        usage = "forget_pw"
+    elif base_url.endswith("activity_apply/"):
+        usage = "act_apply"
 
-    if not usage:
-        return HttpResponse("send message error")
+    if phone_number == "" and usage == "act_apply":
+        if request.user.is_authenticated:
+            phone_number = request.user.phone_number
+        else:
+            return HttpResponse("error")
 
-    print("The random_code is: " + str(random_code))
+    print("手机号：" + phone_number + "请求验证码：" + str(random_code) + "，用作：" + usage)
 
-    msg_status = message_service(phone_number, random_code)
-    if not msg_status:
-        message_service(phone_number, random_code)
-    else:
+    flag, msg_status = message_service(phone_number, random_code)
+
+    if flag:
         cache_message = usage + phone_number
         cache.set(cache_message, random_code, 300)
+    else:
+        return HttpResponse("send message failed")
 
     return HttpResponse("send message success")
 
 
+@login_required(login_url="/login/")
 def message_view(request):
+    context = {}
+    message_list = Messages.objects.filter(to_user=request.user)
+    paginator = Paginator(message_list, 2)
 
-    return render(request, "message_v1.html")
+    current_num = int(request.GET.get('page', 1))
+    messages = paginator.page(current_num)
+    context["messages"] = messages
+    context['num_pages'] = paginator.num_pages
+    return render(request, "message_v1.html", context=context)
+
+
+def files_view(request):
+    return render(request, "files_v1.html")
+
+
+def activity(request, activity_id):
+    return render(request, "activity_v1.html")
+
+
+def all_activities_view(request):
+    return render(request, "all_activities_v1.html")
+
+
+@login_required(login_url="/login/")
+def profile_view(request):
+    return render(request, "profile_v1.html")
+
+
+

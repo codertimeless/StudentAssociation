@@ -30,14 +30,20 @@
 							<input type="text" placeholder="名字" name="username" required="">
 						</div>
                         <div class="">
-                            <input type="text" name="student_number" placeholder="学号" title="Please enter your Address" required="">
+                            <input type="text" name="student_number" placeholder="学号" required="">
                         </div>
                         <div class="styled-input">
-							<input type="text" placeholder="手机" name="phone_number" required="">
+							<input type="text" class="phone" placeholder="手机" name="phone_number" id="with_code_input" style="display: inline-block; width: 86%;" required="">
+{#                            <p class="verify_code" onclick="alert('hello');">验证码</p>#}
+                            <span class="input-group-btn verify_code" >
+                                <button class="btn btn-default" type="button" style="font-size: 16px; border: 0px;">验证码</button>
+                            </span>
 						</div>
-
                         <div class="">
-                            <input type="text" name="class_name" placeholder="班级" title="Please enter your City" required="">
+                            <input type="text" name="verification_code" placeholder="验证码" required="">
+                        </div>
+                        <div class="">
+                            <input type="text" name="class_name" placeholder="班级" required="">
                         </div>
                         <div class="styled-input agile-styled-input-top">
 							<select class="category2" name="unit" required="">
@@ -59,10 +65,6 @@
 								<option value="female">女</option>
 							</select>
 						</div>
-
-{#						<div class="styled-input">#}
-{#							<input type="email" placeholder="Your E-mail" name="Email" required="">#}
-{#						</div>#}
                         {% if not club_name %}
 						<div class="styled-input agile-styled-input-top">
 							<select class="category2" name="type_of_club" id="type_of_club" onchange="change_club_list();"required="">
@@ -147,46 +149,6 @@
                 club_selection.options.add(new Option(xsll[name]));
                 }
             }
-
-
         }
-
-    {#     var selection_item = document.getElementById("type_of_club");#}
-    {#        var seleted = selection_item.value;#}
-    {#        var club_selection = document.getElementById("club_name");#}
-    {##}
-    {#        if (seleted.value == "gysj") {#}
-    {#            club_selection.options.length = 0;#}
-    {#            for (let name in gysj) {#}
-    {#                club_selection.options.add(new Option(gysj[name]));#}
-    {#            }#}
-    {#        }#}
-    {##}
-    {#        if (seleted.value == "wyty") {#}
-    {#            club_selection.options.length = 0;#}
-    {#            for (let name in wyty) {#}
-    {#                club_selection.options.add(new Option(wyty[name]));#}
-    {#            }#}
-    {#        }#}
-    {##}
-    {#        if (seleted.value == "whzh") {#}
-    {#            club_selection.options.length = 0;#}
-    {#            for (let name in whzh) {#}
-    {#                club_selection.options.add(new Option(whzh[name]));#}
-    {#            }#}
-    {#        }#}
-    {##}
-    {#        if (seleted.value == "xsll") {#}
-    {#            club_selection.options.length = 0;#}
-    {#            for (let name in xsll) {#}
-    {#                club_selection.options.add(new Option(xsll[name]));#}
-    {#            }#}
-    {#        }#}
-    {#    };#}
-    {#}#}
-
-    window.onload = function(){
-            window.alert("请按要求填写好相关信息");
-        };
     </script>
 {% endblock %}
