@@ -13,12 +13,21 @@
                     <hr>
                 </div>
                 <div class="icon-div">
-                    <img class="user-icon" src="/static/images/qrcode/jsjydzahz.jpg">
+                    <img class="user-icon" src="{{ user.get_avatar_url }}">
                 </div>
 
-
-
-
+                <div>
+                    <p>用户名</p>
+                    <input type="text" class="name" name="act_name" value="{{ user.username }}" readonly/>
+                </div>
+                <div>
+                    <p>手机号</p>
+                    <input type="text" class="name" name="act_name"  value="{{ user.phone_number }}" readonly/>
+                </div>
+                <div class="">
+                    <p>社团</p>
+                    <input type="text" class="name" name="act_name" placeholder="{{ profile.club }}" value="{{ act_name }}" {% if not apply %}readonly{% endif %}/>
+                </div>
 			</div>
         </div>
     </div>

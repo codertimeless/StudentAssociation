@@ -1,4 +1,5 @@
 {% extends "base_v1.html" %}
+{% load static %}
 
 {% block title %}
     活动列表
@@ -7,6 +8,80 @@
 {% block content %}
     <div class="inner_page_agile">
     </div>
+
+    <div class="container">
+
+            <div class="col-md-2"  style="padding-top: 2em;">
+                <ul class="nav nav-pills nav-stacked">
+                    <h3 style="padding-left: 5px;">活动分类</h3>
+                    <hr class="hr">
+
+                    <div class="notify-type">
+                        <li role="presentation">
+                          <a href="#">素拓活动</a>
+                          <span class="glyphicon glyphicon-music message-icon" style="color: #36bf9f;"></span>
+                        </li>
+                    </div>
+
+                    <div class="notify-type">
+                        <li role="presentation">
+                            <a href="#">大型活动</a>
+                            <span class="glyphicon glyphicon-education message-icon" style="color: #36bf9f;"></span>
+                        </li>
+                    </div>
+
+                    <div class="notify-type">
+                        <li role="presentation">
+                            <a href="#">常规活动</a>
+                            <span class="glyphicon glyphicon-grain message-icon" style="color: #36bf9f;"></span>
+                        </li>
+                    </div>
+                    <div class="notify-type">
+                        <li role="presentation">
+                            <a href="#">社联活动</a>
+                            <span class="glyphicon glyphicon-tags message-icon" style="color: #36bf9f;"></span>
+                        </li>
+                    </div>
+                </ul>
+            </div>
+
+            <div class="col-md-3 col-md-offset-1" style="padding-top: 1em; padding-left: 0px;">
+                <div class="input-group">
+                  <input type="text" class="form-control" placeholder="搜索活动...">
+                  <span class="input-group-btn">
+                    <button class="btn btn-default" type="button">Go!</button>
+                  </span>
+                </div>
+             </div>
+
+            {% for act in act %}
+                <div class="col-md-8 col-md-offset-1 message-box thumbnail" >
+                    <div class="col-md-6">
+                      <img class="thumbnail blog-icon" src={% static "images/1.jpg" %} href="/1/" />
+                    </div>
+                    <div class="col-md-6" style="margin-bottom: 20px;">
+                        <span class="glyphicon glyphicon-user" style=" top: 5px;"><p style="display: inline-block;padding-left: 5px;">{{ act.activity_application.main_club.name }}</p></span>
+                        <span class="glyphicon glyphicon-time" style="top: 5px;"><p style="display: inline-block;padding-left: 5px;">一天前</p></span>
+                    </div>
+                    <div class="col-md-6" style="padding-left: 0px;">
+                        <h2>
+                            <a href="/manage/activity_info/1" style="margin-left: 0px; background-color: #ffffff">毕业合照</a>
+                        </h2>
+                        <p class="" style="margin-top: 10px;">毕业季马上就要来了，一起来拍合照吧
+                        </p>
+                    </div>
+                    <div class="col-md-6" style="margin-top: 30px;">
+                        <span class="glyphicon glyphicon-bookmark" style=" top: 5px; font-size: 15px;"><p style="display: inline-block;padding-left: 5px;">社团活动</p></span>
+                        <span class="glyphicon glyphicon-eye-open" style=" top: 5px; font-size: 15px;"><p style="display: inline-block;padding-left: 5px;">1</p></span> </span>
+{#                        <span class="glyphicon glyphicon-comment" style=" top: 5px; font-size: 15px;"><p style="display: inline-block;padding-left: 5px;">3</p></span></span>#}
+                        <span class="glyphicon glyphicon-thumbs-up" style=" top: 5px; font-size: 15px;"><p style="display: inline-block;padding-left: 5px;">1</p></span></span>
+                    </div>
+                </div>
+            {% endfor %}
+
+        </div>
+
+
 
 
 

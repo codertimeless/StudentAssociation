@@ -92,53 +92,30 @@
             </ul>
         </div>
         <div class="col-md-7 col-md-offset-1">
-            <div class="thumbnail message-box">
-                <div class="">
-                  <div class="" style="float: right">
-                      <span class="glyphicon glyphicon-ok" onclick="alert('check');" style="color: #36bf9f; font-size: 20px;"> </span>
-                  </div>
-                  <div class="">
-                    <h3 class="" style="padding-left: 1em; padding-top: 5px">审核暂时未通过</h3>
-                        <hr style="margin: 10px">
-                        <p style="padding-left: 1em;" class="">您正在申请的活动 常规训练 暂未通过指导老师同意，请按照指导老师意见进行修改。更多信息请点击下方查看详情按钮
-                        </p>
-                        <p class="message-time">2020-05-13 21:35</p>
-                      <a href="#" class="btn btn-primary">查看详情</a>
-                  </div>
+            {% for activity in activities %}
+                <div class="thumbnail message-box">
+                    <div class="">
+                      <div class="" style="float: right">
+                          <span class="glyphicon glyphicon-ok" onclick="" style="color: #36bf9f; font-size: 20px;"> </span>
+                      </div>
+                      <div class="">
+                        <h3 class="" style="padding-left: 1em; padding-top: 5px">{% if not activity.approved_association %}审核中{% else %}待举办{% endif %}</h3>
+                            <hr style="margin: 10px">
+                            <p style="padding-left: 1em;" class="">{% if not activity.approved_association %}您申请的活动 {{ activity.name }} 正在等待审核中，查看申请信息请点击下方查看详情按钮
+                                {% else %}您申请的活动 {{ activity.name }} 已经通过审核，正等待您的社团举办该活动，查看活动信息请点击下方查看详情按钮{% endif %}
+                            </p>
+                            <p class="message-time">{{ activity.apply_time }}</p>
+                            {% if not activity.approved_association %}
+                                <a href="/manage/activity_check/{{ activity.pk }}" class="btn btn-primary">查看详情</a>
+                            {% else %}
+                                <a href="/manage/activity_info/1" class="btn btn-primary">查看详情</a>
+
+                            {% endif %}
+                      </div>
+                    </div>
                 </div>
-            </div>
-
-            <hr>
-
-            <div class="thumbnail message-box">
-              <div class="">
-                  <div class="" style="float: right">
-                      <span class="glyphicon glyphicon-ok" onclick="alert('check');" style="color: #36bf9f; font-size: 20px;"> </span>
-                  </div>
-                <h3 class="" style="padding-left: 1em; padding-top: 5px">待举办</h3>
-                    <hr style="margin: 10px">
-                    <p style="padding-left: 1em;" class="">你正在申请的常规活动 日常办公软件教学 暂未通过指导老师同意，更多信息请点击下方查看详情按钮
-                    </p>
-                    <p class="message-time">2020-05-13 21:32</p>
-                  <a href="#" class="btn btn-primary">查看详情</a>
-              </div>
-            </div>
-
-            <hr>
-
-            <div class="thumbnail message-box">
-              <div class="">
-                  <div class="" style="float: right">
-                      <span class="glyphicon glyphicon-ok" onclick="alert('check');" style="color: #36bf9f; font-size: 20px;"> </span>
-                  </div>
-                <h3 class="" style="padding-left: 1em; padding-top: 5px">已完成</h3>
-                    <hr style="margin: 10px">
-                    <p style="padding-left: 1em;" class="">您申请的社团常规活动 PS教学 已完成了，快点击下方按钮查看活动评分吧。
-                    </p>
-                    <p class="message-time">2020-05-13 21:13</p>
-                  <a href="#" class="btn btn-primary">查看评分</a>
-              </div>
-            </div>
+                <hr>
+            {% endfor %}
         </div>
     </div>
 </div>

@@ -5,6 +5,8 @@ from django.core.mail import send_mail
 from twilio.rest import Client
 from twilio.base.exceptions import TwilioRestException
 
+from accounts.models import Messages
+
 
 def message_service(phone_number, random_code, message=None):
     account_sid = settings.TWILIO_ACCOUNT_SID
@@ -58,3 +60,7 @@ def send_email(subject, to_email, msg):
         return "send email failed."
 
     return "send email success."
+
+
+def send_inner_message(to_user, content):
+    pass

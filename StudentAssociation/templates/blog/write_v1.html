@@ -26,7 +26,7 @@
                     {% csrf_token %}
                     <div>
                         <p>文章标题</p>
-                        <input type="text" class="name" name="act_name" placeholder="请输入文章标题" />
+                        <input type="text" class="name" name="title" placeholder="请输入文章标题" />
                     </div>
                     <div class="">
                         <p>文章简略描述</p>
@@ -34,17 +34,18 @@
                     </div>
 
                     <div class="">
-                        <p>活动类型</p>
-                            <select class="category2" name="act_type" required="">
-                                <option value="cghd">常规活动</option>
-                                <option value="dxhd">大型活动</option>
-                                <option value="sthd">素拓活动</option>
+                        <p>文章标签</p>
+                            <select class="category2" name="tag" required="">
+                                <option value="hdjl">活动记录</option>
+                                <option value="jcfx">教程分享</option>
+                                <option value="rcfx">日常分享</option>
                             </select>
                     </div>
                     <div class="">
-                        <p>活动描述</p>
-						<textarea class="description_box" id="article-content" name="content" placeholder="请输入活动的大致内容..." required=""></textarea>
+                        <p>文章内容</p>
+						<textarea class="description_box" id="article-content" name="content" placeholder="请输入文章内容..." required=""></textarea>
 					</div>
+                    <input type="submit" value="提交文章">
                 </form>
              </div>
         </div>

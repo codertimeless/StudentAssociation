@@ -1,17 +1,38 @@
 {% extends "base_v1.html" %}
-
+{% load comments_extras %}
 
 {% block content %}
     <div class="inner_page_agile">
 
     </div>
-    <div class="container">
+    <div class="register-form-main">
 
+        <div class="container">
+            <div class="col-md-7 col-md-offset-2" >
+                <h1 style="text-align: center; margin-bottom: 10px;">{{ article.title }}</h1>
+                <div style="margin-bottom: 10px;">
+                    <span class="glyphicon glyphicon-bookmark article-info" style=" top: 5px; font-size: 15px; margin-right: 410px;"><p style="">{{ article.tags }}</p></span>
+                    <span class="glyphicon glyphicon-eye-open" style=" top: 5px; font-size: 15px; margin-right: 8px;"><p style="display: inline-block;padding-left: 5px;">{{ article.read_num }}</p></span> </span>
+                    <span class="glyphicon glyphicon-comment" style=" top: 5px; font-size: 15px; margin-right: 8px; "><p style="display: inline-block;padding-left: 5px;">9</p></span></span>
+                    <span class="glyphicon glyphicon-thumbs-up" style=" top: 5px; font-size: 15px;"><p style="display: inline-block;padding-left: 5px;">{{ article.zan_num }}</p></span></span>
+                </div>
+                <div>
+                    {{ article.content|safe }}
+                </div>
+                <hr class="hr">
+                <div>
+                    <span class="glyphicon glyphicon-user article-info" style="font-size: 15px; margin-right: 350px;"><p style="">{{ article.author }}</p></span>
+                    <p style="text-align: right; display: inline-block; ">{{ article.modify_time }}</p>
+                </div>
+            </div>
 
-        <div class="col-md-7 col-md-offset-3" >
-            {{ article.content|safe }}
+            <div class="col-md-7 col-md-offset-2" style="padding-top: 48px;">
+                {% show_comment_form article %}
+                <div class="comment-list-panel">
+                    {% show_comments article %}
+                </div>
+            </div>
         </div>
-    </div>
-
+</div>
 
 {% endblock %}

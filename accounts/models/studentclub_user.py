@@ -1,5 +1,7 @@
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.db import models
+from django.conf import settings
+
 from .user_profile import ClubUserProfile
 
 GENDER = [
@@ -23,7 +25,7 @@ class StudentClubUserManager(BaseUserManager):
         try:
             user_profile = ClubUserProfile.objects.get(phone_number=phone_number, is_active=True)
         except ClubUserProfile.DoesNotExist:
-            user_profile = ClubUserProfile.objects.create(phone_number=user_profile, is_active=True, **extra_fields,
+            user_profile = ClubUserProfile.objects.create(phone_number=phone_number, is_active=True, **extra_fields,
                                                           job="anonymous")
             user_profile.save(using=self._db)
 
@@ -71,8 +73,7 @@ class StudentClubUser(AbstractUser):
 
     # admin permissions
 
-    is_youke = models.BooleanField(default=False)
-
+    avatar = models.ImageField(upload_to="avatar", default="/avatar/default_avatar.jpg", verbose_name="头像")
     USERNAME_FIELD = "phone_number"
     REQUIRED_FIELDS = []
 
@@ -81,4 +82,8 @@ class StudentClubUser(AbstractUser):
     def __str__(self):
         return "用户" + self.phone_number
 
-
+    def get_avatar_url(self):
+        """
+            返回头像的url
+        """
+        return settings.BASE_URL + "media/" + str(self.avatar)

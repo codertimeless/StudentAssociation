@@ -1,4 +1,5 @@
 from django.urls import path, include
+from django.conf.urls import url
 from django.contrib import admin
 from django.conf.urls.static import static
 from django.conf import settings
@@ -20,6 +21,9 @@ urlpatterns = [
     path('register/', views.register_view, name="register"),
     path('forget_password/', views.forget_view, name="forget"),
     path('profile/', views.profile_view, name="profile"),
+    path('read_message/', views.read_message, name="read_message"),
+
+    path('all_activity/', views.all_activities_view, name="all_activities"),
 
     # for message service
     path('send_msg/', views.send_msg, name="send_msg"),
@@ -27,11 +31,12 @@ urlpatterns = [
 
     # manage club
     path('manage/', include('management.urls')),
-    path('all_activity/', views.all_activities_view, name="all_activities"),
     path('ckeditor/', include('ckeditor_uploader.urls')),
 
     # forum
     path("forum/", include('forum.urls')),
+
+    path('comments/', include('comments.urls')),
 
 ]
 

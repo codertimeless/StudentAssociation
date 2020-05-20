@@ -6,6 +6,40 @@
 	</div>
         <div class="container">
 
+            <div class="col-md-2"  style="padding-top: 2em;">
+                <ul class="nav nav-pills nav-stacked">
+                    <h3 style="padding-left: 5px;">文章分类</h3>
+                    <hr class="hr">
+
+                    <div class="notify-type">
+                        <li role="presentation">
+                            <a href="?type=所有文章">所有文章</a>
+                            <span class="glyphicon glyphicon-education message-icon" style="color: #36bf9f;"></span>
+                        </li>
+                    </div>
+
+                    <div class="notify-type">
+                        <li role="presentation">
+                          <a href="?type=教程分享">教程分享</a>
+                          <span class="glyphicon glyphicon-music message-icon" style="color: #36bf9f;"></span>
+                        </li>
+                    </div>
+
+                    <div class="notify-type">
+                        <li role="presentation">
+                            <a href="?type=活动记录">活动记录</a>
+                            <span class="glyphicon glyphicon-grain message-icon" style="color: #36bf9f;"></span>
+                        </li>
+                    </div>
+                    <div class="notify-type">
+                        <li role="presentation">
+                            <a href="?type=社联文章">社联文章</a>
+                            <span class="glyphicon glyphicon-tags message-icon" style="color: #36bf9f;"></span>
+                        </li>
+                    </div>
+                </ul>
+            </div>
+
             <div class="col-md-3 col-md-offset-1" style="padding-top: 1em; padding-left: 0px;">
                 <div class="input-group">
                   <input type="text" class="form-control" placeholder="搜索文章...">
@@ -19,115 +53,53 @@
                 <ul class="nav nav-pills" style="padding-left: 100px; width: 300px;">
                     <span class="glyphicon glyphicon-fire" style="float: left; top: 13px;"></span>
                     <li role="presentation" class="" >
-                        <a href="#" style="padding-left: 5px;">
+                        <a href="?order=comment" style="padding-left: 5px;">
                             讨论最多
                         </a>
                     </li>
                     <span class="glyphicon glyphicon-time" style="float: left; top: 13px;"></span>
                     <li role="presentation" class="">
-                        <a href="#" style="padding-left: 5px;">
+                        <a href="?order=time" style="padding-left: 5px;">
                             最新发布
                         </a>
                     </li>
                 </ul>
             </div>
+            {% if articles %}
+                {% for article in articles %}
+                    <div class="col-md-8 col-md-offset-1 message-box thumbnail" >
+                        <div class="col-md-6">
+                          <img class="thumbnail blog-icon" src={% static "images/1.jpg" %} href="/1/" />
+                        </div>
 
-                <div class="col-md-8 col-md-offset-1 message-box thumbnail" >
-                    <div class="col-md-6">
-                      <img class="thumbnail blog-icon" src={% static "images/1.jpg" %} href="/1/" />
-                    </div>
+                        <div class="col-md-6" style="margin-bottom: 20px;">
+                            <span class="glyphicon glyphicon-user" style=" top: 5px;"><p style="display: inline-block;padding-left: 5px;">{{ article.author.username }}</p></span>
+                            <span class="glyphicon glyphicon-time" style="top: 5px;"><p style="display: inline-block;padding-left: 5px;">今天</p></span>
+                        </div>
 
-                    <div class="col-md-6" style="margin-bottom: 20px;">
-                        <span class="glyphicon glyphicon-user" style=" top: 5px;"><p style="display: inline-block;padding-left: 5px;">学生社团联合会</p></span>
-                        <span class="glyphicon glyphicon-time" style="top: 5px;"><p style="display: inline-block;padding-left: 5px;">一天前</p></span>
-                    </div>
-                    <div class="col-md-6" style="padding-left: 0px;">
-                        <h2>
-                            <a href="1/" style="margin-left: 0px; background-color: #ffffff">毕业快乐</a>
-                        </h2>
-                        <p class="" style="margin-top: 10px;">毕业季马上就要来了，你准备好毕业了吗？
-                        </p>
-                    </div>
+                        <div class="col-md-6" style="padding-left: 0px;">
+                            <h2>
+                                <a href="/forum/article/{{ article.pk }}" style="margin-left: 0px; background-color: #ffffff">{{article.title}}</a>
+                            </h2>
+                            <p class="" style="margin-top: 10px;">毕业季马上就要来了，你准备好毕业了吗？
+                            </p>
+                        </div>
 
-                    <div class="col-md-6" style="margin-top: 30px;">
-                        <span class="glyphicon glyphicon-bookmark" style=" top: 5px; font-size: 15px;"><p style="display: inline-block;padding-left: 5px;">社联文章</p></span>
-                        <span class="glyphicon glyphicon-eye-open" style=" top: 5px; font-size: 15px;"><p style="display: inline-block;padding-left: 5px;">7</p></span> </span>
-                        <span class="glyphicon glyphicon-comment" style=" top: 5px; font-size: 15px;"><p style="display: inline-block;padding-left: 5px;">3</p></span></span>
-                        <span class="glyphicon glyphicon-thumbs-up" style=" top: 5px; font-size: 15px;"><p style="display: inline-block;padding-left: 5px;">4</p></span></span>
+                        <div class="col-md-6" style="margin-top: 30px;">
+                            <span class="glyphicon glyphicon-bookmark" style=" top: 5px; font-size: 15px;"><p style="display: inline-block;padding-left: 5px;">{{ article.tags }}</p></span>
+                            <span class="glyphicon glyphicon-eye-open" style=" top: 5px; font-size: 15px;"><p style="display: inline-block;padding-left: 5px;">{{ article.read_num }}</p></span> </span>
+                            <span class="glyphicon glyphicon-comment" style=" top: 5px; font-size: 15px;"><p style="display: inline-block;padding-left: 5px;">{{ article.comment_num }}</p></span></span>
+                            <span class="glyphicon glyphicon-thumbs-up" style=" top: 5px; font-size: 15px;"><p style="display: inline-block;padding-left: 5px;">{{ article.zan_num }}</p></span></span>
+                        </div>
                     </div>
-
+                {% endfor %}
+            {% else %}
+                <div class="col-md-8 col-md-offset-1" style="margin-top: 50px;">
+                    <h3>抱歉，改分类下暂无文章，请查看其他分类</h3>
                 </div>
-                <div class="col-md-2 col-md-offset-1">
-                <ul class="nav nav-pills nav-stacked">
-                    <h3 style="padding-left: 5px;">文章分类</h3>
-                    <hr class="hr">
-
-                    <div class="notify-type">
-                        <li role="presentation">
-                          <a href="#">文娱体育</a>
-                          <span class="glyphicon glyphicon-music message-icon" style="color: #36bf9f;"></span>
-                        </li>
-                    </div>
-
-                    <div class="notify-type">
-                        <li role="presentation">
-                            <a href="#">学术理论</a>
-                            <span class="glyphicon glyphicon-education message-icon" style="color: #36bf9f;"></span>
-                        </li>
-                    </div>
-
-                    <div class="notify-type">
-                        <li role="presentation">
-                            <a href="#">公益实践</a>
-                            <span class="glyphicon glyphicon-grain message-icon" style="color: #36bf9f;"></span>
-                        </li>
-                    </div>
-
-                    <div class="notify-type">
-                        <li role="presentation">
-                            <a href="#">文化综合</a>
-                            <span class="glyphicon glyphicon-tasks message-icon" style="color: #36bf9f;"></span>
-                        </li>
-                    </div>
-                    <div class="notify-type">
-                        <li role="presentation">
-                            <a href="#">社联文章</a>
-                            <span class="glyphicon glyphicon-tags message-icon" style="color: #36bf9f;"></span>
-                        </li>
-                    </div>
-
-
-                </ul>
-            </div>
-                <div class="col-md-8 col-md-offset-1 message-box thumbnail" style="bottom: 100px;">
-                    <div class="col-md-6">
-                      <img class="thumbnail blog-icon" src={% static "images/1.jpg" %} href="/1/" />
-                    </div>
-
-                    <div class="col-md-6" style="margin-bottom: 20px;">
-                        <span class="glyphicon glyphicon-user" style=" top: 5px;"><p style="display: inline-block;padding-left: 5px;">大学生计算机与电子爱好者协会</p></span>
-                        <span class="glyphicon glyphicon-time" style="top: 5px;"><p style="display: inline-block;padding-left: 5px;">一天前</p></span>
-                    </div>
-                    <div class="col-md-6" style="padding-left: 0px;">
-                        <h2>
-                            <a href="1/" style="margin-left: 0px; background-color: #ffffff">毕业快乐</a>
-                        </h2>
-                        <p class="" style="margin-top: 10px;">毕业季马上就要来了，你准备好毕业了吗？
-                        </p>
-                    </div>
-
-                    <div class="col-md-6" style="margin-top: 30px;">
-                        <span class="glyphicon glyphicon-bookmark" style=" top: 5px; font-size: 15px;"><p style="display: inline-block;padding-left: 5px;">社联文章</p></span>
-                        <span class="glyphicon glyphicon-eye-open" style=" top: 5px; font-size: 15px;"><p style="display: inline-block;padding-left: 5px;">7</p></span> </span>
-                        <span class="glyphicon glyphicon-comment" style=" top: 5px; font-size: 15px;"><p style="display: inline-block;padding-left: 5px;">3</p></span></span>
-                        <span class="glyphicon glyphicon-thumbs-up" style=" top: 5px; font-size: 15px;"><p style="display: inline-block;padding-left: 5px;">4</p></span></span>
-                    </div>
-
-                </div>
+            {% endif %}
 
         </div>
-
-
 
 
 {% endblock %}

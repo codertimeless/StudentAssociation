@@ -16,6 +16,7 @@ from accounts.models.messages import Messages
 from accounts.models.user_profile import ClubUserProfile
 from management.models.club import Club
 from management.models.unit import Unit
+from management.models.activity import Activity
 
 UNIT = {
     "jx": "计算机与信息工程学院",
@@ -270,7 +271,7 @@ def send_msg(request):
         else:
             return HttpResponse("error")
 
-    print("手机号：" + phone_number + "请求验证码：" + str(random_code) + "，用作：" + usage)
+    print("手机号：" + phone_number + "，请求验证码：" + str(random_code) + "，用作：" + usage)
 
     flag, msg_status = message_service(phone_number, random_code)
 
@@ -287,7 +288,7 @@ def send_msg(request):
 def message_view(request):
     context = {}
     message_list = Messages.objects.filter(to_user=request.user)
-    paginator = Paginator(message_list, 2)
+    paginator = Paginator(message_list, 4)
 
     current_num = int(request.GET.get('page', 1))
     messages = paginator.page(current_num)
@@ -305,12 +306,19 @@ def activity(request, activity_id):
 
 
 def all_activities_view(request):
-    return render(request, "all_activities_v1.html")
+    act = Activity.objects.filter(is_over=False)
+    context = {"act": act}
+    return render(request, "all_activities_v1.html", context=context)
 
 
 @login_required(login_url="/login/")
 def profile_view(request):
-    return render(request, "profile_v1.html")
+    context = {'user': request.user, "profile": request.profile}
+
+    return render(request, "profile_v1.html", context=context)
 
 
+@login_required(login_url="/login/")
+def read_message(request):
+    pass
 

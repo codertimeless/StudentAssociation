@@ -1,0 +1,12 @@
+<div class="login-form" style="width: 100%">
+    <form action="/comments/comment/1" method="post" class="comment-form">
+      {% csrf_token %}
+      <div class="row">
+            <div class="">
+                <h3>发表评论</h3>
+                <textarea class="description_box" name="content" placeholder="输入你的想法..."  required="" ></textarea>
+            </div>
+          <input type="submit" class="comment-btn" style="width: 80px;"></input>
+      </div>    <!-- row -->
+    </form>
+</div>

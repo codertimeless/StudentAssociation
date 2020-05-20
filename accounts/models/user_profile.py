@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.utils import timezone
 
 from management.models.student_class import StudentClass
 from management.models.unit import Unit
@@ -12,11 +12,11 @@ GENDER = [
 ]
 
 JOBS = [
-    ("teacher", "指导老师"),
-    ("manager", "会长"),
-    ("vicemanager", "副会长"),
-    ("member", "成员"),
-    ("anonymous", "匿名")
+    ("指导老师", "指导老师"),
+    ("会长", "会长"),
+    ("副会长", "副会长"),
+    ("成员", "成员"),
+    ("匿名", "匿名")
 ]
 
 
@@ -29,16 +29,16 @@ class ClubUserProfile(models.Model):
     # by phone_number
     # user = models.ForeignKey(StudentClubUser, null=True, blank=True, on_delete=models.DO_NOTHING)
 
-    joined_date = models.DateTimeField(auto_created=True)
+    joined_date = models.DateTimeField(default=timezone.now())
     modify_date = models.DateTimeField(auto_now=True)
 
     # permissions
     is_active = models.BooleanField(default=True)
-    job = models.CharField(choices=JOBS, max_length=12)
+    job = models.CharField(choices=JOBS, max_length=12, default="匿名")
     is_manager = models.BooleanField(default=False)
 
     # for student
-    student_class = models.ForeignKey(StudentClass, on_delete=models.DO_NOTHING, verbose_name="职务", null=True)
+    student_class = models.ForeignKey(StudentClass, on_delete=models.DO_NOTHING, verbose_name="班级", null=True)
     student_number = models.CharField(max_length=10, verbose_name="学号", null=True, blank=True)
 
     # for teacher

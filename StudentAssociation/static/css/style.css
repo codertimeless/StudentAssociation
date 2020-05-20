@@ -47,6 +47,16 @@ p {
     font-family: 'Open Sans', sans-serif;
 }
 
+.article-info {
+    top: 5px;
+    font-size: 15px;
+}
+
+.article-info p {
+    display: inline-block;
+    padding-left: 5px;
+}
+
 .icon-div {
   display: flex;
   justify-content: center;

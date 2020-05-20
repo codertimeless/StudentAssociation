@@ -71,14 +71,50 @@
                       <strong>错误!</strong>{{ error_message }}
                 </div>
             </div>
-            <div class="club-form">
-                <div >
-                    <p>社团二维码</p>
-                <img src="/static/images/qrcode/jsjydzahz.jpg" style="width: 80px; height: 80px"/>
+            <div class="login-form col-md-9" style="left: 230px;padding-left: 20px;padding-top: 20px;">
+                <div class="col-md-4">
+                    <p style="font-size: 17px;">会旗</p>
+                    <div class="thumbnail" style="width: 160px; height: 160px">
+                        <img src="/static/images/qrcode/jsjydzahz.jpg" />
+                    </div>
                 </div>
-                <div>
-                    <p>社团名称</p>
-                    <p>大学生体育协会</p>
+                <div class="col-md-7" style="left: 50px; ">
+                    <p style="font-size: 17px;">基本信息</p>
+                    <hr class="hr">
+                    <form action="{% url "login" %}" method="POST">
+                        {% csrf_token %}
+                        <div class="">
+                            <p>社团名称</p>
+                            <input type="text" class="name" name="phone" required="" value="{{ club.name }}" readonly/>
+                            </div>
+                        <div class="">
+                            <p>社团类型</p>
+                            <input type="text" class="name" name="phone" value="{{ club.club_category }}" required="" readonly/>
+                        </div>
+                        <div class="">
+                            <p>社团宗旨</p>
+                            <input type="text" class="name" name="phone" value="{{ club.purpose }}" required="" readonly/>
+                        </div>
+                        <div class="">
+                            <p>指导老师</p>
+                            <input type="text" class="name" name="phone" value="{{ teacher }}" required="" readonly/>
+                        </div>
+                        <div class="">
+                            <p>社团会长</p>
+                            <input type="text" class="name" name="phone" value="{{ master }}" required="" readonly/>
+                        </div>
+                        <div class="">
+                            <p>社团状态</p>
+                            <input type="text" class="name" name="phone" value="{{ club.club_status }}" required="" readonly/>
+                        </div>
+                        <div class="login-agileits-bottom">
+                            <h6>
+                                <p onclick="alert('抱歉，您没有权限进行修改')">申请修改</p>
+                            </h6>
+                        </div>
+
+                        <input type="submit" value="申请修改" disabled hidden>
+                    </form>
                 </div>
             </div>
         </div>

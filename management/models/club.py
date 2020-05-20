@@ -8,10 +8,10 @@ import qrcode
 # TODO Communicate part (include display some news)
 
 STATUS_OF_CLUB = [
-    ("sh", "审核中"),
-    ("dj", "冻结"),
-    ("cx", "撤销"),
-    ("zc", "正常")
+    ("审核中", "审核中"),
+    ("冻结", "冻结"),
+    ("撤销", "撤销"),
+    ("正常", "正常")
 ]
 
 CATEGORY_OF_CLUB = [

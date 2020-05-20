@@ -15,7 +15,7 @@ function check_input() {
 function time(btn) {
     if (wait == 1) {
         btn.removeAttribute("disabled");
-        btm.innerHTML = "重新获取验证码";
+        btn.innerHTML = "重新获取验证码";
         wait = 60;
     } else {
         var input = document.getElementById("with_code_input");
@@ -55,7 +55,7 @@ function time_p() {
 function send_code_when_register() {
     var input = check_input();
     var base_url = document.location.toString();
-    var p_text = document.getElementById()
+    var p_text = document.getElementById();
     if (input) {
         $.post('/send_msg/', {"base_url": base_url}, time_p(p));
     }

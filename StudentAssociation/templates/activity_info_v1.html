@@ -1,0 +1,75 @@
+{% extends "base_v1.html" %}
+{% load static %}
+
+{% block title %}
+    申请活动 | 学生社团
+{% endblock %}
+
+{% block content %}
+    <div class="inner_page_agile">
+    </div>
+    <div class="register-form-main">
+        <div class="container">
+            <div class="title-div">
+                <h3 class="tittle">
+                    <span></span>活动
+                    <span></span>信息
+                </h3>
+                <div class="tittle-style">
+                </div>
+            </div>
+
+            <div class="">
+                <div id="error_block" class="alert alert-warning alert-dismissible" role="alert" {% if not error %}hidden{% endif %}>
+                      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                      <strong>{{ message_type }}: </strong>{{ error_message }}
+                </div>
+            </div>
+
+            <div class="login-form">
+				<form action="" method="post">
+                    {% csrf_token %}
+                    <div>
+                        <p>社团名称</p>
+                        <input type="text" class="name" name="act_name" placeholder="请输入活动名称" value="大学生计算机与电子爱好者协会" readonly/>
+                    </div>
+                    <div class="">
+                        <p>活动名称</p>
+                        <input type="text" class="name" name="act_name" placeholder="请输入活动名称" value="{{ act_name }}" readonly/>
+                    </div>
+					<div class="">
+                        <p>活动地点</p>
+                        <input type="text" class="name" name="act_place" placeholder="请输入开展活动的地点" value="{{ act_place }}" readonly/>
+                    </div>
+                    <div class="">
+                        <p>活动时间</p>
+                        <input type="text" class="datepicker" name="act_date" placeholder="请选择日期" value="2020-6-1" readonly/>
+					</div>
+                    <div class="">
+                        <p>活动类型</p>
+                            <select class="category2" name="act_type" disabled="disabled">
+                                <option value="">{{ act_type }}</option>
+                            </select>
+                    </div>
+                    <div class="">
+                        <p>合作社团</p>
+                        <select class="category2" name="coo_club">
+                            <option value="">{% if coo_club %}{{ coo_club }}{% else %}无{% endif %}</option>
+                        </select>
+                    </div>
+                    <div class="">
+                        <p>活动描述</p>
+						<textarea name="description" class="description_box" placeholder="请输入活动的大致内容..." required="" readonly value="">{{ description }}</textarea>
+					</div>
+                    <hr>
+                </form>
+            </div>
+        </div>
+    </div>
+{#    <script>#}
+{#        // Replace the <textarea id="editor1"> with a CKEditor#}
+{#        // instance, using default configuration.#}
+{#        CKEDITOR.replace('description');#}
+{#    </script>#}
+
+{% endblock %}
