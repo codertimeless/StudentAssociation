@@ -1,6 +1,6 @@
 import random
 
-from django.shortcuts import render, reverse
+from django.shortcuts import render, reverse, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.decorators import login_required
@@ -9,6 +9,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 from django.core.cache import cache
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger, InvalidPage
+from django.db.models import Q
 
 from .utils import message_service, get_info_from_cache
 from accounts.models.studentclub_user import StudentClubUser
@@ -17,6 +18,8 @@ from accounts.models.user_profile import ClubUserProfile
 from management.models.club import Club
 from management.models.unit import Unit
 from management.models.activity import Activity
+from .tasks import celery_send_email
+from management.models.student_class import StudentClass
 
 UNIT = {
     "jx": "计算机与信息工程学院",
@@ -27,7 +30,6 @@ UNIT = {
     "fg": "法学与公共管理学院 ",
     "sy": "设计与艺术学院 ",
 }
-
 
 ERROR_MESSAGES = {
     "PASSWORD_ERROR": "您输入的账号或密码错误，请确认大小写",
@@ -43,6 +45,7 @@ ERROR_MESSAGES = {
 
 
 def main_view(request):
+    # celery_send_email.delay("subject", "xfhc9495@163.com", "nihaoma")
 
     return render(request, "index_v1.html")
 
@@ -53,6 +56,34 @@ def login_code_view(request):
             return HttpResponseRedirect(reverse("main"))
         else:
             return render(request, "login_code_v1.html")
+
+    context = {}
+    if request.method == "POST":
+        phone_number = request.POST.get("phone_number", "")
+        validate_code = request.POST.get("validate_code", "")
+
+        if not phone_number:
+            context['error'] = True
+            context['error_type'] = "错误"
+            context['error_message'] = "请先输入手机号码"
+
+        try:
+            user = StudentClubUser.objects.get(phone_number=phone_number)
+            code = get_info_from_cache(phone_number, "login")
+            if code == validate_code:
+                login(request, user)
+                return HttpResponseRedirect(reverse("main"))
+            else:
+                context['error'] = True
+                context['error_type'] = "错误"
+                context['error_message'] = "验证码错误，请重试"
+                context['phone_number'] = phone_number
+        except StudentClubUser.DoesNotExist:
+            context['error'] = True
+            context['error_type'] = "错误"
+            context['error_message'] = "该账号不存在，请先注册"
+
+    return render(request, "login_code_v1.html", context=context)
 
 
 def login_view(request):
@@ -209,14 +240,20 @@ def join_club_view(request, club_abbr="null"):
         return render(request, "join_club_v1.html", context=context)
 
     elif request.method == "POST":
-        name = request.POST["username"]
-        student_number = request.POST['student_number']
-        phone_number = request.POST['phone_number']
-        class_name = request.POST['class_name']
-        unit = request.POST['unit']
-        gender = request.POST['gender']
-        # club_name = request.POST['club_name']
-        club_name = request.POST["club_name"]
+        try:
+            name = request.POST["username"]
+            student_number = request.POST['student_number']
+            phone_number = request.POST['phone_number']
+            class_name = request.POST['class_name']
+            unit = request.POST['unit']
+            gender = request.POST['gender']
+            club_name = request.POST["club_name"]
+            validate_code = request.POST.get("verification_code", "")
+        except Exception:
+            context['error'] = True
+            context['error_type'] = "错误："
+            context['error_message'] = "请填写好所有信息后提交"
+            return render(request, "join_club_v1.html", context=context)
 
         unit = UNIT[unit]
         unit = Unit.objects.get(name=unit)
@@ -226,6 +263,7 @@ def join_club_view(request, club_abbr="null"):
         except Club.DoesNotExist:
             context['error'] = True
             context['error_message'] = ERROR_MESSAGES['CLUB_NOT_EXIST']
+            context['error_type'] = "错误："
             context['name'] = name
             context['student_number'] = student_number
             context['phone_number'] = phone_number
@@ -240,15 +278,34 @@ def join_club_view(request, club_abbr="null"):
             context['student_number'] = student_number
             context['phone_number'] = phone_number
             context['class_name'] = class_name
+            context['validate_code'] = validate_code
+            context['error_type'] = "错误："
             return render(request, "join_club_v1.html", context=context)
         except ClubUserProfile.DoesNotExist:
-            user = ClubUserProfile.objects.create(real_name=name, phone_number=phone_number, gender=gender, job="member",
+            if get_info_from_cache(phone_number, "join_club") != validate_code:
+                context['error'] = True
+                context['error_type'] = "错误："
+                context['error_message'] = "验证码错误，请重试"
+                context['name'] = name
+                context['student_number'] = student_number
+                context['phone_number'] = phone_number
+                context['class_name'] = class_name
+                return render(request, "join_club_v1.html", context=context)
+
+            class_name = StudentClass.objects.get(classname=class_name)
+            user = ClubUserProfile.objects.create(real_name=name, phone_number=phone_number, gender=gender,
+                                                  job="成员", student_class=class_name,
                                                   student_number=student_number, joined_date=timezone.now())
-            user.club = Club
+            user.club = club
             user.unit = unit
             user.save()
+            StudentClubUser.objects.get_or_create(phone_number=phone_number)
 
-        return render(request, "join_club_v1.html")
+        context['error'] = True
+        context['error_message'] = "恭喜您，成功报名" + user.club.name + "，使用手机号登录后可以查看更多社团讯息哦！"
+        context['error_type'] = '提示：'
+
+        return render(request, "join_club_v1.html", context=context)
 
 
 @csrf_exempt
@@ -264,6 +321,10 @@ def send_msg(request):
         usage = "forget_pw"
     elif base_url.endswith("activity_apply/"):
         usage = "act_apply"
+    elif base_url.endswith("login_code/"):
+        usage = "login"
+    elif base_url.endswith("join_club/"):
+        usage = "join_club"
 
     if phone_number == "" and usage == "act_apply":
         if request.user.is_authenticated:
@@ -287,8 +348,12 @@ def send_msg(request):
 @login_required(login_url="/login/")
 def message_view(request):
     context = {}
-    message_list = Messages.objects.filter(to_user=request.user)
-    paginator = Paginator(message_list, 4)
+    message_list = Messages.objects.filter(to_user=request.profile)
+    q = request.GET.get("q", "")
+    if q and "所有" not in q:
+        message_list = message_list.filter(type__contains=q)
+
+    paginator = Paginator(message_list, 6)
 
     current_num = int(request.GET.get('page', 1))
     messages = paginator.page(current_num)
@@ -307,7 +372,35 @@ def activity(request, activity_id):
 
 def all_activities_view(request):
     act = Activity.objects.filter(is_over=False)
-    context = {"act": act}
+    act_type = request.GET.get("type", "")
+    club_type = request.GET.get("club_type", "")
+
+    if act_type:
+        act = act.filter(activity_application__activity_type=act_type)
+
+    if club_type:
+        act = act.filter(activity_application__main_club__club_category=club_type)
+
+    context = {"act": act, 'cghd_num': Activity.objects.filter(activity_application__activity_type="常规活动").count(),
+               'dxhd_num': Activity.objects.filter(activity_application__activity_type="大型活动").count(),
+               'sthd_num': Activity.objects.filter(activity_application__activity_type="素拓活动").count(),
+               'wyty_num': Activity.objects.filter(activity_application__main_club__club_category="文娱体育").count(),
+               'gysj_num': Activity.objects.filter(activity_application__main_club__club_category="公益实践").count(),
+               'xslu_num': Activity.objects.filter(activity_application__main_club__club_category="学术理论").count(),
+               'whzh_num': Activity.objects.filter(activity_application__main_club__club_category="文化综合").count()}
+
+    return render(request, "all_activities_v1.html", context=context)
+
+
+def search_act_view(request):
+    q = request.GET.get("q", "")
+    if q:
+        act = Activity.objects.filter(Q(activity_application__name__icontains=q)
+                                      | Q(activity_application__description__icontains=q)
+                                      | Q(activity_application__main_club__name__icontains=q)
+                                      | Q(activity_application__activity_type__icontains=q))
+    act.filter(is_over=False)
+    context = {"act": act, 'search': True}
     return render(request, "all_activities_v1.html", context=context)
 
 
@@ -319,6 +412,36 @@ def profile_view(request):
 
 
 @login_required(login_url="/login/")
-def read_message(request):
-    pass
+def change_profile_view(request):
+    context = {}
+    if request.method == "POST":
+        password_1 = request.POST.get("password1", "")
+        password_2 = request.POST.get("password2", "")
+        username = request.POST.get("username", "")
+        if password_1 != password_2:
+            context['error_type'] = True
+            context['error_message'] = "两次密码不相等，请重新输入！"
+            context['message_type'] = "错误："
+        else:
+            if username:
+                request.user.username = username
+                user = StudentClubUser.objects.get(phone_number=request.user.phone_number)
+                user.set_password(password_1)
+                user.save()
+            else:
+                context['error_type'] = True
+                context['error_message'] = "用户名不能为空"
+                context['message_type'] = "错误："
 
+        return render(request, "profile_v1.html", context=context)
+
+
+@login_required(login_url="/login/")
+@csrf_exempt
+def read_message(request):
+    if request.method == "POST":
+        message_id = request.POST.get("message_id", "")
+        msg = Messages.objects.get(pk=message_id)
+        msg.is_read = True
+        msg.save()
+        return HttpResponse("Read Successful")

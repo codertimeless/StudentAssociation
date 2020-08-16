@@ -1,14 +1,23 @@
 <div class="login-form" style="width: 100%;margin-top: 32px;">
-<h3>评论列表，共 <span>{{ comment_count }}</span> 条评论</h3>
+<h3 style="padding-bottom: 20px;">评论列表，共 <span>{{ comment_count }}</span> 条评论
+</h3>
 <ul class="comment-list list-unstyled">
   {% for comment in comment_list %}
-    <li class="comment-item">
-      <span class="nickname">{{ comment.name }}</span>
-      <time class="submit-date" datetime="{{ comment.created_time }}">{{ comment.created_time }}</time>
-      <div class="text">
-        {{ comment.text|linebreaks }}
-      </div>
-    </li>
+      <li class="comment-item">
+          <span class="nickname">{{ comment.author.username }}</span>
+          <time class="submit-date" datetime="{{ comment.created_time }}">{{ comment.created_time }}</time>
+          {% if request.user == article.author %}
+              <form id="_form" method="post" action="/comments/delete/{{ comment.pk }}" style="display: inline-block; float: right;">
+                {% csrf_token %}
+                <input type="hidden" name="name" value="value"/>
+                <a onclick="document.getElementById('_form').submit();">删除</a>
+              </form>
+          {% endif %}
+          <div class="text">
+              {{ comment.text|linebreaks }}
+          </div>
+      </li>
+      <hr>
   {% empty %}
     暂无评论
   {% endfor %}

@@ -1,4 +1,6 @@
 # StudentAssociation
-[![Build Status](https://travis-ci.org/codertimeless/StudentAssociation.svg?branch=master)](https://travis-ci.org/codertimeless/StudentAssociation)
 
-学生社团管理系统
+- python 3.7
+- pip install -r requirements.txt
+- mysql
+- redis

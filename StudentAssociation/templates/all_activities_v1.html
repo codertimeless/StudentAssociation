@@ -11,49 +11,65 @@
 
     <div class="container">
 
-            <div class="col-md-2"  style="padding-top: 2em;">
-                <ul class="nav nav-pills nav-stacked">
-                    <h3 style="padding-left: 5px;">活动分类</h3>
-                    <hr class="hr">
+            <div class="col-md-2" style="top: 65px;left: 40px;height: 500px;">
+            <ul class="list-group" style="margin-bottom: 5px;">
+                <li class="list-group-item">
+                    <span class="badge">{{ cghd_num }}</span>
+                    <a href="/all_activity/?type=常规活动">#常规活动</a>
+                </li>
+            </ul>
+            <ul class="list-group" style="margin-bottom: 5px;">
+                <li class="list-group-item">
+                    <span class="badge">{{ dxhd_num }}</span>
+                    <a href="/all_activity/?type=大型活动">#大型活动</a>
+                </li>
+            </ul>
+            <ul class="list-group" style="margin-bottom: 5px;">
+                <li class="list-group-item">
+                    <span class="badge">{{ sthd_num }}</span>
+                    <a href="/all_activity/?type=素拓活动">#素拓活动</a>
+                </li>
+            </ul>
+            <ul class="list-group" style="margin-bottom: 5px;">
+                <li class="list-group-item">
+                    <span class="badge">{{ wyty_num }}</span>
+                    <a href="/all_activity/?club_type=文娱体育">#文娱体育</a>
+                </li>
+            </ul>
+            <ul class="list-group" style="margin-bottom: 5px;">
+                <li class="list-group-item">
+                    <span class="badge">{{ gysj_num }}</span>
+                    <a href="/all_activity/?club_type=公益实践">#公益实践</a>
+                </li>
+            </ul>
+            <ul class="list-group" style="margin-bottom: 5px;">
+                <li class="list-group-item">
+                    <span class="badge">{{ xslu_num }}</span>
+                    <a href="/all_activity/?club_type=学术理论">#学术理论</a>
+                </li>
+            </ul>
+            <ul class="list-group" style="margin-bottom: 5px;">
+                <li class="list-group-item">
+                    <span class="badge">{{ whzh_num }}</span>
+                    <a href="/all_activity/?club_type=文化综合">#文化综合</a>
+                </li>
+            </ul>
 
-                    <div class="notify-type">
-                        <li role="presentation">
-                          <a href="#">素拓活动</a>
-                          <span class="glyphicon glyphicon-music message-icon" style="color: #36bf9f;"></span>
-                        </li>
-                    </div>
+        </div>
 
-                    <div class="notify-type">
-                        <li role="presentation">
-                            <a href="#">大型活动</a>
-                            <span class="glyphicon glyphicon-education message-icon" style="color: #36bf9f;"></span>
-                        </li>
-                    </div>
-
-                    <div class="notify-type">
-                        <li role="presentation">
-                            <a href="#">常规活动</a>
-                            <span class="glyphicon glyphicon-grain message-icon" style="color: #36bf9f;"></span>
-                        </li>
-                    </div>
-                    <div class="notify-type">
-                        <li role="presentation">
-                            <a href="#">社联活动</a>
-                            <span class="glyphicon glyphicon-tags message-icon" style="color: #36bf9f;"></span>
-                        </li>
-                    </div>
-                </ul>
-            </div>
 
             <div class="col-md-3 col-md-offset-1" style="padding-top: 1em; padding-left: 0px;">
                 <div class="input-group">
-                  <input type="text" class="form-control" placeholder="搜索活动...">
-                  <span class="input-group-btn">
-                    <button class="btn btn-default" type="button">Go!</button>
-                  </span>
+                  <form role="search" method="get" id="searchform" action="/search_act/">
+                      <input type="text" name="q" placeholder="搜索" required>
+                        <span class="input-group-btn" style="display: inline-block;">
+                            <button class="btn btn-default" type="submit" style="padding-bottom: 3px;padding-top: 3px;bottom: 2px;">Go!</button>
+                        </span>
+                    </form>
                 </div>
              </div>
 
+        {% if act %}
             {% for act in act %}
                 <div class="col-md-8 col-md-offset-1 message-box thumbnail" >
                     <div class="col-md-6">
@@ -65,19 +81,30 @@
                     </div>
                     <div class="col-md-6" style="padding-left: 0px;">
                         <h2>
-                            <a href="/manage/activity_info/1" style="margin-left: 0px; background-color: #ffffff">毕业合照</a>
+                            <a href="/manage/activity_info/{{ act.pk }}" style="margin-left: 0px; background-color: #ffffff">{{ act.activity_application.name }}</a>
                         </h2>
-                        <p class="" style="margin-top: 10px;">毕业季马上就要来了，一起来拍合照吧
+                        <p class="" style="margin-top: 10px;">{{ act.activity_application.description }}
                         </p>
                     </div>
                     <div class="col-md-6" style="margin-top: 30px;">
-                        <span class="glyphicon glyphicon-bookmark" style=" top: 5px; font-size: 15px;"><p style="display: inline-block;padding-left: 5px;">社团活动</p></span>
+                        <span class="glyphicon glyphicon-bookmark" style=" top: 5px; font-size: 15px;"><p style="display: inline-block;padding-left: 5px;">{{ act.activity_application.activity_type }}</p></span>
                         <span class="glyphicon glyphicon-eye-open" style=" top: 5px; font-size: 15px;"><p style="display: inline-block;padding-left: 5px;">1</p></span> </span>
 {#                        <span class="glyphicon glyphicon-comment" style=" top: 5px; font-size: 15px;"><p style="display: inline-block;padding-left: 5px;">3</p></span></span>#}
-                        <span class="glyphicon glyphicon-thumbs-up" style=" top: 5px; font-size: 15px;"><p style="display: inline-block;padding-left: 5px;">1</p></span></span>
+                        <span class="glyphicon glyphicon-thumbs-up" style=" top: 5px; font-size: 15px;"><p style="display: inline-block;padding-left: 5px;">0</p></span></span>
                     </div>
                 </div>
             {% endfor %}
+        {% else %}
+            <div class="col-md-8 col-md-offset-1" style="margin-top: 50px;">
+                    {% if search %}
+                        <h3>抱歉，改分类下暂无文章，请查看其他分类</h3>
+                    {% else %}
+                        <h3>抱歉，未搜索到相关文章</h3>
+                    {% endif %}
+                </div>
+        {% endif %}
+
+
 
         </div>
 

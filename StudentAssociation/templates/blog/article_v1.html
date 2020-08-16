@@ -6,30 +6,46 @@
 
     </div>
     <div class="register-form-main">
-
         <div class="container">
-            <div class="col-md-7 col-md-offset-2" >
-                <h1 style="text-align: center; margin-bottom: 10px;">{{ article.title }}</h1>
-                <div style="margin-bottom: 10px;">
-                    <span class="glyphicon glyphicon-bookmark article-info" style=" top: 5px; font-size: 15px; margin-right: 410px;"><p style="">{{ article.tags }}</p></span>
-                    <span class="glyphicon glyphicon-eye-open" style=" top: 5px; font-size: 15px; margin-right: 8px;"><p style="display: inline-block;padding-left: 5px;">{{ article.read_num }}</p></span> </span>
-                    <span class="glyphicon glyphicon-comment" style=" top: 5px; font-size: 15px; margin-right: 8px; "><p style="display: inline-block;padding-left: 5px;">9</p></span></span>
-                    <span class="glyphicon glyphicon-thumbs-up" style=" top: 5px; font-size: 15px;"><p style="display: inline-block;padding-left: 5px;">{{ article.zan_num }}</p></span></span>
-                </div>
-                <div>
-                    {{ article.content|safe }}
-                </div>
-                <hr class="hr">
-                <div>
-                    <span class="glyphicon glyphicon-user article-info" style="font-size: 15px; margin-right: 350px;"><p style="">{{ article.author }}</p></span>
-                    <p style="text-align: right; display: inline-block; ">{{ article.modify_time }}</p>
+            <div class="col-md-8 col-md-offset-1" >
+                <div class="login-form" style="width: 100%">
+                    <h1 style="text-align: center; margin-bottom: 10px;">{{ article.title }}</h1>
+                    <div style="margin-bottom: 10px;">
+                        <span class="glyphicon glyphicon-bookmark article-info" style=" top: 5px; font-size: 15px; margin-right: 400px;"><p style="">{{ article.tags }}</p></span>
+                        <span class="glyphicon glyphicon-eye-open" style=" top: 5px; font-size: 15px; margin-right: 8px;"><p style="display: inline-block;padding-left: 5px;">{{ article.read_num }}</p></span> </span>
+                        <span class="glyphicon glyphicon-comment" style=" top: 5px; font-size: 15px; margin-right: 8px; "><p style="display: inline-block;padding-left: 5px;">{{ article.comment_num }}</p></span></span>
+                        <span class="glyphicon glyphicon-thumbs-up" style=" top: 5px; font-size: 15px;"><p style="display: inline-block;padding-left: 5px;">{{ article.zan_num }}</p></span></span>
+                    </div>
+                    <div>
+                        {{ article.content|safe }}
+                    </div>
+                    <hr class="hr">
+                    <div>
+                        <span class="glyphicon glyphicon-user article-info" style="font-size: 15px; margin-right: 350px;"><p style="">{{ article.author }}</p></span>
+                        <p style="text-align: right; display: inline-block; ">{{ article.modify_time }}</p>
+                    </div>
                 </div>
             </div>
+            <div class="col-md-8 col-md-offset-1" style="padding-top: 48px;">
+                <div class="login-form" style="width: 100%">
+                    {% if request.user.is_authenticated %}
+                        <form action="/comments/comment/{{ article.pk }}" method="post" class="comment-form">
+                          {% csrf_token %}
+                          <div class="row">
+                                <div class="">
+                                    <h3 style="padding-bottom: 20px;">发表评论</h3>
+                                    <textarea class="description_box" name="content" placeholder="输入你的想法..."  required="" ></textarea>
+                                </div>
+                              <input type="submit" class="comment-btn" style="width: 80px;"></input>
+                          </div>    <!-- row -->
+                        </form>
+                    {% else %}
+                        <a href="/login/">请先登录后，再发表评论</a>
+                    {% endif %}
+                </div>
 
-            <div class="col-md-7 col-md-offset-2" style="padding-top: 48px;">
-                {% show_comment_form article %}
                 <div class="comment-list-panel">
-                    {% show_comments article %}
+                    {% show_comments article request %}
                 </div>
             </div>
         </div>

@@ -33,7 +33,7 @@
                                     <a href="/manage/users" class="effect-3">会员管理</a>
                                 </li>
                                 <li style="width: 90px">
-                                    <a href="/manage/manage_users/" class="effect-3">理事信息</a>
+                                    <a href="/manage/manager_users/" class="effect-3">理事信息</a>
                                 </li>
                                 <li style="width: 90px">
                                     <a href="/manage/activity_apply" class="effect-3">活动申请</a>
@@ -58,37 +58,64 @@
         <div class="register-form-main">
     <div class="container">
         <div class="col-md-2">
-            <ul class="nav nav-pills nav-stacked">
-                <h3 style="padding-left: 5px;">活动</h3>
+                <h3 style="padding-left: 5px;">活动状态</h3>
                 <hr class="hr">
-
-                <div class="notify-type">
-                    <li role="presentation">
-                      <a href="#">所有活动</a>
-                      <span class="glyphicon glyphicon-th-large message-icon" style="color: #36bf9f;"></span>
+                <ul class="list-group" style="margin-bottom: 5px;">
+                    <li class="list-group-item">
+                        <span class="badge">{{ cghd_num }}</span>
+                        <a href="/manage/activity/?q=所有活动">#所有活动</a>
                     </li>
-                </div>
-
-                <div class="notify-type">
-                    <li role="presentation">
-                        <a href="#">审核中</a>
-                        <span class="glyphicon glyphicon-hourglass message-icon" style="color: #36bf9f;"></span>
+                </ul>
+                <ul class="list-group" style="margin-bottom: 5px;">
+                    <li class="list-group-item">
+                        <span class="badge">{{ dxhd_num }}</span>
+                        <a href="/manage/activity/?q=审核中">#审核中</a>
                     </li>
-                </div>
-
-                <div class="notify-type">
-                    <li role="presentation">
-                        <a href="#">待举办</a>
-                        <span class="glyphicon glyphicon-tasks message-icon" style="color: #36bf9f;"></span>
+                </ul>
+                <ul class="list-group" style="margin-bottom: 5px;">
+                    <li class="list-group-item">
+                        <span class="badge">{{ dxhd_num }}</span>
+                        <a href="/manage/activity/?q=待修改">#待修改</a>
                     </li>
-                </div>
-
-                <div class="notify-type">
-                    <li role="presentation">
-                        <a href="#">已完成</a>
-                        <span class="glyphicon glyphicon-check message-icon" style="color: #36bf9f;"></span>
+                </ul>
+                <ul class="list-group" style="margin-bottom: 5px;">
+                    <li class="list-group-item">
+                        <span class="badge">{{ sthd_num }}</span>
+                        <a href="/manage/activity/?q=待举办">#待举办</a>
                     </li>
-                </div>
+                </ul>
+                <ul class="list-group" style="margin-bottom: 5px;">
+                    <li class="list-group-item">
+                        <span class="badge">{{ sthd_num }}</span>
+                        <a href="/manage/activity/?q=已完成">#已完成</a>
+                    </li>
+                </ul>
+                <ul class="list-group" style="margin-bottom: 5px;">
+                    <li class="list-group-item">
+                        <span class="badge">{{ dxhd_num }}</span>
+                        <a href="/manage/activity/?q=已拒绝">#已拒绝</a>
+                    </li>
+                </ul>
+
+            <h3 style="padding-left: 5px;margin-top: 30px;">活动类型</h3>
+                <hr class="hr">
+            <ul class="list-group" style="margin-bottom: 5px;">
+                <li class="list-group-item">
+                    <span class="badge">{{ cghd_num }}</span>
+                    <a href="/manage/activity/?type=常规活动">#常规活动</a>
+                </li>
+            </ul>
+            <ul class="list-group" style="margin-bottom: 5px;">
+                <li class="list-group-item">
+                    <span class="badge">{{ dxhd_num }}</span>
+                    <a href="/manage/activity/?type=大型活动">#大型活动</a>
+                </li>
+            </ul>
+            <ul class="list-group" style="margin-bottom: 5px;">
+                <li class="list-group-item">
+                    <span class="badge">{{ sthd_num }}</span>
+                    <a href="/manage/activity/?type=素拓活动">#素拓活动</a>
+                </li>
             </ul>
         </div>
         <div class="col-md-7 col-md-offset-1">
@@ -99,18 +126,26 @@
                           <span class="glyphicon glyphicon-ok" onclick="" style="color: #36bf9f; font-size: 20px;"> </span>
                       </div>
                       <div class="">
-                        <h3 class="" style="padding-left: 1em; padding-top: 5px">{% if not activity.approved_association %}审核中{% else %}待举办{% endif %}</h3>
+                        <h3 class="" style="padding-left: 1em; padding-top: 5px">{{ activity.ap_status }}</h3>
                             <hr style="margin: 10px">
-                            <p style="padding-left: 1em;" class="">{% if not activity.approved_association %}您申请的活动 {{ activity.name }} 正在等待审核中，查看申请信息请点击下方查看详情按钮
-                                {% else %}您申请的活动 {{ activity.name }} 已经通过审核，正等待您的社团举办该活动，查看活动信息请点击下方查看详情按钮{% endif %}
+                            <p style="padding-left: 1em;" class="">
+                                {% if request.profile == activity.apply_people %}
+                                    您
+                                {% else %}
+                                    {{ activity.main_club.name }}
+                                {% endif %}申请的活动{{ activity.name }},
+
+                                {% if "审核" in activity.ap_status %}
+                                    正在 {{ activity.ap_status }}
+                                {% else %}
+                                    {{ activity.ap_status }}。
+                                {% endif %}
+                                点击下方按钮，查看更多信息。
                             </p>
                             <p class="message-time">{{ activity.apply_time }}</p>
-                            {% if not activity.approved_association %}
-                                <a href="/manage/activity_check/{{ activity.pk }}" class="btn btn-primary">查看详情</a>
-                            {% else %}
-                                <a href="/manage/activity_info/1" class="btn btn-primary">查看详情</a>
-
-                            {% endif %}
+                                <a href="/manage/activity_check/{{ activity.pk }}/" class="btn btn-primary">查看详情</a>
+{#                                <a href="/manage/activity_info/1/" class="btn btn-primary">查看详情</a>#}
+{#                            {% endif %}#}
                       </div>
                     </div>
                 </div>

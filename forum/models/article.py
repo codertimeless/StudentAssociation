@@ -10,6 +10,7 @@ TAGS = [
     ("活动记录", "活动记录"),
     ("教程分享", "教程分享"),
     ("日常分享", "日常分享"),
+    ("社联文章", "社联文章"),
 ]
 
 
@@ -25,7 +26,7 @@ class Article(models.Model):
     zan_num = models.IntegerField(verbose_name="点赞量", default=0)
     comment_num = models.IntegerField(verbose_name="评论量", default=0)
 
-    created_time = models.DateTimeField(default=timezone.now())
+    created_time = models.DateTimeField(auto_now_add=True)
     modify_time = models.DateTimeField(auto_now=True)
     is_active = models.BooleanField(default=False)
 

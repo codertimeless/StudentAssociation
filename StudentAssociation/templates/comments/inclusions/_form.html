@@ -1,5 +1,5 @@
 <div class="login-form" style="width: 100%">
-    <form action="/comments/comment/1" method="post" class="comment-form">
+    <form action="/comments/comment/{{ article.pk }}" method="post" class="comment-form">
       {% csrf_token %}
       <div class="row">
             <div class="">

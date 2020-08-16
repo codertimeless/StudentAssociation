@@ -67,7 +67,7 @@ class StudentClubUserManager(BaseUserManager):
 class StudentClubUser(AbstractUser):
     phone_number = models.CharField(verbose_name="手机号码", max_length=15, unique=True)
     username = models.CharField(
-        null=True, blank=True, max_length=15
+        null=True, blank=True, max_length=15, default="TestUser"
     )
     gender = models.CharField(verbose_name="性别", max_length=6, choices=GENDER)
 
@@ -86,4 +86,4 @@ class StudentClubUser(AbstractUser):
         """
             返回头像的url
         """
-        return settings.BASE_URL + "media/" + str(self.avatar)
+        return "/media/" + str(self.avatar)

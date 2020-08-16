@@ -5,31 +5,126 @@
 
 	</div>
     <div class="register-form-main">
-    <div class="row">
         <div class="container">
-            <div class="login-form">
+            <div class="">
+                <div id="error_block" class="alert alert-warning alert-dismissible" role="alert" {% if not error %}hidden{% endif %}>
+                      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                      <strong>{{ message_type }}</strong>{{ error_message }}
+                </div>
+            </div>
+
+            <div class="login-form col-md-9" style="left: 230px;padding-left: 20px;padding-top: 20px;">
                 <div class="">
                     <h3 class="profile_title">个 人 资 料</h3>
                     <hr>
                 </div>
-                <div class="icon-div">
-                    <img class="user-icon" src="{{ user.get_avatar_url }}">
+                    <div class="icon-div col-md-4">
+                        <div>
+                            <img class="user-icon thumbnail" src="{{ user.get_avatar_url }}">
+                        </div>
+                    </div>
+                    <div class="col-md-7" style="left: 50px; ">
+                    <form action="{% url "change_profile" %}" method="POST">
+                        {% csrf_token %}
+                        <div>
+                            <p>用户名</p>
+                            <input type="text" id="user_input" class="name" name="username" value="{{ user.username }}" readonly/>
+                        </div>
+                        <div id="phone_number">
+                            <p>手机号</p>
+                            <input type="text" class="name " name="phone_number"  value="{{ user.phone_number }}" readonly/>
+                        </div>
+                        <div class="" id="club_name">
+                            <p>社团</p>
+                            <input type="text" class="name" name="clubs" value="{{ profile.club }}" readonly/>
+                        </div>
+                        <div class="" hidden id="password1">
+                            <p>新密码</p>
+                            <input type="password" class="name" name="password1" placeholder="请输入新密码" value="" />
+                        </div>
+                        <div class="" hidden id="password2">
+                            <p>确认密码</p>
+                            <input type="password" class="name" name="password2" placeholder="请确认密码" value="" />
+                        </div>
+{#                        <div class="login-agileits-bottom login-left">#}
+{#                            <h6>#}
+{#                                <p onclink="change_password();">修改密码</p>#}
+{#                            </h6>#}
+{#                        </div>#}
+                        <div class="login-agileits-bottom" id="reset_request" hidden>
+                            <h6>
+                                <p id="tagger_p" onclick="reset_profile();">放弃修改</p>
+                            </h6>
+                        </div>
+
+                        <div class="login-agileits-bottom" id="change_request">
+                            <h6>
+                                <p id="tagger_p" onclick="change_profile();">修改个人信息</p>
+                            </h6>
+                        </div>
+                        <input type="submit" id="submit_btn" value="申请修改" hidden>
+                    </form>
                 </div>
 
-                <div>
-                    <p>用户名</p>
-                    <input type="text" class="name" name="act_name" value="{{ user.username }}" readonly/>
-                </div>
-                <div>
-                    <p>手机号</p>
-                    <input type="text" class="name" name="act_name"  value="{{ user.phone_number }}" readonly/>
-                </div>
-                <div class="">
-                    <p>社团</p>
-                    <input type="text" class="name" name="act_name" placeholder="{{ profile.club }}" value="{{ act_name }}" {% if not apply %}readonly{% endif %}/>
-                </div>
+                <div class="col-md-4" id="change_avatar" hidden>
+                        <form enctype="multipart/form-data" action="" method="POST">
+                            {% csrf_token %}
+                            <input type="file" placeholder="图片" name="picture" />
+                            <br><br>
+                            <button type="submit" value="Login">上传</button>
+                        </form>
+                    </div>
 			</div>
         </div>
     </div>
 
+    <script>
+        function change_profile(qualifiedName, value){
+            var btn = document.getElementById("submit_btn");
+            var user_input = document.getElementById("user_input");
+            var pw1 = document.getElementById("password1");
+            var pw2 = document.getElementById("password2");
+            var avatar = document.getElementById("change_avatar");
+            var phone_number = document.getElementById("phone_number");
+            var club_name = document.getElementById("club_name");
+            var div_tag = document.getElementById("change_request");
+            var re_tag = document.getElementById("reset_request");
+
+            if(div_tag){
+                btn.removeAttribute("hidden");
+                user_input.removeAttribute("readonly");
+                pw1.removeAttribute("hidden");
+                pw2.removeAttribute("hidden");
+                avatar.removeAttribute("hidden");
+                phone_number.setAttribute("hidden", "");
+                club_name.setAttribute("hidden", "");
+                div_tag.setAttribute("hidden", "");
+                re_tag.removeAttribute("hidden");
+            }
+        }
+
+        function reset_profile() {
+            var btn = document.getElementById("submit_btn");
+            var user_input = document.getElementById("user_input");
+            var pw1 = document.getElementById("password1");
+            var pw2 = document.getElementById("password2");
+            var avatar = document.getElementById("change_avatar");
+            var phone_number = document.getElementById("phone_number");
+            var club_name = document.getElementById("club_name");
+            var div_tag = document.getElementById("change_request");
+            var re_tag = document.getElementById("reset_request");
+
+            if(re_tag){
+                btn.setAttribute("hidden", "");
+                user_input.setAttribute("readonly", "");
+                pw1.setAttribute("hidden", "");
+                pw2.setAttribute("hidden", "");
+                avatar.setAttribute("hidden", "");
+                phone_number.removeAttribute("hidden");
+                club_name.removeAttribute("hidden");
+                div_tag.removeAttribute("hidden");
+                re_tag.setAttribute("hidden", "");
+            }
+        }
+    </script>
 {% endblock %}

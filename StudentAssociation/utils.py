@@ -8,7 +8,7 @@ from twilio.base.exceptions import TwilioRestException
 from accounts.models import Messages
 
 
-def message_service(phone_number, random_code, message=None):
+def message_service(phone_number, random_code=None, message=None):
     account_sid = settings.TWILIO_ACCOUNT_SID
     auth_token = settings.TWILIO_AUTH_TOKEN
 
@@ -33,18 +33,10 @@ def message_service(phone_number, random_code, message=None):
 
 def get_info_from_cache(phone_number, usage):
     try:
-        info = cache.get(phone_number + usage)
-        return info
+        info = cache.get(usage + phone_number)
+        return str(info)
     except:
         return False
-
-
-def manager_required():
-    pass
-
-
-def require_manager(request, *args, **kwargs):
-    pass
 
 
 # @app.task
@@ -62,5 +54,6 @@ def send_email(subject, to_email, msg):
     return "send email success."
 
 
-def send_inner_message(to_user, content):
-    pass
+def send_inner_message(content, to_user, next_url, message_type):
+    message = Messages.objects.create(content=content, next_url=next_url, to_user=to_user, type=message_type)
+

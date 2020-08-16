@@ -43,8 +43,8 @@ INSTALLED_APPS = [
     # 'django.contrib.humanize',  # 添加人性化过滤器
     'management',
     'forum',
-    'xadmin',
-    'crispy_forms',
+    # 'xadmin',
+    # 'crispy_forms',
     'accounts',
     "ckeditor",
     "ckeditor_uploader",
@@ -190,3 +190,10 @@ EMAIL_HOST_USER = '857738388@qq.com'
 EMAIL_HOST_PASSWORD = "wqvglvrzpalfbcbc"
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 EMAIL_USE_SSL = True
+
+# celery
+BROKER_URL = 'redis://localhost:6379'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'Asia/Shanghai'

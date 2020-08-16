@@ -22,7 +22,7 @@
             <div class="">
                 <div id="error_block" class="alert alert-warning alert-dismissible" role="alert" {% if not error %}hidden{% endif %}>
                       <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                      <strong>{{ message_type }}: </strong>{{ error_message }}
+                      <strong>{{ message_type }}</strong>{{ error_message }}
                 </div>
             </div>
 
@@ -43,7 +43,7 @@
                     </div>
                     <div class="">
                         <p>活动时间</p>
-                        <input type="text" class="datepicker" name="act_date" placeholder="请选择日期" value="2020-6-1" readonly/>
+                        <input type="text" class="datepicker" name="act_date" placeholder="请选择日期" value="{{ date }}" readonly/>
 					</div>
                     <div class="">
                         <p>活动类型</p>
@@ -61,7 +61,7 @@
                         <p>活动描述</p>
 						<textarea name="description" class="description_box" placeholder="请输入活动的大致内容..." required="" readonly value="">{{ description }}</textarea>
 					</div>
-                    <hr>
+                    <input type="submit" value="报名参加该活动">
                 </form>
             </div>
         </div>

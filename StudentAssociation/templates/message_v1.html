@@ -1,7 +1,7 @@
 {% extends "base_v1.html" %}
 
 {% block content %}
-    <div class="inner_page_agile" xmlns="http://www.w3.org/1999/html">
+    <div class="inner_page_agile">
 
 	</div>
     <div class="register-form-main">
@@ -10,31 +10,27 @@
             <ul class="nav nav-pills nav-stacked">
                 <h3 style="padding-left: 5px;">消息类型</h3>
                 <hr class="hr">
-
                 <div class="notify-type">
                     <li role="presentation">
-                      <a href="#">所有通知</a>
+                      <a href="/messages/?q=所有">所有通知</a>
                       <span class="glyphicon glyphicon-bullhorn message-icon" style="color: #36bf9f;"></span>
                     </li>
                 </div>
-
                 <div class="notify-type">
                     <li role="presentation">
-                        <a href="#">论坛通知</a>
+                        <a href="/messages/?q=论坛">论坛通知</a>
                         <span class="glyphicon glyphicon-comment message-icon" style="color: #36bf9f;"></span>
                     </li>
                 </div>
-
                 <div class="notify-type">
                     <li role="presentation">
-                        <a href="#">活动通知</a>
+                        <a href="/messages/?q=活动">活动通知</a>
                         <span class="glyphicon glyphicon-tasks message-icon" style="color: #36bf9f;"></span>
                     </li>
                 </div>
-
                 <div class="notify-type">
                     <li role="presentation">
-                        <a href="#">社联通知</a>
+                        <a href="/messages/?q=社联">社联通知</a>
                         <span class="glyphicon glyphicon-tags message-icon" style="color: #36bf9f;"></span>
                     </li>
                 </div>
@@ -42,18 +38,19 @@
         </div>
 
         <div class="col-md-7 col-md-offset-1">
+            {% if messages %}
             {% for message in messages %}
                 <div class="thumbnail message-box">
                   <div class="">
-                      {% if not message.is_read %}
-                          <div class="" style="float: right">
-                              <span class="glyphicon glyphicon-ok" name="{{ message.pk }}" onclick="send_read_msg();" style="color: #36bf9f; font-size: 20px;"> </span>
-                          </div>
-                      {% else %}
-                          <div class="" style="float: right">
-                              <span class="glyphicon glyphicon-remove" onclick="alert('check');" style="color: #36bf9f; font-size: 20px;"> </span>
-                          </div>
-                      {% endif %}
+
+                      <div class="" style="float: right" {% if message.is_read %}hidden{% endif %} id="ok{{ message.pk }}">
+                          <span class="glyphicon glyphicon-ok" name="{{ message.pk }}" onclick="send_read_msg(this);" style="color: #36bf9f; font-size: 20px;"> </span>
+                      </div>
+
+                      <div class="" style="float: right" id="remove{{ message.pk }}" {% if not message.is_read %}hidden{% endif %}>
+                          <span class="glyphicon glyphicon-remove" onclick="" style="color: #36bf9f; font-size: 20px;"> </span>
+                      </div>
+
                     <h3 class="message-title" >{{ message.type }}</h3>
                         <hr class="hr">
                         <p style="padding-left: 1em;" class="">{{ message.content }}
@@ -64,8 +61,9 @@
                 </div>
             <hr>
             {% endfor %}
+
             <div class="col-md-6 col-md-offset-3">
-                <nav aria-label="Page navigation">
+                <nav aria-label="Page navigation" style="margin-left: 90px;">
                   <ul class="pagination">
                     <li>
                       <a href="#" aria-label="Previous">
@@ -73,10 +71,6 @@
                       </a>
                     </li>
                     <li><a href="/messages/?page=1">1</a></li>
-{#                    <li><a href="#">2</a></li>#}
-{#                    <li><a href="#">3</a></li>#}
-{#                    <li><a href="#">4</a></li>#}
-{#                    <li><a href="#">5</a></li>#}
                     <li>
                       <a href="#" aria-label="Next">
                         <span aria-hidden="true">&raquo;</span>
@@ -85,20 +79,25 @@
                   </ul>
                 </nav>
             </div>
-
+            {% else %}
+                <h3>您暂时没有接收到新的站内消息</h3>
+            {% endif %}
         </div>
-
     </div>
 </div>
 
 <script>
-    function send_read_msg() {
-        var a = document.getElementsByClassName('glyphicon-ok')[0];
-        var message_id = a.getAttribute("name");
-
+    function send_read_msg(o) {
+        var message_id = o.getAttribute("name");
+        $.post("/read_message/", {'message_id': message_id}, read_to_remove(message_id) );
     }
 
-
+    function read_to_remove(remove_id) {
+        var sp_remove = document.getElementById("remove" + remove_id);
+        var ok_span = document.getElementById("ok" + remove_id);
+        sp_remove.removeAttribute("hidden");
+        ok_span.setAttribute("hidden", "");
+    }
 </script>
 
 {% endblock %}

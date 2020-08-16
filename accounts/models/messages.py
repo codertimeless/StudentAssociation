@@ -1,7 +1,7 @@
 from django.db import models
 
 from .studentclub_user import StudentClubUser
-
+from .user_profile import ClubUserProfile
 
 MESSAGE_TYPES = [
     ("社联消息", "社联消息"),
@@ -17,9 +17,9 @@ class Messages(models.Model):
     from_user = models.ForeignKey(StudentClubUser,
                                   verbose_name="发送人",
                                   related_name="message_from",
-                                  on_delete=models.DO_NOTHING
+                                  on_delete=models.DO_NOTHING, null=True, blank=True
                                   )
-    to_user = models.ForeignKey(StudentClubUser,
+    to_user = models.ForeignKey(ClubUserProfile,
                                 verbose_name="接受人",
                                 related_name="message_to",
                                 on_delete=models.DO_NOTHING)

@@ -18,7 +18,7 @@
             <div class="">
                 <div id="error_block" class="alert alert-warning alert-dismissible" role="alert" {% if not error %}hidden{% endif %}>
                       <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                      <strong>错误!</strong>{{ error_message }}
+                      <strong>{{ message_type }}：</strong>{{ error_message }}
                 </div>
             </div>
              <div class="login-form" style="width: 80%;">

@@ -6,7 +6,7 @@ from .activity_apply import ActivityApplication
 
 # the activity after apply
 class Activity(models.Model):
-    active_id = models.IntegerField(primary_key=True)
+    # active_id = models.IntegerField(primary_key=True)
     activity_application = models.ForeignKey(ActivityApplication, on_delete=models.DO_NOTHING)
 
     # date time about a activity

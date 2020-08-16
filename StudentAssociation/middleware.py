@@ -21,7 +21,7 @@ class MessageMiddleware(MiddlewareMixin):
 
     def process_request(self, request):
         if request.user.is_authenticated:
-            if Messages.objects.filter(to_user=request.user, is_read=False).exists():
+            if Messages.objects.filter(to_user=request.profile, is_read=False).exists():
                 request.have_message = True
             else:
                 request.have_message = False

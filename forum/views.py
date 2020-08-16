@@ -1,15 +1,29 @@
-from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
-
+from django.db.models import Q
+from django.http.response import HttpResponse
+from django.template import loader
 from .models import Article
+from django.shortcuts import render
+
 # Create your views here.
 
 
 def article_view(request, article_id):
     context = {}
-    article = Article.objects.get(pk=article_id)
+    try:
+        article = Article.objects.get(pk=article_id)
+
+        if "art_%s_read" % article_id not in request.COOKIES:
+            article.read_num += 1
+            article.save()
+    except Article.DoesNotExist:
+        return render(request, "blog/article_v1.html", context=context)
+
     context['article'] = article
-    return render(request, "blog/article_v1.html", context=context)
+    content = loader.render_to_string("blog/article_v1.html", context=context, request=request)
+    response = HttpResponse(content)
+    response.set_cookie("art_%s_read" % article_id, "True")
+    return response
 
 
 def forum_view(request):
@@ -28,7 +42,6 @@ def forum_view(request):
         articles = articles.order_by('-comment_num')
     elif order == "time":
         articles = articles.order_by('-created_time')
-
     context['articles'] = articles
 
     return render(request, "blog/index_v1.html", context=context)
@@ -49,5 +62,21 @@ def write_article(request):
         if title and description and tag and content and author:
             article = Article.objects.get_or_create(title=title, author=author,
                                                     tags=tag, content=content, description=description)
+        context = {'error': True, 'error_message': "文章成功提交审核！", 'message_type': "提示"}
 
-        return render(request, "blog/write_v1.html")
+        return render(request, "blog/write_v1.html", context=context)
+
+
+def search_view(request):
+    q = request.GET.get("q")
+    context = {'search': True}
+
+    if q:
+        articles = Article.objects.filter(Q(title__icontains=q) | Q(content__icontains=q)
+                                          | Q(author__username__icontains=q) | Q(tags__icontains=q)
+                                          | Q(description__icontains=q))
+
+        articles = articles.filter(is_active=True, is_validate=True)
+        context['articles'] = articles
+
+    return render(request, "blog/index_v1.html", context=context)

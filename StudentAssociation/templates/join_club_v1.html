@@ -18,7 +18,7 @@
             <div class="">
                 <div id="error_block" class="alert alert-warning alert-dismissible" role="alert" {% if not error %}hidden{% endif %}>
                       <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                      <strong>错误!</strong>{{ error_message }}
+                      <strong>{{ error_type }}</strong>{{ error_message }}
                 </div>
             </div>
 
@@ -27,15 +27,15 @@
                     {% csrf_token %}
 					<div class="fields-grid">
 						<div class="styled-input">
-							<input type="text" placeholder="名字" name="username" required="">
+							<input type="text" placeholder="名字" name="username" required="" value="{{ name }}">
 						</div>
                         <div class="">
-                            <input type="text" name="student_number" placeholder="学号" required="">
+                            <input type="text" name="student_number" placeholder="学号" required="" value="{{ student_number }}">
                         </div>
                         <div class="styled-input">
-							<input type="text" class="phone" placeholder="手机" name="phone_number" id="with_code_input" style="display: inline-block; width: 86%;" required="">
+							<input type="text" class="phone_join" placeholder="手机" name="phone_number" id="with_code_input" style="display: inline-block; width: 86%;" required="" value="{{ phone_number }}">
                             <span class="input-group-btn verify_code" >
-                                <button class="btn btn-default" type="button" style="font-size: 16px; border: 1px solid;">验证码</button>
+                                <button class="btn btn-default" type="button" id="send_msg" onclick="send_msg_with_phone();" style="font-size: 16px; border: 1px solid;">验证码</button>
                             </span>
 						</div>
                         <div class="">

@@ -14,6 +14,11 @@
         <meta name="keywords" content="" />
     {% endblock %}
     {% block links %}
+        <script src={% static "js/jquery-2.1.4.min.js" %}></script>
+        <script src={% static "js/moment.min.js" %} ></script>
+{#        <script src={% static "js/transition.js"%}></script>#}
+{#        <script src={% static "js/collapse.js"%}></script>#}
+
         <!-- //meta-tags -->
 {#        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">#}
         <link href={% static "css/bootstrap.css" %} rel="stylesheet" type="text/css" media="all" />
@@ -21,12 +26,15 @@
         <!-- font-awesome -->
         <link href={% static "css/font-awesome.css" %} rel="stylesheet">
         <!-- fonts -->
-        <link href={% static "css/bootstrap-datepicker3.min.css" %} type="text/css" media="all"/>
+        <link href={% static "css/bootstrap-datetimepicker.min.css" %} type="text/css" media="all"/>
         <link href="http://fonts.googleapis.com/css?family=Raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i"
             rel="stylesheet">
         <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i" rel="stylesheet">
         <script src={% static "js/ckeditor/ckeditor.js" %}></script>
+        <script src={% static "js/bootstrap.js" %}></script>
 
+        <script src={% static "js/bootstrap-datetimepicker.min.js" %}></script>
+{#        <script src={% static "js/bootstrap-datepicker.zh-CN.min.js" %}></script>#}
     {% endblock %}
     <script>
         addEventListener("load", function () {
@@ -42,7 +50,7 @@
 <body>
 {% block header %}
     <div class="header-top">
-		<div class="container">
+		<div class="container" style="margin-right: 315px;margin-left: 240px;width: 1130px;">
 			<div class="bottom_header_left">
 				<p>
 					<span class="fa fa-map-marker" aria-hidden="true"></span>湖 南 工 商 大 学
@@ -62,7 +70,7 @@
                     {% endif %}
 
                       <button type="button" class="btn profile-button">
-                          {{ request.user.phone_number }}
+                          {{ request.user.username }}
                       </button>
                       <button type="button" class="btn btn-danger dropdown-toggle" id="username" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: #ffffff;background-color: #36bf90;border-color: #36bf90;">
                         <span class="caret"></span>
@@ -234,9 +242,7 @@
 {% endblock %}
 </body>
 {% block scripts %}
-    <script src={% static "js/jquery-2.1.4.min.js" %}></script>
 	<!-- bootstrap -->
-	<script src={% static "js/bootstrap.js" %}></script>
 	<!-- stats numscroller-js-file -->
 	<script src={% static "js/numscroller-1.0.js" %}></script>
 	<!-- //stats numscroller-js-file -->
@@ -278,8 +284,7 @@
 	<script src={% static "js/move-top.js" %}></script>
 	<script src={% static "js/easing.js" %}></script>
 
-    <script src={% static "js/bootstrap-datepicker.js" %}></script>
-    <script src={% static "js/bootstrap-datepicker.zh-CN.min.js" %}></script>
+
 	<!-- here stars scrolling icon -->
 	<script>
 		$(document).ready(function () {

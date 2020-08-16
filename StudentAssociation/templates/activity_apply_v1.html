@@ -35,7 +35,7 @@
                                     <a href="/manage/users" class="effect-3">会员管理</a>
                                 </li>
                                 <li class="nav_sel">
-                                    <a href="/manage/manage_users/" class="effect-3">理事信息</a>
+                                    <a href="/manage/manager_user/" class="effect-3">理事信息</a>
                                 </li>
                                 <li class="nav_sel">
                                     <a href="/manage/activity_apply" class="effect-3">活动申请</a>
@@ -69,23 +69,26 @@
             <div class="">
                 <div id="error_block" class="alert alert-warning alert-dismissible" role="alert" {% if not error %}hidden{% endif %}>
                       <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                      <strong>{{ message_type }}: </strong>{{ error_message }}
+                      <strong>{{ message_type }} </strong>{{ error_message }}
                 </div>
             </div>
 
             <div class="login-form">
-				<form action="{% if apply %}{% url "apply" %}{% else %}{% endif %}" method="post">
+				<form action="{% if apply %}{% url "apply" %}{% else %}/manage/activity_check/{{ activity_id }}/{% endif %}" method="post">
                     {% csrf_token %}
                 {% if not apply %}
                     <div>
                         <p>社团名称</p>
-                        <input type="text" class="name" name="act_name" placeholder="请输入活动名称" value="大学生计算机与电子爱好者协会" readonly/>
+                        <input type="text" class="name" name="act_name" value="{{ act_name }}" readonly/>
                     </div>
                     <div>
                         <p>申请时间</p>
-                        <input type="text" class="name" name="act_name" placeholder="请输入活动名称" value="2020-9-1" readonly/>
+                        <input type="text" class="name" name="act_name" value="{{ apply_time }}" readonly/>
                     </div>
-
+                    <div>
+                        <p>活动状态</p>
+                        <input type="text" class="name" name="act_name"  value="{{ ap_status }}" readonly/>
+                    </div>
                 {% endif %}
                     <div class="">
                         <p>活动名称</p>
@@ -95,21 +98,21 @@
                         <p>活动地点</p>
                         <input type="text" class="name" name="act_place" placeholder="请输入开展活动的地点" value="{{ act_place }}" {% if not apply %}readonly{% endif %}/>
                     </div>
-                    <div class="">
+                    <div class="" style="position:relative">
                         <p>活动时间</p>
-                        <input type="text" class="datepicker" name="act_date" placeholder="请选择日期" value="{{ act_date }}" {% if not apply %}readonly{% endif %}/>
+                        <input id="datetimepicker1" type="text" class="datepicker" name="act_date" value="{{ date }}" {% if not apply %}readonly{% endif %}/>
 					</div>
                     <div class="">
                         <p>活动类型</p>
                         {% if apply %}
                             <select class="category2" name="act_type" required="">
-                                <option value="cghd">常规活动</option>
-                                <option value="dxhd">大型活动</option>
-                                <option value="sthd">素拓活动</option>
+                                <option value="常规活动">常规活动</option>
+                                <option value="大型活动">大型活动</option>
+                                <option value="素拓活动">素拓活动</option>
                             </select>
                         {% else %}
                             <select class="category2" name="act_type" disabled="disabled">
-                                <option value="">{{ act_type }}</option>
+                                <option value="{{ act_type }}">{{ act_type }}</option>
                             </select>
                         {% endif %}
                     </div>
@@ -131,66 +134,47 @@
                         <p>活动描述</p>
 						<textarea name="description" class="description_box" placeholder="请输入活动的大致内容..." required="" {% if not apply %} readonly{% endif %} value="">{{ description }}</textarea>
 					</div>
-                    {% if apply %}
-                    <div class="">
-                        <p>验证码</p>
-                        <input type="ipt_code" class="name validation-input" id="with_code_input" name="validation_code"  placeholder=""/>
-                        <button type="button" class="btn btn-default btn-lg" onclick="send_msg_without_phone();" id="send_msg">获取验证码</button>
-                    </div>
-                    {% endif %}
 
-                    {% if not apply %}
+
+                    {% if request_change or not apply %}
                         <div class="">
                             <p>学社联审核意见</p>
-                            <textarea name="review1" class="description_box" name="description" placeholder="由学社联管理人员填写..." required="" {% if request.profile.job == "会长" %}readonly{% endif %}>由学社联管理人员填写...</textarea>
-                        </div>
-                        <div {% if request.profile.job == "会长" %}hidden{% endif %}>
-                            <div class="radio">
-                                <label style="width: 250px">
-                                <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1"  checked>同意
-                                 </label>
-                            </div>
-                            <div class="radio" >
-                              <label style="width: 250px">
-                                <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2" >要求修改
-                              </label>
-                            </div>
-                            <div class="radio ">
-                              <label>
-                                <input type="radio" name="optionsRadios" id="optionsRadios3" value="option3">不同意
-                              </label>
-                            </div>
+                            <textarea name="review1" class="description_box" name="description" placeholder="由学社联管理人员填写..." required="" {% if not check_ass %}readonly{% endif %}>{% if review1 %}{{ review1 }}{% endif %}</textarea>
                         </div>
                     {% endif %}
 
-                    {% if not apply %}
+                    {% if request_change or not apply %}
                         <div class="">
                             <p>社团指导老师审核意见</p>
-                            <textarea name="hdms" class="description_box" name="description" placeholder="由指导老师进行填写..." required="" {% if request.profile.job == "会长" %}readonly{% endif %}>由指导老师进行填写...</textarea>
+                            <textarea name="review2" class="description_box" name="description" placeholder="由指导老师进行填写..." required="" {% if not check_tea %}readonly{% endif %}>{% if review2 %}{{ review2 }}{% endif %}</textarea>
                         </div>
-                        <div {% if request.profile.job == "会长" %}hidden{% endif %}>
-                            <div class="radio">
-                                <label style="width: 250px">
-                                    <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1"  checked>
-                                    同意
-                                  </label>
-                            </div>
-                            <div class="radio" >
-                              <label style="width: 250px">
-                                <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2" >
-                                要求修改
-                              </label>
-                            </div>
-                            <div class="radio ">
-                              <label>
-                                <input type="radio" name="optionsRadios" id="optionsRadios3" value="option3">
-                                不同意
-                              </label>
-                            </div>
+                    {% endif %}
+                    {% if apply %}
+                        <div class="">
+                            <p>验证码</p>
+                            <input type="ipt_code" class="name validation-input" id="with_code_input" name="validation_code"  placeholder=""/>
+                            <button type="button" class="btn btn-default btn-lg" onclick="send_msg_without_phone();" id="send_msg">获取验证码</button>
                         </div>
                     {% endif %}
                     <hr>
-					<input type="submit" value="{% if apply %}提交申请{% else %}提交审核{% endif %}" {% if not apply %} {% if request.profile.job == "会长" %}disabled{% endif %} {% endif %}>
+                    <div {% if check_tea or check_ass %}{% else %}hidden{% endif %}>
+                        <div class="radio">
+                            <label style="width: 250px">
+                            <input type="radio" name="optionsRadios" id="optionsRadios1" value="agree"  checked>同意
+                             </label>
+                        </div>
+                        <div class="radio" >
+                          <label style="width: 250px">
+                            <input type="radio" name="optionsRadios" id="optionsRadios2" value="request_change" >要求修改
+                          </label>
+                        </div>
+                        <div class="radio ">
+                          <label>
+                            <input type="radio" name="optionsRadios" id="optionsRadios3" value="no">不同意
+                          </label>
+                        </div>
+                    </div>
+					<input type="submit" value="{% if apply %}提交申请{% else %}提交审核{% endif %}" {% if not apply and not check_ass and not check_tea %} hidden {% endif %}>
                 </form>
             </div>
         </div>
@@ -200,6 +184,15 @@
 {#        // instance, using default configuration.#}
 {#        CKEDITOR.replace('description');#}
 {#    </script>#}
+        <script type="text/javascript">
+            $(function () {
+                $('#datetimepicker1').datetimepicker({
+                    format: 'YYYY-MM-DD HH-mm',
+                    locale: moment.locale('zh-cn'),
+                });
+            });
+        </script>
+
 
 {% endblock %}
 

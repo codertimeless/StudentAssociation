@@ -2,11 +2,13 @@ from django.db import models
 from django.utils import timezone
 
 from forum.models.article import Article
+from accounts.models.studentclub_user import StudentClubUser
 
 
 class Comment(models.Model):
     name = models.CharField('名字', max_length=50, null=True)
-    email = models.EmailField('邮箱', null=True)
+    author = models.ForeignKey(StudentClubUser, on_delete=models.DO_NOTHING, null=True)
+
     url = models.URLField('网址', blank=True, null=True)
     text = models.TextField('内容')
     created_time = models.DateTimeField('创建时间', default=timezone.now)
