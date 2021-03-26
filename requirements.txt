@@ -38,7 +38,7 @@ Pillow==7.0.0
 PyJWT==1.7.1
 python-dateutil==2.8.1
 pytz==2019.3
-PyYAML==5.3
+PyYAML==5.4
 qrcode==6.1
 redis==3.5.0
 requests==2.23.0
