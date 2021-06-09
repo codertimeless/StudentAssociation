@@ -8,7 +8,7 @@ codecov==2.0.16
 coverage==5.0.3
 defusedxml==0.6.0
 diff-match-patch==20181111
-Django==2.2.8
+Django==2.2.22
 django-ckeditor==5.9.0
 django-contrib-comments==1.9.2
 django-crispy-forms==1.9.0
